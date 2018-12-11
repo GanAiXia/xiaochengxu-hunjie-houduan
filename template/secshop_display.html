@@ -1,0 +1,109 @@
+ <style>
+.label{cursor:pointer;}
+.table>tbody>tr>td{ padding:5px 2px;}
+.infocss img{max-width: 100px; max-height: 60px; float: left; margin-right:20px;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner"> 
+				<tr>
+                                    <th style="width:5%;">ID</th>
+					<th style="width:15%;"></th>
+					<th style="width:15%;">门店名称</th>		 
+				 	<th style="width:15%;">手机号 </th>
+                                        <th style="width:5%;">状态</th>
+					<th style=" width:20%;">地址</th>
+                                        <th style="text-align:right; width:20%;">管理</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+					<td>
+                                            {if $item['thumb']}
+                                            <img alt="{$item['shopname']}" title="{$item['shopname']}"
+                                                 src="{php echo tomedia($item['thumb'])}" width="60" height="60"/>
+                                            {/if}
+                                           
+					</td>
+                                        <td>
+                                        <p title="{$item['shopname']}">{$item['shopname']} </p>
+                                        <p>管理员：{$item['role_name']}</p>
+					</td>
+					<td>
+                                        <p>{$item['telphone']} </p>
+                                         <p>{$item['vtags']} </p>
+					</td>
+                                        <td>
+                                         {if $item['disabled']==1}禁用{else}启用{/if} 
+					</td>
+					<td>
+                                            <div class="infocss" style="max-width:300px">
+                                                {$item['address']}
+                                             <p>
+						<label data='{$item['istop']}' class='label label-default {if $item['istop']==1}label-info{/if}'
+                                                       onclick="setProperty(this,{$item['id']},'istop')">置顶</label>
+                                            
+                                            <label data='{$item['isyou']}' class='label label-default {if $item['isyou']==1}label-info{/if}'
+                                                       onclick="setProperty(this,{$item['id']},'isyou')">加优</label>
+                                            
+                                                 <label data='{$item['ischeng']}' class='label label-default {if $item['ischeng']==1}label-info{/if}'
+                                                       onclick="setProperty(this,{$item['id']},'ischeng')">加诚</label>
+                                            </p>   
+                                            </div>
+                                               
+					</td>
+
+					<td style="text-align:right;">
+
+					                                    
+		<a href="{php echo $this->createWebUrl('secshop', array('id' => $item['id'], 'op' => 'edit'))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="编辑">
+                    <i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
+
+		<a href="{php echo $this->createWebUrl('secshop', array('id' => $item['id'], 'op' => 'display'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除">
+                    <i class="fa fa-times"></i></a>
+
+	 				
+					</td>
+
+				</tr>
+
+				{/loop}
+
+			</tbody>
+
+		</table>
+
+		{$pager}
+
+	</div>
+     
+	</div>
+ 
+
+</div>
+<script type="text/javascript"> 
+	function setProperty(obj,id,type){
+		$(obj).html($(obj).html() + "...");
+		$.post("{php echo $this->createWebUrl('secshop',array('op'=>'setproperty'))}"
+			,{id:id,type:type, data: obj.getAttribute("data")}
+
+			,function(d){
+				$(obj).html($(obj).html().replace("...",""));
+				if(type=='isdelete'){
+				 $(obj).html( d.data=='1'?'屏蔽':'显示');
+				}
+				if(type=='isonline'){
+				 $(obj).html( d.data=='1'?'上架':'下架');
+				}
+				$(obj).attr("data",d.data);
+				if(d.result==1){
+					$(obj).toggleClass("label-info");
+				}
+			}
+			,"json"
+		);
+	}
+</script>

@@ -1,0 +1,43 @@
+<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+                                     
+					<th style="width:45%;">广告名称</th>
+					<th style="width:20%;">展示页面</th>		 
+				 	<th style="width:10%;">状态 </th>
+					<th style="text-align:right; width:20%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $adplace  $key $item}
+				<tr>
+					 
+                                    <td> <p>{$item['title']}  ({$item['place']['barname']})</p> </td>
+					<td>
+					<p>	{$item['position']} </p>
+					</td>
+   
+					<td>
+                                            <p>
+						<label data='{$item['place']['isshow']}' class='label  label-default {if $item['place']['isshow']==1}label-info{/if}' >{if $item['place']['isshow']==1}显示{else}关闭{/if}</label>
+                                            </p>
+                                         
+					</td>
+
+					<td style="text-align:right;">
+
+						<a href="{php echo $this->createWebUrl('enset', array('id' => $key, 'op' => 'setplace'))}" class="btn btn-default btn-sm" > 广告位参数</a>&nbsp;&nbsp;
+
+						<a href="{php echo $this->createWebUrl('enset', array('id' => $key, 'op' => 'setaddata'))}"  class="btn btn-default btn-sm" >广告内容 </a>
+
+					</td>
+
+				</tr>
+
+				{/loop}
+
+			</tbody>
+
+		</table>
+
+	 

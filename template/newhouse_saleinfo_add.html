@@ -1,0 +1,134 @@
+{template 'common/header'}
+
+ <div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading" style="padding-bottom:20px;">
+		    <div class="page-toolbar">
+			<div class="btn-group pull-right">
+					<button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">  操作菜单 
+						<i class="fa fa-angle-down"></i>
+					</button>
+					<ul class="dropdown-menu pull-right" role="menu">
+					 <?php if(is_array($dropmenu) && !empty($dropmenu)){
+                                            foreach($dropmenu as $key => $value){
+                                            ?>
+					 <li>
+                                            <a href="<?php echo $this->createWebUrl("newhouse",array('op'=>$value['op'],'newhouseid'=>$value['hid']));?>">
+                                               <i class="fa <?php echo $value['icon'];?>"></i><?php echo $value['title'];?></a>
+					</li>
+                                        <?php } }?>
+					  
+					<li class="divider"> </li>
+					<li>
+						<a href="javascript:window.location.reload();">
+							<i class="icon-refresh"></i>  刷新页面 </a>
+					</li>
+					<li>
+						<a href="<?php echo $this->createWebUrl("newhouse");?>">
+							<i class="icon-refresh"></i>  楼盘列表 </a>
+					</li>
+						 
+					</ul>
+				</div>
+			</div>
+		
+		<?php echo $forumscon3['house_title']?> - 添加销售动态
+		</div>
+		<!--//-->
+		
+		<style>
+.dgray24px{font-size:16px; color:#337ab7}
+.dgray24px a{float:right;}
+.we7-form .form-group, form .form-group {
+    margin-bottom: 15px;
+}
+</style>
+ 
+<div class="panel-body"> 
+<!--//-->
+
+<div class="row"> 
+<div class='col-md-12'>
+<div class="portlet light bordered">
+ 
+	<div class="portlet-body"> 	
+  <div class="row">
+       <a style="margin-right:20px;" href="{php echo $this->createWebUrl('newhouse', array('newhouseid'=>$hid, 'op' => 'saleinfo'))}"
+          class="btn btn-primary pull-right">返回列表</a>
+     
+  </div>
+
+<!--新增楼盘价格-->
+<div class="col-md-12">
+<div class="row"> 
+ <form action="" method="post" onsubmit="return formcheck();" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">标题：</label>
+                    <div class="col-sm-8 col-xs-12">	
+                       <input type="text" class="form-control" id="tprice" name="data[title]" value="<?php echo $info['title']?>"> 
+		  
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类：</label>
+                    <div class="col-sm-9 col-xs-12">	
+                       
+		   <?php  echo
+ form_element::select($other['saletype'],'data[tags]','tags',$info['tags']);
+ ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">发布日期:</label>
+                    <div class="col-sm-4 col-xs-12">	
+                        <input type="text" class="form-control"  id="add_time" name="data[addtime]" value="<?php echo $info['addtime']?>"> 
+                        <label>例如：2018-04-01 格式</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">详细内容：</label>
+                    <div class="col-sm-9 col-xs-12">	
+                      <textarea id="price_info" class="form-control " name="data[newstext]" rows="8" cols="150"><?=$info['newstext'];?></textarea>
+			<label>内容在250字数内。</label>
+                    </div>
+                </div>
+ 
+				
+                <div class="form-group ">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">操作</label>
+                        <div class="col-sm-9 col-xs-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />               
+                        <input type="hidden" name="newhouseid" value="{$newhouseid}"/>
+                        <input type="hidden" name="id" value="{$info['id']}"/>
+			<input type="hidden" name="token" value="{$_W['token']}" />
+                    </div>
+                </div>
+	  </form>
+    <script>
+ function formcheck(){
+        if( ! $("#tprice").val() ){
+                Tip.focus("tprice","请输入标题!","right");
+                return false;
+        }
+
+        return true;
+} 
+       </script>
+	<!--新增楼盘价格-->
+            </div>
+</div>
+ 
+			</div>
+		</div>
+	</div>
+</div>
+	<!--图片管理列表结束-->
+
+		<!--//-->
+		
+		</div>
+	</div>
+
+</div>
+
+{template 'common/footer'} 

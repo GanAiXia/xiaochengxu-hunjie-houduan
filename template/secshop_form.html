@@ -1,0 +1,115 @@
+<style>
+  .form-horizontal .form-group{margin-left:0px;}
+  .we7-form .form-group, form .form-group{margin-bottom: 10px;}
+</style>
+<form action="{php echo $this->createWebUrl('secshop', array('op'=>'addpost'))}"  method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>门店名称 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[shopname]" id="shopname" class="form-control"
+                        placeholder="必填项 "  value="{$item['shopname']}" />
+                
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>业务电话 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[telphone]" id="telphone" class="form-control"
+                        placeholder="请输入业务手机号 "  value="{$item['telphone']}" />
+                
+	</div>
+</div>
+<div class="form-group">
+
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">门店封面</label>
+
+	<div class="col-sm-9 col-xs-12">
+
+		{php echo tpl_form_field_image('thumb', $item['thumb'], '', array('extras' => array('text' => 'readonly')))}
+
+	</div>
+
+</div>
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>标签 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[vtags]" id="vtags" class="form-control"
+                        placeholder="可以按标签分类管理 "  value="{$item['vtags']}" />
+                
+	</div>
+</div>
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>门店地址 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[address]" id="address" class="form-control"
+                        placeholder="所属公司部门 "  value="{$item['address']}" />
+                
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>门店介绍 </label>
+	<div class="col-sm-9 col-xs-12">
+		<textarea type="text" name="data[newstext]"
+                          id="newstext" class="form-control"
+                          placeholder="  ">{$item['newstext']}</textarea>
+                
+	</div>
+</div>
+    <div class="form-group">
+            <label class="col-xs-12 col-sm-3 col-md-2 control-label">
+                <span style='color:red'></span>门店账号 </label>
+            <div class="col-sm-4 col-xs-6">
+                <div class="input-group   form-control">
+                      <?php  echo
+     form_element::select($admin,'data[uid]','uid',$item['uid']);
+     ?>        
+
+                </div>
+            </div>      
+    </div>   
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">推荐位置</label>
+	<div class="col-sm-9 col-xs-12" >
+            <label for="isrecommand" class="checkbox-inline">
+		<input type="checkbox" name="data[istop]" value="1"
+                       id="istop" {if $item['istop'] == 1}checked="true"{/if} /> 置顶
+            </label>
+             <label for="isrecommand" class="checkbox-inline">
+		<input type="checkbox" name="data[isyou]" value="1"
+                       id="isyou" {if $item['isyou'] == 1}checked="true"{/if} /> 优秀（优）
+            </label>
+             <label for="isrecommand" class="checkbox-inline">
+		<input type="checkbox" name="data[ischeng]" value="1"
+                       id="ischeng" {if $item['ischeng'] == 1}checked="true"{/if} /> 诚信（诚）
+            </label>
+             
+        </div>
+</div>
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>状态 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="radio" name="data[disabled]"  class=" "
+                     {if $item['disabled']==0}checked{/if}  value="0" />启用
+                
+                <input type="radio" name="data[disabled]"  class=" "
+                     {if $item['disabled']==1}checked{/if}   value="1" />禁用
+                
+	</div>
+</div>
+<div class="form-group ">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label">操作</label>
+    <div class="col-sm-9 col-xs-12">
+                <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+                <input type="hidden" name="id" value="{$item['id']}" />
+                <input type="hidden" name="token" value="{$_W['token']}" />
+
+        </div>
+</div>
+ </form>

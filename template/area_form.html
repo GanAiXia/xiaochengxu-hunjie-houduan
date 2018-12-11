@@ -1,0 +1,69 @@
+<style>
+  .form-horizontal .form-group{margin-left:0px;}
+  .we7-form .form-group, form .form-group{margin-bottom: 10px;}
+</style>
+<form action="{php echo $this->createWebUrl('area', array('op'=>'addpost'))}"  method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+
+    <!--添加位置-->
+ {if $type==3}
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>所属位置 </label>
+	<div class="col-sm-9 col-xs-12">
+	  <?php  echo
+ form_element::select($parent,'data[parent_id]','parent_id',$item['parent_id']);
+ ?> 
+            </div>
+    </div>
+{/if}
+ <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>所属区域 </label>
+	<div class="col-sm-9 col-xs-12">
+           <?php  echo
+ form_element::select($sec['areas'],'data[area]','area',$item['area']);
+ ?>
+            </div>
+    </div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>名称 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[name]" id="name" class="form-control"
+                        placeholder="必填项 "  value="{$item['name']}" />
+                
+	</div>
+</div>
+ 
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'></span>排序 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[orderid]" id="orderid" class="form-control"
+                        placeholder=" "  value="{$item['orderid']}" />
+                <label>数值越大越排前面</label> 
+	</div>
+    </div>
+ 
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>状态 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="radio" name="data[disabled]"  class=" "
+                     {if $item['disabled']==0}checked{/if}  value="0" />启用
+                
+                <input type="radio" name="data[disabled]"  class=" "
+                     {if $item['disabled']==1}checked{/if}   value="1" />禁用
+                
+	</div>
+</div>
+<div class="form-group ">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label">操作</label>
+    <div class="col-sm-9 col-xs-12">
+                <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+                <input type="hidden" name="id" value="{$item['id']}" />
+                <input type="hidden" name="token" value="{$_W['token']}" />
+                <input type="hidden" name="type" value="{$type}" />
+        </div>
+</div>
+ </form>

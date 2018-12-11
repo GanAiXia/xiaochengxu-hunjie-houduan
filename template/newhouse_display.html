@@ -1,0 +1,117 @@
+{template 'common/header'}
+
+ <div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading" style="padding-bottom:20px;">
+			<div class="btn-group pull-right" style="margin-left:30px;">
+				<button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">  操作菜单 
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu pull-right" role="menu">
+				 <li>
+					<a href="<?php echo $this->createWebUrl("newhouse",array('op'=>'addbaseinfo'));?>"><i class="fa fa-building-o"></i>添加楼盘</a>
+					</li>
+					 
+				</ul>
+			</div>
+			  <div class='panel-actions pull-right'>
+				<form method='get' action="<?php echo $this->createWebUrl('newhouse');?>"
+				class='form-inline form-search' >
+					<input type="hidden" name="c" value="site" />
+					<input type="hidden" name="a" value="entry" />
+					<input type="hidden" name="m" value="wdl_weihouse" />
+					<input type="hidden" name="do" value="newhouse" />
+					<input type="hidden" name="op" value="display" />
+				  <div class="input-group">
+				   <div class="col-sm-5 cel">
+				  <input type="text" placeholder="请输入楼盘名称"  class='form-control search-query' name="keyword" value="<?php echo $params[':title']; ?>" />
+			  </div>
+			  <div class="col-sm-3 cel">
+					<select name='is_on'  class='form-control'>
+						<option value ="-1">--</option>
+						<option value ="0" <?php if($params[':is_on'] =='0') echo "selected"?>>合作</option>
+						<option value ="1" <?php if($params[':is_on'] =='1') echo "selected"?>>未合作</option>
+					</select>
+					</div>
+					 <div class="col-sm-3 cel">
+					<select name='house_sale' class='form-control'>
+						<option value ="-1">--</option>
+						<option value ="0" <?php if($params[':house_sale'] =='0') echo "selected"?>>在售</option>
+						<option value ="1" <?php if($params[':house_sale'] =='1') echo "selected"?>>预约</option>
+					</select>
+					</div>
+					<span class="input-group-btn"> <input type='submit' id='submit' class='btn btn-primary' value='搜索'  data-loading='稍候...' /> </span>
+				  </div>
+				 
+				</form>
+				</div>
+				
+				<span>管理楼盘</span>
+		</div>
+		<div class="panel-body">
+ 
+	<table class="table table-hover table-striped tablesorter table-fixed" id="checkList" cellspacing="0" cellpadding="0" border="0" >
+	<thead>
+		<tr >
+			<th align="left" width="20%" class='text-center'>
+			 楼盘</th>
+			<th align="left" width="30%" class='text-center'>楼盘名称</th>
+			 
+			<th align="right" width="50%">操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php if($list) {
+		foreach($list as $key => $value) { ?>
+		<tr >
+			<td> 
+                            <img src="<?php echo tomedia($value['house_logo']);?>" width="120" height="120"/>
+                        </td>
+			<td align="left">
+                            <p><a href="<?php echo $this->createWebUrl('newhouse',array('op'=>'viewbase',"newhouseid"=>$value['newshouse_id']));?>" <?php if($value['is_on']==1){ echo 'style="color:red"';}else{ echo 'style="color:#000"';}?>>
+                                  <?php echo $value['house_title'];?></a>  </p>
+                            <p>地址：<?php echo $value['house_region'];?>- <?php echo $value['house_address'];?></p>
+                            <p>销售热线：<?php echo $value['house_selltelephone'];?></p>
+                            <p>均价：<?php echo $value['average_price'];?> <?php echo $value['unit1'];?>/<?php echo $value['unit2'];?></p>
+			 
+			</td>
+		 
+			<td class="center">
+                                <!--20180620 增加删除-->
+                            <p>	<a class="btn btn-default btn-sm" href="<?php echo $this->createWebUrl('newhouse',array('op'=>'baseinfo','newhouseid'=>$value['newshouse_id']));?>">基本资料</a>
+				<a class="btn btn-default btn-sm" href="<?php echo $this->createWebUrl('newhouse',array('op'=>'price','newhouseid'=>$value['newshouse_id']));?>">价格管理</a>
+				<a class="btn btn-default btn-sm" href="<?php echo $this->createWebUrl('newhouse',array('op'=>'roomlist','newhouseid'=>$value['newshouse_id']));?>">户型管理</a>
+				<a class="btn btn-default btn-sm" href="<?php echo $this->createWebUrl('newhouse',array('op'=>'saleinfo','newhouseid'=>$value['newshouse_id']));?>">销售动态</a>	 
+				<a class="btn btn-default btn-sm" href="<?php echo $this->createWebUrl('newhouse',array('op'=>'housepic','newhouseid'=>$value['newshouse_id']));?>">图片管理</a>	
+                            </p>
+                            
+                            <p style="text-align:right;  float: right;">
+                                <a href="{php echo $this->createWebUrl('newhouse', array( 'op' => 'display','newhouseid'=>$value['newshouse_id']))}" 
+                                   onclick="return confirm('此操作不可恢复，确认删除？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-times"></i></a>
+
+                            </p>
+                            <p>排序：{$value['fcatid']}</p>
+			</td>
+		</tr>
+		<?php }?>
+	 
+		<?php } else { ?>
+		<tr>
+			<td colspan="3">-暂时没有数据-</td>
+		</tr>
+		<?php } ?>
+	</tbody>
+	<tfoot>
+	<tr>
+			<td colspan="5">
+		 {$pager}
+			</td>
+		</tr>
+	</tfoot>
+	</table>
+		</div>
+	</div>
+ 
+</div>
+ 	
+{template 'common/footer'} 

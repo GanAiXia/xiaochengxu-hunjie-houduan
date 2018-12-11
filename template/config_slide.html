@@ -1,0 +1,44 @@
+<table class='table table-form '>
+        <tr>
+                <th width="100">婚恋资讯：</th>
+                <td colspan="3">
+                    <table class='table table-form '>
+                        <tr>
+                             <td width="150">预览</td>
+                            <td width="250">图片地址</td>
+                             <td width="250">跳转链接</td>
+                            
+                        </tr>
+                          <?php for($i=0 ;$i<6; $i++)   {?>  
+                        <tr>
+                             <td width="150">{if $slide_news['image'][$i]} <img src="{php echo toimage($slide_news['image'][$i])}" height="70" width="auto"/> {/if}</td>
+                            <td width="250"><input name="slide_news[image][]" type="text" class="form-control param_value" value="{$slide_news['image'][$i]}"/></td>
+                             <td width="250"><input name="slide_news[link][]" type="text" class="form-control param_value" value="{$slide_news['link'][$i]}"/></td>
+                            
+                        </tr>
+                      <?php }?>    
+                    </table>
+                </td>
+        </tr>
+        <tr>
+                <th width="100">行业动态：</th> 
+                <td colspan="3">
+                    <table class='table table-form '>
+                        <tr>
+                             <td width="150">预览</td>
+                            <td width="250">图片地址</td>
+                             <td width="250">跳转链接</td>
+                            
+                        </tr>
+                          <?php for($i=0 ;$i<6; $i++)   {?>  
+                        <tr>
+                             <td width="150">{if $slide_house['image'][$i]} <img src="{php echo toimage($slide_house['image'][$i])}" height="70" width="auto"/> {/if}</td>
+                            <td width="250"><input name="slide_house[image][]" type="text" class="form-control param_value" value="{$slide_house['image'][$i]}"/></td>
+                             <td width="250"><input name="slide_house[link][]" type="text" class="form-control param_value" value="{$slide_house['link'][$i]}"/></td>
+                            
+                        </tr>
+                      <?php }?>    
+                    </table>
+                </td>
+        </tr>
+</table>

@@ -1,0 +1,106 @@
+  
+<div>
+<h5>配置首页导航  <span style="color:#ff0000">
+        <input type="checkbox" name="confmenu[index]" {if $confmenu['index']==1}checked{/if} value="1"/>启用</span>
+    <span><input type="radio" name="confmenu[menu_cols]" {if $confmenu['menu_cols'] !=2}checked{/if} value="1">4个一行</span>
+     <span><input type="radio" name="confmenu[menu_cols]" {if $confmenu['menu_cols']==2}checked{/if} value="2">5个一行</span>
+</h5>
+</div>
+<table class="table table-hover">
+		<thead>
+		<tr>
+		<td style='width:50px;'></td> 
+                <td>菜单名</td>
+                <td>链接（模块或外部链接）</td>
+		<td>图标(图片路径)</td>
+                <td>是否显示</td>
+		</tr>
+		</thead>
+		<tbody id="param-items">
+			{loop $default_menu  $key $p}
+			<tr>
+				<td>
+				 <input name="navmenu[{$key}][order]" type="text" class="form-control " value="{$p['order']}"/>
+ 				</td>                               
+				<td>
+                                <input name="navmenu[{$key}][icon]" type="hidden"   value="{$p['icon']}"/>
+                                <input name="navmenu[{$key}][name]" type="text" class="form-control " value="{$p['name']}"/>
+  				</td>
+				<td><input name="navmenu[{$key}][pathurl]" type="text" class="form-control " value="{$p['pathurl']}"/></td>
+                                <td><input name="navmenu[{$key}][iconpic]" type="text" class="form-control " value="{$p['iconpic']}"/></td>
+                                 <td><input name="navmenu[{$key}][isshow]" type="radio"  {if $p['isshow']==1}checked{/if} value="1"/>显示 
+                                 <input name="navmenu[{$key}][isshow]" type="radio" class="" {if $p['isshow']==0}checked{/if} value="0"/>不显示
+                                 </td>
+                                
+			</tr>
+			{/loop}
+
+		</tbody>
+	 
+	</table>
+<!--<h5>配置底部导航  <span style="color:#ff0000">
+        <input type="checkbox" name="confmenu[tabbar]"   {if $confmenu['tabbar']==1}checked{/if} value="1"/>启用</span></h5>-->
+
+<table class="table table-hover" style="display:none;">
+        <thead>
+        <tr>                                  
+                <td>图标(样式或图片路径)</td>
+                <td>菜单名</td>
+                <td>链接（模块或外部链接）</td>
+                <td>颜色（#000000）</td>
+        </tr>
+        </thead>
+        <tbody id="param-items">
+         <?php for($i=0 ;$i<4; $i++)   {?>  
+                <tr>                                
+                    <td> <input name="btmenu[icon][]" type="text" class="form-control param_title" value="{$btmenu['icon'][$i]}"/> </td>
+                     <td><input name="btmenu[label][]" type="text" class="form-control param_value" value="{$btmenu['label'][$i]}"/></td>
+                    <td><input name="btmenu[link][]" type="text" class="form-control param_value" value="{$btmenu['link'][$i]}"/></td>
+                     <td><input name="btmenu[color][]" type="text" class="form-control param_value" value="{$btmenu['color'][$i]}"/></td>
+                </tr>
+            <?php }?>
+                   
+        </tbody>
+
+</table>
+
+<script type="text/html" id="param-temp">
+ <tr> <td> 
+ <a href="javascript:;" class="fa fa-move" title="拖动调整此显示顺序"><i class="fa fa-arrows"></i></a>&nbsp;
+ <a href="javascript:;" onclick="deleteParam(this)" style="margin-top:10px;" title="删除"><i class='fa fa-remove'></i></a>
+ </td> 
+ <td> <input name="navmenu[icon][]" type="text" class="form-control param_title" value="{$p['icon']}"/>
+ 
+ </td>
+ <td><input name="navmenu[label][]" type="text" class="form-control param_value" value="{$p['label']}"/></td>
+ <td><input name="navmenu[link][]" type="text" class="form-control param_value" value="{$p['link']}"/></td>
+  <td><input name="navmenu[color][]" type="text" class="form-control param_value" value="{$p['color']}"/></td>
+                                
+ </tr>   
+</script>
+<script language="javascript">
+	$(function(){
+		$("#param-items").sortable({handle:'.fa-move'});
+		$("#chkoption").click(function(){
+			var obj =$(this);
+			if(obj.get(0).checked){
+				$("#tboption").show();
+				$(".trp").hide();
+			}
+			else{
+				$("#tboption").hide();
+				$(".trp").show();
+			}
+		});
+	})
+
+	function addParam() {
+		 
+	    $('#param-items').append($("#param-temp").html());
+		 
+	}
+	function deleteParam(o) {
+		$(o).parent().parent().remove();
+	}
+
+</script> 

@@ -1,0 +1,32 @@
+<style>
+    .apply-item{
+        width:12.5%;
+        display: inline-block; 
+        margin-right:10px;    height:110px;    
+    }  
+    .apply-img{max-width:100%; max-height: 80px;}
+    </style>
+    <h5>点击复制素材地址进行引用</h5>
+<div class="panel-body welcome-apple-list">
+        <!-- ngRepeat: module in upgrade_module_list -->
+        {loop $medias $m}
+        <div class="apply-item ng-scope">
+            <p> 
+                <img src="{php echo toimage($m['thumb'])}"
+                     class="apply-img js-clip" style="cursor:point;"
+                     data-url="{php echo toimage($m['thumb'])}" /> 
+            </p>
+            <p>     <span class="text-over ng-binding">{$m['title']} </span> 
+                <a href="{php echo $this->createWebUrl('enset',array('confid'=>$m['id'],'page'=>4))}" class="color-red">删除</a></p>
+               
+        </div> 
+        {/loop}
+</div>
+    <script>
+  $(function() {
+	 
+		$('.js-clip').each(function(){
+			util.clip(this, $(this).data('url'));
+		});
+	});      
+        </script>

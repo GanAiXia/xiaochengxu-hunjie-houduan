@@ -1,0 +1,122 @@
+{template 'common/header'}
+
+ <div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading" style="padding-bottom:20px;">
+		    <div class="page-toolbar">
+			<div class="btn-group pull-right">
+					<button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">  操作菜单 
+						<i class="fa fa-angle-down"></i>
+					</button>
+					<ul class="dropdown-menu pull-right" role="menu">
+					<?php if(is_array($dropmenu) && !empty($dropmenu)){
+                                            foreach($dropmenu as $key => $value){
+                                            ?>
+					 <li>
+                                            <a href="<?php echo $this->createWebUrl("newhouse",array('op'=>$value['op'],'newhouseid'=>$value['hid']));?>">
+                                               <i class="fa <?php echo $value['icon'];?>"></i><?php echo $value['title'];?></a>
+					</li>
+                                        <?php } }?>
+					<li class="divider"> </li>
+					<li>
+						<a href="javascript:window.location.reload();">
+							<i class="icon-refresh"></i>  刷新页面 </a>
+					</li>
+					<li>
+						<a href="<?php echo $this->createWebUrl("newhouse",array('op'=>"housepic","newhouseid"=>$hid,"sid"=>$sid))?>">
+							<i class="icon-refresh"></i>  返回图片列表 </a>
+					</li>
+						 
+					</ul>
+				</div>
+			</div>
+		
+		上传 <?php echo $forumscon3['house_title']?> - 楼盘  {$typename} 图片
+		</div>
+		<!--//-->
+		
+		<style>
+.dgray24px{font-size:16px; color:#337ab7}
+.dgray24px a{float:right;}
+</style>
+ 
+<div class="panel-body"> 
+<!--//-->
+  <div class="row">
+       <a style="margin-right:20px;" href="{php echo $this->createWebUrl('newhouse', array('newhouseid'=>$hid, 'op' => 'housepic'))}"
+          class="btn btn-primary pull-right">返回列表</a>
+     
+  </div>
+<div class="row"> 
+<div class='col-md-12'>
+<div class="portlet light bordered">
+	<div class="portlet-title tabbable-line">
+		  
+     <ul id='typeNav' class='nav nav-tabs' >
+	<?php foreach($other['imgoption']  as  $key =>$v){ ?>
+	<li <?php echo ($key==$sid ? 'class="active"':'')?>  data-type='internal' >
+	<a class="addData a-btn" href="<?php echo $this->createWebUrl("newhouse",array('op'=>"addpic","newhouseid"=>$hid,"sid"=>$key))?>" title="<?php echo $v?>"><i class="iconm fa fa-folder"></i> &nbsp;<?php echo $v?></a></li>
+	 <?php }?>
+	</ul> 
+	</div>
+	<div class="portlet-body"> 	
+ 
+	 
+	<!--图片管理列表开始-->
+	  <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类</label>
+                    <div class="col-sm-9 col-xs-12">	
+                        <select name="albumid">
+                                <option value="0">-默认-</option>
+                                {loop $category $val}
+                                <option value="{$val['id']}">{$val['album_cat_name']}</option>
+                                {/loop}
+                        </select>
+                    </div>
+                </div>
+				
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">新增</label>
+                    <div class="col-sm-9 col-xs-12">	
+                        <input type="text" name="album_cat_name"
+                        class="form-control" value="" /> 新建分类 请输入名称
+                    </div>
+                </div>
+				
+
+                <div class="form-group">
+
+                  <label class="col-xs-12 col-sm-3 col-md-2 control-label">上传图片</label>
+
+                    <div class="col-sm-9 col-xs-12">
+
+                          {php echo tpl_form_field_multi_image('thumbs')}
+
+                    </div>
+
+                </div>
+				
+                <div class="form-group ">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">操作</label>
+                        <div class="col-sm-9 col-xs-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+                        <input type="hidden" name="sid" value="{$sid}"/>
+                        <input type="hidden" name="newhouseid" value="{$newhouseid}"/>
+			<input type="hidden" name="token" value="{$_W['token']}" />
+                    </div>
+                </div>
+	  </form>
+	<!--图片管理列表结束-->
+			</div>
+		</div>
+	</div>
+</div>
+		<!--//-->
+		
+		</div>
+	</div>
+
+</div>
+
+{template 'common/footer'} 

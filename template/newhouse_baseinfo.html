@@ -1,0 +1,472 @@
+{template 'common/header'}
+
+ <div class="main">
+<div class="panel panel-default">
+<div class="panel-heading">
+
+	<!-- BEGIN PAGE BAR -->
+	<div class="page-bar">
+		{if $forumscon3['id']}  
+		<div class="page-toolbar">
+			<div class="btn-group pull-right">
+				<button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">  操作菜单 
+					<i class="fa fa-angle-down"></i>
+				</button>
+				<ul class="dropdown-menu pull-right" role="menu">
+				       <?php if(is_array($dropmenu) && !empty($dropmenu)){
+                                            foreach($dropmenu as $key => $value){
+                                            ?>
+					 <li>
+                                            <a href="<?php echo $this->createWebUrl("newhouse",array('op'=>$value['op'],'newhouseid'=>$value['hid']));?>">
+                                               <i class="fa <?php echo $value['icon'];?>"></i><?php echo $value['title'];?></a>
+					</li>
+                                        <?php } }?> 
+					<li class="divider"> </li>
+					<li>
+						<a href="javascript:window.location.reload();">
+							<i class="icon-refresh"></i>  刷新页面 </a>
+					</li>
+                                        <li>
+						<a href="<?php echo $this->createWebUrl("newhouse");?>">
+							<i class="icon-refresh"></i>  红娘列表 </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		{/if}
+	</div>
+	{if $forumscon3['id']}
+		编辑 {$forumscon3['house_title']}
+	{else}
+	 创建新红娘 
+	{/if}
+</div>
+ <div class="panel-body">
+<!-- END PAGE BAR -->
+<form enctype="multipart/form-data" onsubmit="return check_form(this)"
+ name="form_shop_request" method="post" action="{php echo $this->createWebUrl('newhouse', array('op'=>'editbaseinfo'))}" class="form-horizontal">
+
+	<input type="hidden" value="<?php echo $shopinfo['id']?>" name="data[shopid]" />	
+	<input type="hidden" value="<?php echo $forumscon3['id']?>" name="data[houseid]" />	
+	<input type="hidden" value="<?php echo $forumscon3['newshouse_id']?>" name="data[newhouse_id]" /> 
+<!-- BEGIN PAGE TITLE-->
+ 
+<div class="row"> 
+<div class='col-md-12'>
+<div class="portlet light bordered myfbody">
+		<div class="portlet-title tabbable-line">
+            <ul class="nav nav-tabs">
+                <li class="{if $page==0}active{/if}">
+                    <a href="#tab_0" data-toggle="tab" onclick="$('#mypage').val('0')"> <i class="fa fa-cog"></i> 基本信息 </a>
+                </li>
+				
+                <li class="{if $page==2}active{/if}">
+                    <a href="#tab_2" data-toggle="tab" onclick="$('#mypage').val('2')"> <i class="fa fa-cubes"></i> 
+					项目信息</a>
+                </li>
+                <li class="{if $page==3}active{/if}">
+                    <a href="#tab_3" data-toggle="tab" onclick="$('#mypage').val('3')"> <i class="fa fa-user"></i> 销售信息 </a>
+                </li>
+				<li class="{if $page==4}active{/if}">
+                    <a href="#tab_4" data-toggle="tab" onclick="$('#mypage').val('4')"> <i class="fa fa-paw"></i> 配套信息 </a>
+                </li>
+                <li class="{if $page==5}active{/if}">
+                    <a href="#tab_5" data-toggle="tab" onclick="$('#mypage').val('5')"> <i class="fa fa-paw"></i> 搜索配置 </a>
+                </li>
+            </ul>
+        </div>
+	<div class="portlet-body"> 
+	<div class="tab-content">
+		<div class="tab-pane {if $page==0}active{/if}" id="tab_0">
+		 <table class='table '>
+		<tr>
+			<th width="15%">红娘名称：</th>
+			<td colspan="3">
+			<input type="text" class="form-control" id="house_title" name="data[base][house_title]" value="<?php echo $forumscon3['house_title']?>"> </td>
+		  
+		</tr>
+ 
+		<tr>
+			<th>性别：</th>
+			<td colspan="3">
+		 <?php  echo
+ form_element::select($sec['areas'],'data[base][house_region]','area',$forumscon3['house_region']);
+ ?>	  	{if !$sec['areas']}<span class="input-group-addon">请到参数里设置</span> {/if}
+			</td>
+		</tr>
+		<tr>
+			<th width="15%">项目地址：</th>
+			<td> 
+			 	<input type="text" class="form-control" id="house_address" name="data[house_address]" value="<?php echo $forumscon3['house_address']?>">
+				</td> 
+		 
+			<th width="15%">在地图上标注：</th>
+			<td> <input type="text" class="form-control" name="data[mapinfo]" value="<?=$shopinfo[map_x].','.$shopinfo[map_y]?>" id="BAIDU_mapinfo" onclick="window.open('<?=$this->createWebUrl('newhouse',array('op'=>"baidumap"))?>&point=<?=$shopinfo[map_x]?>,<?=$shopinfo[map_y]?>','newwindow','height=350,width=450,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')"  readonly='true'/> 
+			<script>function setMapvalue(val){document.getElementById("BAIDU_mapinfo").value=val;}</script>
+			</td> 
+		</tr>
+                
+                <tr>
+			<th width="15%">logo图：</th>
+			<td> 
+			{php echo tpl_form_field_image('data[base][house_logo]', $forumscon3['house_logo'], '', array('extras' => array('text' => 'readonly')))}
+				</td> 
+		 
+			<th width="15%">封面图：</th>
+			<td>{php echo tpl_form_field_image('data[base][house_face]', $forumscon3['house_face'], '', array('extras' => array('text' => 'readonly')))}
+			</td> 
+		</tr>
+		 
+		<tr> 
+			<th>广告语：</th>
+			<td colspan="3"><input type="text" class="form-control" id="house_poster" name="data[base][house_poster]" value="<?php echo $forumscon3['house_poster']?>"></td>
+		</tr>
+		    
+		<tr>
+                    	 
+			<th>项目类型：</th>
+			<td colspan="3">
+		  <?php  echo
+ form_element::checkbox($other['projectTypes'],'data[base][house_nature]','house_nature',  $forumscon3['house_nature'] );
+ ?>  	 
+			</td>
+                </tr>
+                <tr>
+			<th>建筑类型：</th>
+			<td colspan="3">
+                    <?php  echo
+ form_element::checkbox($other['pricetype'],'data[base][house_type]','house_type',  $forumscon3['house_type'] );
+ ?>          
+                           </td>
+
+		</tr>
+             
+                <tr>
+			<th>最新开盘：</th>
+			<td colspan="3">
+			<input type="text"  class="form-control" id="house_startselldate" name="data[base][house_startselldate]" value="<?php echo $forumscon3['house_startselldate']?>">
+			</td>
+		</tr>
+		<tr>
+			<th>开盘记录：</th>
+			<td colspan="3">
+			<textarea id="house_starttime_history" class="form-control " name="data[base][house_starttime_history]" cols="150"><?=$forumscon3['house_starttime_history'];?></textarea>
+			</td>
+		</tr>
+                
+                
+		<tr>
+			<th>往期预售证：</th>	
+			<td colspan="3"><textarea id="house_memo" class="form-control " name="data[base][house_memo]" cols="150"><?=$forumscon3['house_memo'];?></textarea></td>
+		</tr> 
+		<tr>
+			<th>最新预售证：</th>
+			<td colspan="3"> 
+			<input type="text" class="form-control" id="house_license" name="data[base][house_license]" value="<?php echo $forumscon3['house_license']?>"> 
+			</td>
+                </tr>
+                <tr>
+                    <th> 入住时间：</th>
+			<td> 
+			<input type="text" class="form-control" id="house_xtel" name="data[base][house_xtel]" 
+                               value="<?php if($forumscon3['house_xtel']){ echo $forumscon3['house_xtel']; }else{ echo date('Y-m-d');} ?>"> 
+			</td>
+			<th>产权年限：</th>
+			<td>
+                            <input  type="text" class="form-control" name="data[base][house_usetime]" id="house_usetime"
+                                    value="<?php echo $forumscon3['house_usetime']?>"  /> 
+			 
+		</td>
+		</tr>
+		<tr>
+			<th>装修状况：</th>
+			<td><input type="text" class="form-control" id="house_fitment" name="data[base][house_fitment]" value="<?php echo $forumscon3['house_fitment']?>"></td>
+		 
+			<th>绿化率：</th>
+			<td><input type="text" class="form-control" id="house_green" name="data[base][house_green]" value="<?php echo $forumscon3['house_green']?>"></td> 
+		</tr>
+		<tr>
+			<th>容积率 ：</th>
+			<td><input type="text" class="form-control" id="house_capacity" name="data[base][house_capacity]" value="<?php echo $forumscon3['house_capacity']?>"></td>
+		 
+			<th>规划户数 ：</th>
+			<td><input type="text" class="form-control" id="house_roomcount" name="data[base][house_roomcount]" value="<?php echo $forumscon3['house_roomcount']?>"> </td>
+		</tr>
+		<tr>
+			<th>停车位：</th>
+			<td><input type="text" class="form-control" id="house_parking " name="data[base][house_parking]" value="<?php echo $forumscon3['house_parking']?>"></td>
+		 
+			<th>占地面积：</th>
+			<td><input type="text" class="form-control" id="house_totalarea" name="data[base][house_totalarea]" value="<?php echo $forumscon3['house_totalarea']?>"></td>
+		</tr>
+		<tr>
+			<th>建筑面积：</th>		
+			<td><input type="text" class="form-control" id="house_builtuparea" name="data[base][house_builtuparea]" value="<?php echo $forumscon3['house_builtuparea']?>"></td>
+                        <th>公摊：</th>
+			<td>
+			 <input type="text" class="form-control" id="house_type" name="data[base][house_public_area]" value="<?php echo $forumscon3['house_public_area']?>">
+			</td>
+		 </tr>
+		<tr>
+			<th>物业公司：</th>
+			<td><input type="text" class="form-control" id="house_property" name="data[base][house_property]" value="<?php echo $forumscon3['house_property']?>"> </td>
+                        <th>物业费：</th>
+			<td><input type="text" class="form-control" id="house_propertyprice" name="data[base][house_propertyprice]" value="<?php echo $forumscon3['house_propertyprice']?>"></td>
+	
+                </tr>
+               
+
+		</table>
+	 </div>
+	 
+	 <!--项目信息-->
+	 <div class="tab-pane {if $page==2}active{/if}" id="tab_2">
+	  <table class='table table-form '>
+                <tr>
+			<th>开发商：</th>
+			<td colspan="3">
+			<input type="text"  class="form-control" id="house_developer" name="data[base][house_developer]" value="<?php echo $forumscon3['house_developer']?>">
+			</td>
+		</tr>
+		<tr>
+			<th>开发商介绍：</th>
+			<td colspan="3">
+			<textarea id="house_devsynopsis" class="form-control " name="data[base][house_devsynopsis]" cols="150"><?=$forumscon3['house_devsynopsis'];?></textarea>
+			</td>
+		</tr>
+		<tr>
+			<th>项目介绍：</th>	
+			<td colspan="3"><textarea id="house_introduce" class="form-control " name="data[base][house_introduce]" cols="150"><?=$forumscon3['house_introduce'];?></textarea></td>
+		</tr>		
+		<tr>
+			<th>建筑商：</th>
+			<td colspan="3"><input type="text"  id="house_constructor" class="form-control" name="data[base][house_constructor]" value="<?php echo $forumscon3['house_constructor']?>"> </td>			
+		</tr>
+		<tr>
+			<th>建筑商介绍：</th>	
+			<td colspan="3"><textarea id="house_consynopsis" class="form-control " name="data[base][house_consynopsis]" cols="150"><?=$forumscon3['house_consynopsis'];?></textarea></td>
+		</tr>
+ 
+		<tr>
+			<th width="15%">景观规划：</th>
+			<td><input type="text" class="form-control" id="house_design_corp" name="data[base][house_design_corp]" value="<?php echo $forumscon3['house_design_corp']?>"> </td>
+		 
+			<th width="15%">建筑设计风格：</th>
+			<td><input type="text" class="form-control" id="house_design_type" name="data[base][house_design_type]" value="<?php echo $forumscon3['house_design_type']?>"> </td>
+			
+		</tr>
+		<tr>
+			<th width="15%">代理商/顾问公司：</th>
+			<td><input type="text" class="form-control" id="house_sale_company" name="data[base][house_sale_company]" value="<?php echo $forumscon3['house_sale_company']?>"> </td>
+		 
+			<th  width="15%">设计公司：</th>
+			<td>
+			<input type="text" class="form-control" id="house_design_company" name="data[base][house_design_company]" value="<?php echo $forumscon3['house_design_company']?>">
+			 </td>
+		</tr>
+		<tr>		 
+			<th  width="15%">投资商：</th>
+			<td>
+			<input type="text" class="form-control" id="house_touzi" name="data[base][house_touzi]" value="<?php echo $forumscon3['house_touzi']?>">
+			 </td>
+			 <th></th><td></td>
+		</tr>
+
+	</table>
+	 
+	 </div>
+	 <!--销售信息-->
+	  <div class="tab-pane {if $page==3}active{/if}" id="tab_3">
+	  <table class='table table-form '>
+	  
+	  <tr>
+			<th>销售热线：</th>
+			<td colspan="3">
+			<input type="text" class="form-control" id="house_selltelephone" name="data[base][house_selltelephone]" value="<?php echo $forumscon3['house_selltelephone']?>">
+			</td>
+		 
+		</tr>
+		<tr>
+			<th width="15%">售楼部地址：</th>
+			<td><input type="text" class="form-control" id="house_saleaddress" name="data[base][house_saleaddress]" value="<?php echo $forumscon3['house_saleaddress']?>"> </td>
+		 
+			<th  width="15%">接待时间：</th>
+			<td>
+			<input type="text" class="form-control" id="house_worktime" name="data[base][house_worktime]" value="<?php echo $forumscon3['house_worktime']?>">
+			 </td>
+		</tr>
+		<tr>
+			<th width="15%">业主群：</th>
+			<td colspan="3"><input type="text" class="form-control" id="house_xQQ" name="data[base][house_xQQ]" value="<?php echo $forumscon3['house_xQQ']?>"> </td>
+		 
+			
+		</tr>
+		<tr>
+			<th width="15%">贷款银行：</th>
+                        <td colspan="3"><input type="text" class="form-control" id="house_bank" name="data[base][house_bank]" value="<?php echo $forumscon3['house_bank']?>"> </td>
+		 
+		</tr>
+		 
+		 
+	</table>
+	 
+	 </div>
+	 <!--配套信息-->
+<div class="tab-pane {if $page==4}active{/if}" id="tab_4">
+	  <table class='table table-form '>
+	  <tr>
+			<th width="15%">居住环境：</th>
+			<td colspan="3"><textarea  class="form-control" id="house_peripheral" name="data[base][house_peripheral]" ><?php echo $forumscon3['house_peripheral']?></textarea> </td>
+		 </tr> 
+	  <tr>
+			<th>附近大商场：</th>
+			<td colspan="3">
+			<textarea  class="form-control" id="house_zb_shop" name="data[base][house_zb_shop]"><?php echo $forumscon3['house_zb_shop']?></textarea>
+			</td>
+		</tr>
+		<tr>
+			<th width="15%">周边幼儿园：</th>
+			<td><textarea  class="form-control" id="house_zb_youeryuan" name="data[base][house_zb_youeryuan]"><?php echo $forumscon3['house_zb_youeryuan']?></textarea> </td>
+		 
+			<th  width="15%">周边医院：</th>
+			<td>
+			<textarea class="form-control" id="house_zb_yiyuan" name="data[base][house_zb_yiyuan]"><?php echo $forumscon3['house_zb_yiyuan']?></textarea>
+			 </td>
+		</tr>
+		<tr>
+			<th width="15%">配套初中：</th>
+			<td><textarea  class="form-control" id="house_zb_chuzhong" name="data[base][house_zb_chuzhong]"><?php echo $forumscon3['house_zb_chuzhong']?></textarea></td>
+		 
+			<th  width="15%">配套小学：</th>
+			<td>
+			<textarea class="form-control" id="house_zb_xiaoxue" name="data[base][house_zb_xiaoxue]"><?php echo $forumscon3['house_zb_xiaoxue']?></textarea>
+			 </td>
+		</tr>
+		<tr>
+ 
+			<th  width="15%">周边银行：</th>
+			<td colspan="3">
+			<textarea class="form-control" id="house_zb_bank" name="data[base][house_zb_bank]"><?php echo $forumscon3['house_zb_bank']?></textarea>
+			 </td>
+		</tr>
+		<tr>
+			<th width="15%">交通状况：</th>
+			<td colspan="3"><textarea class="form-control" id="house_traffic" name="data[base][house_traffic]"><?php echo $forumscon3['house_traffic']?></textarea></td>
+		 </tr> 
+		 
+	</table>
+	 
+	 </div>	 
+          <!--搜索配置-->
+<div class="tab-pane {if $page==5}active{/if}" id="tab_5">
+	  <table class='table table-form '>
+                     <tr>
+	  <th  width="15%">均价：</th>
+			<td colspan="3">
+     <input type="text" class="form-control" style="width:100px;display:inline-block" id="house_old" name="data[base][average_price]" value="<?php echo $forumscon3['average_price']?>">
+		 /<input type="text" class="form-control" style="width:60px;display:inline-block" placeholder="元"   name="data[base][unit1]" value="<?php echo $forumscon3['unit1']?>">
+ /<input type="text" class="form-control" style="width:60px;display:inline-block"   placeholder="平米" name="data[base][unit2]" value="<?php echo $forumscon3['unit2']?>">
+ <label> 红娘均价要填写 例如：10000元/平米</label>
+                        </td>
+	  </tr>
+              <tr>
+	  <th  width="15%">在售情况：</th>
+			<td colspan="3">
+           <?php  echo
+ form_element::radio($other['onsale'],'data[base][house_sale]','house_sale',  $forumscon3['house_sale'] );
+ ?>                       
+	 
+
+			 </td>
+	  </tr>
+	  <tr>
+			<th>红娘特色：</th>
+			<td colspan="3">
+                               <?php  echo
+ form_element::checkbox($other['housetags'],'data[base][house_prowedt]','house_prowedt',  $forumscon3['house_prowedt'] );
+ ?>           </td>
+		</tr>
+	  <tr>
+			<th>户型：</th>
+			<td colspan="3">
+		                               <?php  echo
+ form_element::checkbox($other['hxtype'],'data[base][house_mark]','house_mark',  $forumscon3['house_mark'] );
+ ?>  
+			</td>
+		</tr>
+                <tr>
+                    <th>建面：</th>
+                    <td colspan="3"><input type="text" class="form-control" id="house_main" name="data[base][house_main]" value="<?php echo $forumscon3['house_main']?>"></td>	
+ 		</tr> 
+		<tr>
+			<th width="15%">红娘别名：</th>
+			<td colspan="3">
+			<input type="text" class="form-control" id="house_old" name="data[base][house_old]" value="<?php echo $forumscon3['house_old']?>"> </td>
+		  
+		</tr>
+                <tr>
+                    
+			<th  width="15%">开盘时间：</th>
+                        <td colspan="3">
+                            <?php  echo
+ form_element::radio($other['opentime'],'data[base][house_paymethod]','house_paymethod',  $forumscon3['house_paymethod'] );
+ ?>  
+		 
+			 </td>
+                </tr>
+                 <tr>
+                    
+			<th  width="15%">排序：</th>
+                        <td><input type="text" class="form-control" id="fcatid" name="data[base][fcatid]" value="<?php echo $forumscon3['fcatid']?>"> </td>
+                        <td colspan="2">
+                        数字越大约靠前。
+			 </td>
+                </tr>
+                
+                 <tr>
+                    
+			<th  width="15%">推广佣金：</th>
+                        <td><input type="text" class="form-control"  name="data[newhouse][shop_management]" value="<?php echo $shopinfo['shop_management']?>"> </td>
+                        <td colspan="2">
+                         （元）。
+			 </td>
+                </tr>
+		 
+	</table>
+	 
+	 </div>	 
+	 <!--//-->
+			</div>
+		</div>		
+	</div>
+ </div>	
+	<div class="myfooter">
+        <div class="row">
+            <div class="portlet-body form">
+                <div class="form-body">
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+								 
+				 <input type="hidden" name="token" value="{$_W['token']}" />
+                                <input  type="submit" name="submit" class="btn green" value="提交保存"> 
+								 <!--<i class="fa fa-save"></i> </button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>		
+</form>
+
+	</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript" language="JavaScript">
+	function check_form(obj){
+		
+	}
+</script>	
+{template 'common/footer'}

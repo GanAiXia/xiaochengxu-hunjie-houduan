@@ -1,0 +1,66 @@
+ <style>
+.label{cursor:pointer;}
+.table>tbody>tr>td{ padding:5px 2px;}
+.infocss img{max-width: 100px; max-height: 60px; float: left; margin-right:20px;}
+</style>
+
+
+<div class="panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner"> 
+				<tr>
+                                    <th style="width:5%;">ID</th>				 
+					<th style="width:15%;">名称</th>		 
+				 	<th style="width:15%;">排序 </th>
+                                        <th style="width:5%;">区域</th>
+					<th style=" width:20%;">状态 </th>
+                                        <th style="text-align:right; width:20%;">管理</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+				 
+                                        <td>
+                                        <p title="{$item['name']}">{$item['name']} </p>
+                                        
+					</td>
+					<td>
+                                           {$item['orderid']}
+					</td>
+                                        <td> {$item['area']}  </td>
+                                        <td>
+                                         {if $item['disabled']==1}禁用{else}启用{/if} 
+					</td>
+					
+
+					<td style="text-align:right;">
+
+					                                    
+		<a href="{php echo $this->createWebUrl('area', array('id' => $item['id'], 'op' => 'edit'))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="编辑">
+                    <i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
+
+		<a href="{php echo $this->createWebUrl('area', array('id' => $item['id'], 'op' => 'display'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除">
+                    <i class="fa fa-times"></i></a>
+
+	 				
+					</td>
+
+				</tr>
+
+				{/loop}
+
+			</tbody>
+
+		</table>
+
+		{$pager}
+
+	</div>
+     
+	</div>
+ 
+
+</div>

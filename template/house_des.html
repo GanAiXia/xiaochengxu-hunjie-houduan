@@ -1,0 +1,53 @@
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">悬赏佣金：</label>
+        <div class="col-sm-4 col-xs-6">
+            <div class="input-group form-group">
+		<input type="text" name="data[employee]" id="employee" class="form-control"
+                        placeholder="佣金"  value="{$item['employee']}"/>           
+	  	<span class="input-group-addon">元</span>  
+            </div>
+	</div>               
+ </div> 
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">地图坐标：</label>
+        <div class="col-sm-4 col-xs-12">
+<input type="text" class="form-control" name="data[mapinfo]" value="{$item['mapinfo']}" id="BAIDU_mapinfo" onclick="window.open('<?=$this->createWebUrl('newhouse',array('op'=>"baidumap"))?>&point=<?=$item['mapinfo']?>','newwindow','height=350,width=450,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no')"  readonly='true'/> 
+			<script>function setMapvalue(val){document.getElementById("BAIDU_mapinfo").value=val;}</script>
+        </div>                
+ </div> 	                       
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">本人情况</label>
+	<div class="col-sm-9 col-xs-12">
+		{php echo tpl_ueditor('description', $item['description']);}
+	</div>
+</div> 	
+
+
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">推荐位置</label>
+	<div class="col-sm-9 col-xs-12" >
+            <label for="isrecommand" class="checkbox-inline">
+		<input type="checkbox" name="data[istop]" value="1"
+                       id="istop" {if $item['istop'] == 1}checked="true"{/if} /> 置顶
+            </label>
+             <label for="isrecommand" class="checkbox-inline">
+		<input type="checkbox" name="data[isjingpin]" value="1"
+                       id="isjingpin" {if $item['isjingpin'] == 1}checked="true"{/if} /> 精品
+            </label>
+             <label for="isrecommand" class="checkbox-inline">
+		<input type="checkbox" name="data[show_jiaji]" value="1"
+                       id="show_jiaji" {if $item['show_jiaji'] == 1}checked="true"{/if} /> 加急
+            </label>
+             <label for="isrecommand" class="checkbox-inline">
+		<input type="checkbox" name="data[show_you]" value="1"
+                       id="show_you" {if $item['show_you'] == 1}checked="true"{/if} /> 加优
+            </label>
+             <label for="isrecommand" class="checkbox-inline">
+		<input type="checkbox" name="data[show_hight]" value="1"
+                       id="show_hight" {if $item['show_hight'] == 1}checked="true"{/if} /> 加亮
+            </label>
+        </div>
+</div>
+ 

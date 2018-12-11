@@ -1,0 +1,22 @@
+{template 'common/header'} 
+<script type="text/javascript" src="resource/js/lib/jquery-ui-1.10.3.min.js"></script>
+<ul class="nav nav-tabs">
+	<li {if $operation=='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('secshop', array('op' => 'display'))}">管理门店</a></li>
+	<li {if $operation=='add'}class="active"{/if}><a href="{php echo $this->createWebUrl('secshop', array('op' => 'add'))}">新增门店</a></li>
+      
+</ul> 
+{if $operation=='display'}
+<!--对话管理模板-->  
+        {template 'secshop_display'}
+{elseif $operation =='edit'}
+    <!--用户管理-->
+        {template 'secshop_form'}
+ {elseif $operation =='add'}
+    <!--用户管理-->
+        {template 'secshop_form'}  
+ {elseif $operation =='editkefu'}
+    <!--编辑客服资料-->
+        {template 'secshop_editkefu'}        
+{/if}
+
+{template 'common/footer'}

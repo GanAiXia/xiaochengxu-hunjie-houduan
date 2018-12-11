@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>生成图片分享-{$sec['shopname']}</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=640, initial-scale=0.5, user-scalable=no, minimum-scale=0.5, maximum-scale=0.5">
+    
+    <style type="text/css">
+body,html{
+	margin: 0;
+	padding: 0;
+	font-family: Microsoft Yahei,arial;
+	font-size: 18px;
+        background: #d9d9d9;
+}
+.header{
+	height: 90px;
+	line-height: 90px;
+	background-color: #606060;
+	font-size: 1.6rem;
+	color: #fff;
+	text-align: center;
+	position: relative;
+	border-bottom: 1px #6b4f50 solid;
+}
+.back,.share{
+	display: block;
+	width: 90px;
+	height: 90px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.share{
+	width: 108px;
+	text-align: center;
+	left: auto;
+	right: 0;
+}
+.back:after{
+    content: "";
+    display: block;
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    width: 26px;
+    height: 26px;
+    border-left: 5px #fff solid;
+    border-bottom: 5px #fff solid;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+#img-cont{
+	padding: 1.5rem;
+	background-color: #d9d9d9; 
+}
+.wrap{
+	color: #333;
+	border-radius: 20px;
+	text-align: center;
+	background: #fff;
+
+}
+.pic{
+	display: block;
+	width: 100%;
+        border-radius: 0.5rem 0.5rem 0 0;
+        height: auto;
+}
+.title{
+        display: block;
+}
+.t-title{
+	font-size: 2rem;
+	padding: 0 16px;
+}
+.sub-title{
+	font-size: 1.8rem;
+        margin: 0.5rem;
+}
+.price{
+        margin-bottom: 1.5rem;
+	font-size: 2rem;
+	color: #fb5358;
+        font-weight: bold;
+}
+
+.danbao{
+	font-size: 1.2rem;
+	color: #555;
+        padding: 0.5rem;
+}
+.qr{
+	height: 130px;
+	padding: 1.2rem;
+	background-color: #f0eeee;
+	text-align: left;
+	margin-top: 1rem;
+	border-radius: 0 0 1rem 1rem;
+}
+#qrcode{
+	display: block;
+	width: 130px;
+	height: 130px;
+	float: left;
+	margin-right: 1rem;
+}
+.qr-text{
+	font-size: 1.2rem;
+	margin-top: 0.8rem;
+	line-height: 40px;
+	color: #666;
+}
+.footer{
+	text-align: center;
+        padding-top: 1rem;
+        color: #666;
+        font-size: 18px;
+}
+
+.mask{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(255,255,255,.9);
+	text-align: center;
+	font-size: 1.2rem;
+	color: #666;
+	z-index: 9999;
+        
+}
+#mask-cont{
+	width: 420px;
+	padding-top: 100px;
+	padding-bottom: 100px;
+	margin: 250px auto 20px auto;
+	border: 1px #ccc solid;
+	background-color: #fff;
+	line-height: 1.6;
+	border-radius: 20px;
+}
+.loading{
+	height: 60px;
+	width: 60px;
+	display: block;
+	text-align: center;
+	list-style: none;
+	padding: 0;
+	position: relative;
+	margin: 0 auto 20px auto;
+}
+.loading li {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background-color: #fb5358;
+	opacity: 0.6;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-webkit-animation: bounce 2s infinite ease-in-out;
+	animation: bounce 2s infinite ease-in-out;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both
+}
+.loading li:nth-child(2) {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+
+@-webkit-keyframes bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+ 
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+.done{
+	height: 160px;
+	width: 160px;
+	display: block;
+	border-radius: 50%;
+	background-color: #00b300;
+	text-align: center;
+	list-style: none;
+	padding: 0;
+	position: relative;
+	margin: 0 auto 20px auto;
+}
+.done li{
+	width: 80px;
+	height: 40px;
+	border-left: 5px #fff solid;
+	border-bottom: 5px #fff solid;
+	margin: 0 auto;
+	position: relative;
+	top: 40px;
+	transform:rotate(-45deg);
+-webkit-transform:rotate(-45deg); /* Safari 和 Chrome */
+}
+.ok-btn{
+	padding: .8rem 60px;
+	border:none;
+	background-color: #fb5358;
+	font-size: 1.3rem;
+	color: #fff;
+	margin-top: 24px;
+	border-radius: 6px;
+	width: 75%;
+}
+.result{
+	display: block;
+}
+@media only screen and (min-width: 320px){
+	html {
+    font-size: 24px;
+}
+}
+</style>
+</head>
+<body>
+ 
+    <div class="mask" >
+    <div id="mask-cont">
+            <ul class="loading"><li></li><li></li></ul>
+            正在生成海报，请稍等···
+    </div>
+</div>
+
+<div id="img-cont">
+	<div class="wrap">
+            <img id="pic" src="{php echo $this->createMobileUrl('share',array('op'=>'localpic'))}&url={php echo urlencode($thumb)}" class="pic">
+		<h2 class="title"> </h2>
+		<p class="sub-title">{$title}</p>
+		<div class="price">{$price}</div>
+		<div class="danbao">{$housetype}<br/>{$mianji}</div>
+                <div class="danbao"></div>
+		<div class="qr">
+                    <div id="qrcode">
+                        <img id="qr" width="100%" height="auto" src="{$qrsrc}" />
+                    </div>
+			<div class="qr-text">长按识别二维码<br>查看更多详细信息</div>
+		</div>
+	</div>
+	<div class="footer">
+                {$sec['shopname']}
+	</div>
+</div>
+<script type="text/javascript" src="../addons/wdl_weihouse/style/share/jquery.min.js"></script>
+<script type="text/javascript" src="../addons/wdl_weihouse/style/share/html2canvas.min.js"></script>
+ 
+
+<script>
+    
+      function hideMessage(){
+          
+          $(".mask").css("display","none");
+      }
+      
+      //截图
+      var canvasPic ;
+      function capture(){
+          
+            html2canvas(document.querySelector("#img-cont")).then(canvas => {
+
+            var dataImg = canvas.toDataURL('image/png');
+            var newImg = document.createElement("img");
+
+            newImg.src =  dataImg;
+            newImg.setAttribute("class","result");
+            newImg.setAttribute("width","100%");
+
+            document.body.appendChild(newImg);
+
+            $("#img-cont").css("display","none");
+            //$('#pic1').attr('src', dataImg);
+            //    $("#createData").show();
+            });
+            
+            $("#mask-cont").html('<ul class="done"><li></li></ul>图片已生成，长按保存图片<br>去发朋友圈吧！<br><button class="ok-btn" onclick="hideMessage()">好的</button>');
+            
+      }
+        
+        window.onload = function() {
+            
+            var h = $("#pic").height();
+            $("#pic").height(h);
+            
+            h = $("#qr").height();
+            $("#qr").height(h);
+            
+            //$(".mask").css("display","none");
+            setTimeout(capture(), 500)
+            
+           //$("#mask-cont").html('<ul class="done"><li></li></ul>图片已生成，长按保存图片<br>去发朋友圈吧！<br><button class="ok-btn" onclick="hideMessage()">好的</button>');
+        }; 
+    
+      
+    </script>
+   
+            </body>
+</html>

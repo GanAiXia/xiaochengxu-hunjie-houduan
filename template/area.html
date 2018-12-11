@@ -1,0 +1,35 @@
+{template 'common/header'} 
+<script type="text/javascript" src="resource/js/lib/jquery-ui-1.10.3.min.js"></script>
+<ul class="nav nav-tabs">
+        <!--
+	<li {if $operation=='display' && $type==1}class="active"{/if}><a href="{php echo $this->createWebUrl('area', array('op' => 'display', 'type'=>1))}">区域列表</a></li>
+	-->
+        <li {if $operation=='display' && $type==2}class="active"{/if}><a href="{php echo $this->createWebUrl('area', array('op' => 'display', 'type'=>2))}">婚姻状况列表</a></li>
+ 
+        <div class="btn-group pull-right" style="margin-left:30px;">
+            <button type="button" class="btn green btn-sm btn-outline dropdown-toggle"
+                    data-toggle="dropdown" aria-expanded="false">  操作菜单 
+                    <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu pull-right" role="menu">
+             
+                <li>
+                    <a href="<?php echo $this->createWebUrl("area",array('op'=>'add', 'type'=>2));?>"><i class="fa fa-building-o"></i>新增婚姻状况</a>
+                    </li>
+             </ul>
+        </div>
+        
+</ul> 
+{if $operation=='display'}
+<!--对话管理模板-->  
+        {template 'area_display'}
+{elseif $operation =='edit'}
+    <!--用户管理-->
+        {template 'area_form'}
+ {elseif $operation =='add'}
+    <!--用户管理-->
+        {template 'area_form'}  
+         
+{/if}
+
+{template 'common/footer'}

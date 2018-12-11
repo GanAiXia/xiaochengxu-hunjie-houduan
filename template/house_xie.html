@@ -1,0 +1,191 @@
+<style>
+  .form-horizontal .form-group{margin-left:0px;}
+  .we7-form .form-group, form .form-group{margin-bottom: 10px;}
+</style>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>标 题</label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[title]" id="title" class="form-control"
+                        placeholder="必填项（很重要！一个好的推荐广告，可以大大提升房源点击量！）"  value="{$item['title']}" />
+                
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+        <span style='color:red'></span>性别</label>
+	<div class="col-sm-4 col-xs-4">
+              <div class="input-group form-group">
+           <input type="hidden" name="data[rent_type]" value="{$renttype}" title="0=出售2=出租">
+           <input type="hidden" name="data[zhutype]" value="1" title="0=男士征婚 1=写字楼 2=女生征婚 3=生意">
+           <span style="display:table-cell; ">   
+ <?php  echo  form_element::select($sec['areas'],'data[area]','area',$item['area']); ?>
+	 </span>
+          <span style="display:table-cell; "> 婚姻状况： </span>
+        <span style="display:table-cell; "> 
+            <select name="data[quan]" id="quan">
+                             {if $item['quan']}
+                             <option value="{$item['quan']}">{$item['quan']}</option>
+                             {else}
+                             <option value="">-请选择婚姻状况-</option>
+                             {/if}
+                         </select> 
+        </span>
+          
+          {if !$sec['areas']}<span class="input-group-addon">请到参数里设置</span> {/if}
+              
+              </div>   
+	</div>
+</div> 
+
+<div class="form-group">
+
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'></span>写字楼名称</label>
+	<div class="col-sm-9 col-xs-9">
+		<input type="text" name="data[village_name]" id="village_name" class="form-control"
+                        placeholder="请输入写字楼名称" value="{$item['village_name']}" />
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'></span>房源编号</label>
+	<div class="col-sm-6 col-xs-6">
+		<input type="text" name="data[house_sno]" id="house_sno" class="form-control"
+                        placeholder="请输入公司房源编号"  value="{$item['house_sno']}" />
+	</div>
+</div>
+
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'></span>楼 层</label>
+	<div class="col-sm-2 col-xs-2">
+            <div class="input-group form-group">
+		<input type="text" name="data[storey]" id="storey" class="form-control"
+                        placeholder="第几层"  value="{$item['storey']}" onkeyup="this.value=this.value.replace(/\D/g,'')" size="1" maxlength="3" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>           
+	  	<span class="input-group-addon">层</span> 
+            </div>
+	</div>
+        <div class="col-sm-2 col-xs-2">
+            <div class="input-group form-group">
+		<input type="text" name="data[total_storey]" id="total_storey" class="form-control"
+                        placeholder="共几层"  value="{$item['total_storey']}" onkeyup="this.value=this.value.replace(/\D/g,'')" size="1" maxlength="3" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>           
+	  	<span class="input-group-addon">共几层</span>  
+            </div>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'></span>面 积</label>
+	<div class="col-sm-3 col-xs-3">
+            <div class="input-group form-group">
+		<input type="text" name="data[superficie]" id="superficie" class="form-control"
+                        placeholder="请输入数字， 单位 ㎡ "  value="{$item['superficie']}" />           
+	  	<span class="input-group-addon">㎡</span> 
+            </div>
+	</div>
+</div>
+
+{if $renttype==2}
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'></span>租 金</label>
+	<div class="col-sm-4 col-xs-4">
+            <div class="input-group form-group">
+		<input type="text" name="data[loyer]" id="loyer" class="form-control"
+                        placeholder="请输入数字，0表面议"  value="{$item['loyer']}" /> 
+                 
+                {if $item['prix_unitaire']}
+	 <input type="hidden" name="data[prix_unitaire]" id="prix_unitaire" value="{$item['prix_unitaire']}"/> 
+         {else}<input type="hidden" name="data[prix_unitaire]" value="元/月"/> {/if}
+                 <span style="display:table-cell; "><select name="unitaire" onchange="$('#prix_unitaire').val(this.value)">
+                         <option {if $item['prix_unitaire']=='元/月'}selected{/if} value="元/月">元/月</option>
+                        <option {if $item['prix_unitaire']=='元/㎡/月'}selected{/if}  value="元/㎡/月">元/㎡/月</option> 
+             </select></span> 
+            </div>
+	</div>
+</div>
+{else}
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'></span>售 价</label>
+	<div class="col-sm-4 col-xs-4">
+            <div class="input-group form-group">
+		<input type="text" name="data[loyer]" id="loyer" class="form-control"
+                        placeholder="请输入数字，0表面议"  value="{$item['loyer']}" /> 
+                <span class="input-group-addon">万元</span> 
+	 <input type="hidden" name="data[prix_unitaire]" value="万"/> 	
+            </div>
+	</div>
+</div>
+
+{/if}
+ 
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">有效期至</label>
+	<div class="col-sm-4 col-xs-6">
+		{php echo tpl_form_field_date('endtime', !empty($item['endtime']) ? date('Y-m-d H:i',$item['endtime']) : date('Y-m-d H:i'), 1)}
+
+	</div>
+</div>
+
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'></span>经纪人</label>
+	<div class="col-sm-4 col-xs-6">
+            <div class="input-group form-group">
+		  <?php  echo
+ form_element::select($brokers,'data[broker_id]','broker_id',$item['broker_id']);
+ ?>        
+	  	 
+            </div>
+	</div>
+    <div class="col-sm-4 col-xs-6">添加经纪人后联系人信息不用填写。</div>
+        
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'></span>联系信息</label>
+	<div class="col-sm-4 col-xs-6">
+            <div class="input-group form-group">
+		<input type="text" name="data[publish_name]" id="publish_name" class="form-control"
+                        placeholder="联系人"  value="{$item['publish_name']}" />           
+	  	<span class="input-group-addon">名称</span> 
+            </div>
+	</div>
+        <div class="col-sm-4 col-xs-6">
+            <div class="input-group form-group">
+		<input type="text" name="data[linkphone]" id="linkphone" class="form-control"
+                        placeholder="手机号"  value="{$item['linkphone']}"/>           
+	  	<span class="input-group-addon">手机号</span>  
+            </div>
+	</div>
+</div>
+
+<div class="form-group">
+
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">形象图</label>
+
+	<div class="col-sm-9 col-xs-12">
+
+		{php echo tpl_form_field_image('thumb', $item['thumb'], '', array('extras' => array('text' => 'readonly')))}
+
+	</div>
+
+</div>
+
+<div class="form-group">
+
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">房源图片</label>
+
+	<div class="col-sm-9 col-xs-12">
+
+		{php echo tpl_form_field_multi_image('thumbs',$piclist)}
+
+	</div>
+
+</div>

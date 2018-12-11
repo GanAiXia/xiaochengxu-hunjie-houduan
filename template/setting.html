@@ -1,0 +1,420 @@
+{template 'common/header'}
+<script type='text/javascript' src='resource/js/lib/jquery-1.11.1.min.js'></script>
+<script type="text/javascript" src="../addons/wdl_weihouse/images/jquery.gcjs.js"></script>
+<script type="text/javascript" src="../addons/wdl_weihouse/images/jquery.form.js"></script>
+<script type="text/javascript" src="../addons/wdl_weihouse/images/tooltipbox.js"></script>
+<style type="text/css">	
+    .red {float:left;color:red}
+    .white{float:left;color:#fff}	
+    .tooltipbox {	
+        background:#fef8dd;border:1px solid #c40808; position:absolute; left:0;top:0; 
+        text-align:center;height:20px;	
+        color:#c40808;padding:2px 5px 1px 5px; border-radius:3px;z-index:1000;	}
+    .red { float:left;color:red}
+</style>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+	 <div class="panel panel-default">	
+            <div class="panel-heading">	
+                参数设置		
+            </div>	
+            <div class="panel-body">
+		<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">性别设置</label>	
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea name="pay[areas]" id="areas" class="form-control"
+                                  cols="70">{$settings['areas']}</textarea>	
+						<p>例如： 男|男,女|女</p>
+                    </div>	
+                </div>
+
+        
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">男士征婚价格搜索</label>	
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea name="pay[search_sec_price]" id="search_sec_price" class="form-control"
+                                  cols="70">{$settings['search_sec_price']}</textarea>	
+			 <p>例如： 1-30|30万以下,30-50|30-50万,50-70|50-70万,70-80|70-80万,80-9999|80万以上</p>
+                    </div>	
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">面积搜索</label>	
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea name="pay[search_sec_sufix]" id="search_sec_sufix" class="form-control"
+                                  cols="70">{$settings['search_sec_sufix']}</textarea>	
+			 <p>例如：1-50|50㎡以下,50-70|50-70㎡,70-90|70-90㎡,90-110|90-110㎡,110-130|110-130㎡,130-150|130-150㎡,150-9999|150㎡以上</p>
+                    </div>	
+                </div>
+             
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">女士征婚价格搜索</label>	
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea name="pay[search_zhu_price]" id="search_zhu_price" class="form-control"
+                                  cols="70">{$settings['search_zhu_price']}</textarea>	
+			 <p>例如： 1-500|500元/月以下,500-1000|500-1000元/月,1000-1500|1000-1500元/月,1500-2000|1500-2000元/月,2000-9999|2000元/月以上</p>
+                    </div>	
+                </div>
+             
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">新房价格搜索</label>	
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea name="pay[search_newhouse_price]" id="search_newhouse_price" class="form-control"
+                                  cols="70">{$settings['search_newhouse_price']}</textarea>	
+			 <p>例如： 1-5000|5000元/㎡以下,5000-6000|5000-6000元/㎡,6000-7000|6000-7000元/㎡,7000-9000|7000-9000元/㎡,9000-99999|9000元/㎡以上</p>
+                    </div>	
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商铺总价搜索</label>	
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea name="pay[search_sp_sou_price]" id="search_sp_sou_price" class="form-control"
+                                  cols="70">{$settings['search_sp_sou_price']}</textarea>	
+			 <p>例如： 1-30|30万以下,30-50|30-50万,50-70|50-70万,70-80|70-80万,80-9999|80万以上</p>
+                    </div>	
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商铺租金搜索</label>	
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea name="pay[search_sp_zhu_price]" id="search_sp_zhu_price" class="form-control"
+                                  cols="70">{$settings['search_sp_zhu_price']}</textarea>	
+			 <p>例如： 1-5000|5000元/㎡以下,5000-6000|5000-6000元/㎡,6000-7000|6000-7000元/㎡,7000-9000|7000-9000元/㎡,9000-99999|9000元/㎡以上</p>
+                    </div>	
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"> 写字楼总价搜索</label>	
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea name="pay[search_xie_sou_price]" id="search_xie_sou_price" class="form-control"
+                                  cols="70">{$settings['search_xie_sou_price']}</textarea>	
+			 <p>例如：  1-30|30万以下,30-50|30-50万,50-70|50-70万,70-80|70-80万,80-9999|80万以上</p>
+                    </div>	
+                </div> 
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"> 写字楼租金搜索</label>	
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea name="pay[search_sp_zhu_price]" id="search_sp_zhu_price" class="form-control"
+                                  cols="70">{$settings['search_sp_zhu_price']}</textarea>	
+			 <p>例如： 1-5000|5000元/㎡以下,5000-6000|5000-6000元/㎡,6000-7000|6000-7000元/㎡,7000-9000|7000-9000元/㎡,9000-99999|9000元/㎡以上</p>
+                    </div>	
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"> 生意转让总价搜索</label>	
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea name="pay[search_syi_sou_price]" id="search_syi_sou_price" class="form-control"
+                                  cols="70">{$settings['search_syi_sou_price']}</textarea>	
+			 <p>例如：  1-30|30万以下,30-50|30-50万,50-70|50-70万,70-80|70-80万,80-9999|80万以上</p>
+                    </div>	
+                </div> 
+                
+	    </div>
+			
+	</div>
+        <div class="panel panel-default">	
+            <div class="panel-heading">	
+                提醒设置		
+            </div>	
+            <div class="panel-body">                
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">模板消息提醒</label>	
+                    <div class="col-sm-9 col-xs-12">
+                        <label class='radio-inline'>
+                            <input type="radio" name="pay[template]" value="1"  {if $settings['template'] == 1} checked="true" {/if} onclick="$('#templateid').show();"> 开启</label>
+                        <label class='radio-inline'><input type="radio" name="pay[template]" value="0" {if $settings['template'] == 0} checked="true" {/if} onclick="$('#templateid').hide();">关闭</label>
+                    </div>	
+                </div>	
+                <div class="form-group" id="templateid" {if !$settings['template']}style="display: none;"{/if}>	
+                  <label class="col-xs-2 col-sm-2 col-md-2 control-label">预约通知：</label>
+                    <div class="col-sm-4 col-xs-4">	
+                        <input type="text" name="pay[adminopenid]" class="form-control"
+                               value="{$settings['adminopenid']}" placeholder="管理员OPENID" />
+                         
+                    </div>
+                	
+                    <div class="col-sm-6 col-xs-6">	
+                        <input type="text" name="pay[templateid]" class="form-control" placeholder="消息模板ID" value="{$settings['templateid']}" />
+                        <span class="help-block">小程序添加模板 IT科技 - 互联网|电子商务 新预约订单通知  </span>	
+                    </div>	
+                </div>
+            </div>
+        </div>	
+        <div class="panel panel-default">
+            <div class="panel-heading">小程序信息</div>	
+            <div class="panel-body">	
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">小程序名称</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="pay[shopname]" class="form-control" value="{$settings['shopname']}" />
+                    </div>
+                </div>	
+          
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">LOGO图片</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_image('logo', $settings['logo'])}	
+                    </div>	
+                </div>	
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">封面图</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_image('banner', $settings['banner'])}	
+                    </div>	
+                </div>	
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">联系电话</label>
+                    <div class="col-sm-4 col-xs-4">	
+                        <input type="text" name="pay[phone]" class="form-control" value="{$settings['phone']}" />
+                    </div>
+                    <div class="col-sm-4 col-xs-4">	
+                        <input type="checkbox" name="pay[isallphone]" {if $settings['isallphone']==1}checked{/if} value="1" />开启所有电话统一此号码
+                    </div>
+                </div>		
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">所在地址</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="pay[address]" class="form-control" value="{$settings['address']}" />
+                    </div>
+                </div>	
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">联系信息</label>
+                    <div class="col-sm-2 col-xs-12">
+                        <input type="text" name="pay[com_tel]" class="form-control" value="{$settings['com_tel']}" placeholder="请填写办公电话"/>
+                    </div>
+                    <div class="col-sm-2 col-xs-12">
+                        <input type="text" name="pay[com_qq]" class="form-control" value="{$settings['com_qq']}" placeholder="请填写办公QQ" />
+                    </div>
+                    <div class="col-sm-2 col-xs-12">
+                        <input type="text" name="pay[com_email]" class="form-control" value="{$settings['com_email']}" placeholder="请填写办邮箱" />
+                    </div>
+                </div>	
+                    <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">版权声明</label>
+                    <div class="col-sm-9 col-xs-12">	
+                        <textarea  name="pay[copyinfo]" class="form-control">{$settings['copyinfo']}</textarea>
+                        <label> 免责申明：楼盘信息来源于政府公示网站，开发商，第三方公众平台，最终以政府部门登记备案为准，请谨慎核查。如楼盘信息有误或其他疑义，您可拨打电话投诉：0733-9988790.</label>
+                    </div>
+                </div>
+                      <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">城市设置</label>
+                    <div class="col-sm-6 col-xs-2">	
+                     <input type="text" name="pay[city_point]" class="form-control" value="{$settings['city_point']}" />
+                     百度地图标注城市中心坐标：例如 110.305277,25.278618
+                    </div>
+                   <!-- <div class="col-sm-3 col-xs-2">	
+                     <input type="text" name="pay[saletotal]" class="form-control" value="{$settings['saletotal']}" />
+                     上周成交 例如：108
+                    </div>-->
+                     <div class="col-sm-3 col-xs-2">	
+                     <input type="text" name="pay[cityname]" class="form-control" value="{$settings['cityname']}" />
+                     城市名称
+                    </div>
+                </div>
+                            <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">房贷计算器</label>
+                    <div class="col-sm-3 col-xs-2">	
+                     <input type="text" name="pay[lilv][gjj]" class="form-control" value="{$settings['lilv']['gjj']}" />
+                     公积金贷款利率
+                    </div>
+                    <div class="col-sm-3 col-xs-2">	
+                     <input type="text" name="pay[lilv][shangye]" class="form-control" value="{$settings['lilv']['shangye']}" />
+                     商业贷款利率
+                    </div>
+                      
+                </div>
+                
+            </div>	
+        </div>	
+         <div class="panel panel-default">
+            <div class="panel-heading">发布设置</div>	
+            <div class="panel-body">	
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">房源手机号</label>
+                    <div class="col-sm-5 col-xs-5">
+                    
+                        <input type="radio" name="pay[system][bindmobile]"  {if $settings['system']['bindmobile']==1}checked{/if} value="1" /> 绑定经济人
+                       
+                        <input type="radio" name="pay[system][bindmobile]" {if $settings['system']['bindmobile']==2}checked{/if}  value="2" />  可修改（未启用）
+                    </div>
+                     
+                </div>	
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">前端发布审核</label>
+                    <div class="col-sm-5 col-xs-5">
+                        <input type="radio" name="pay[system][needcheck]"  {if $settings['system']['needcheck']==1}checked{/if} value="1" /> 需要审核
+                       
+                        <input type="radio" name="pay[system][needcheck]" {if $settings['system']['needcheck']==2}checked{/if}  value="2" />  不需要审核
+                    </div>
+                     
+                </div>	
+            </div>
+         </div>
+        <!--发布权限设置-->
+        <div class="panel panel-default">
+            <div class="panel-heading">发布权限设置</div>	
+            <div class="panel-body">	
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">个人会员</label>
+                    <div class="col-sm-2 col-xs-2">
+                        <input type="text" name="pay[per][send_num]" class="form-control" value="{$settings['per']['send_num']}" />
+                        免费发布数
+                    </div>
+                    <div class="col-sm-3 col-xs-3">
+                        <input type="text" name="pay[per][refresh_num]" class="form-control" value="{$settings['per']['refresh_num']}" />
+                        一条一天免费刷新数
+                    </div>
+                    <div class="col-sm-2 col-xs-2">
+                        <input type="text" name="pay[per][istop_num]" class="form-control" value="{$settings['per']['istop_num']}" />
+                        总置顶数
+                    </div>
+                </div>	
+                 <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">红娘</label>
+                    <div class="col-sm-2 col-xs-2">
+                        <input type="text" name="pay[broker][send_num]" class="form-control" value="{$settings['broker']['send_num']}" />
+                        免费发布数
+                    </div>
+                    <div class="col-sm-3 col-xs-3">
+                        <input type="text" name="pay[broker][refresh_num]" class="form-control" value="{$settings['broker']['refresh_num']}" />
+                        一条一天免费刷新数
+                    </div>
+                    <div class="col-sm-2 col-xs-2">
+                        <input type="text" name="pay[broker][istop_num]" class="form-control" value="{$settings['broker']['istop_num']}" />
+                        总置顶数
+                    </div>
+                </div>	
+                 <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">VIP红娘</label>
+                    <div class="col-sm-2 col-xs-2">
+                        <input type="text" name="pay[broker2][send_num]" class="form-control" value="{$settings['broker2']['send_num']}" />
+                        免费发布数
+                    </div>
+                    <div class="col-sm-3 col-xs-3">
+                        <input type="text" name="pay[broker2][refresh_num]" class="form-control" value="{$settings['broker2']['refresh_num']}" />
+                        一条一天免费刷新数
+                    </div>
+                    <div class="col-sm-2 col-xs-2">
+                        <input type="text" name="pay[broker2][istop_num]" class="form-control" value="{$settings['broker2']['istop_num']}" />
+                        总置顶数
+                    </div>
+                </div>	
+                 <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">充值送积分方式</label>
+                    <div class="col-sm-2 col-xs-4">
+                        <input type="radio" name="pay[credit][bill_method]" {if $settings['credit']['bill_method']==1}checked{/if}  value="1" />
+                        按余额积分比赠送
+                    </div> 
+                    <div class="col-sm-2 col-xs-4">
+                       <input type="radio" name="pay[credit][bill_method]" {if $settings['credit']['bill_method']==2}checked{/if}   value="2" />
+                         按阶梯赠送
+                    </div>   
+                    <div class="col-sm-3 col-xs-4">请配置所选方式参数</div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">余额积分比</label>
+                    <div class="col-sm-4 col-xs-4">
+                        <input type="text" name="pay[credit][bill]" class="form-control" value="{$settings['credit']['bill']}" />
+                        充值1元 奖励* 积分 
+                    </div> 
+                    <div class="col-sm-4 col-xs-4">
+                        <input type="text" name="pay[credit][duihuan]" class="form-control" value="{$settings['credit']['duihuan']}" />
+                         1元余额 = * 积分
+                    </div>   
+                </div>
+             
+                    <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">充值积分 阶梯1</label>
+                    <div class="col-sm-2 col-xs-5">
+                        <input type="text" name="pay[credit][jieti1]" class="form-control" value="{$settings['credit']['jieti1']}" placeholder="*元"/>
+                       充值满*元送*积分
+                    </div>  
+                     <div class="col-sm-2 col-xs-5">
+                        <input type="text" name="pay[credit][jieti1_bill]" class="form-control" value="{$settings['credit']['jieti1_bill']}"  placeholder="*积分"/>
+                       充值满*元送*积分
+                    </div>      
+                    <div class="col-sm-4 col-xs-5"> 例如  充值满20元送200积分，阶梯1 最小</div>
+                </div>
+                    <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">充值积分阶梯2 </label>
+                    <div class="col-sm-2 col-xs-5">
+                        <input type="text" name="pay[credit][jieti2]" class="form-control" value="{$settings['credit']['jieti2']}" placeholder="*元"/>
+                       充值满*元送*积分
+                    </div>  
+                     <div class="col-sm-2 col-xs-5">
+                        <input type="text" name="pay[credit][jieti2_bill]" class="form-control" value="{$settings['credit']['jieti2_bill']}"  placeholder="*积分"/>
+                       充值满*元送*积分
+                    </div>    
+                    <div class="col-sm-4 col-xs-5"> 例如  充值满50元送600积分，阶梯2 中间大</div>
+                </div>
+                      <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">充值积分阶梯3 </label>
+                     <div class="col-sm-2 col-xs-5">
+                        <input type="text" name="pay[credit][jieti3]" class="form-control" value="{$settings['credit']['jieti3']}" placeholder="*元"/>
+                       充值满*元送*积分
+                    </div>  
+                     <div class="col-sm-2 col-xs-5">
+                        <input type="text" name="pay[credit][jieti3_bill]" class="form-control" value="{$settings['credit']['jieti3_bill']}"  placeholder="*积分"/>
+                       充值满*元送*积分
+                    </div>   
+                    <div class="col-sm-4 col-xs-5"> 例如  充值满100元送2000积分，阶梯3 最大</div>
+                </div> 
+                   
+                
+                
+                   <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">红娘vip</label>
+                    <div class="col-sm-5 col-xs-5">
+                        <input type="text" name="pay[credit][open_broker2]" class="form-control" value="{$settings['credit']['open_broker2']}" />
+                        设置 认证红娘VIP 需要余额（元）
+                    </div>  
+                     <div class="col-sm-5 col-xs-5">
+                        <input type="text" name="pay[credit][buygroup_send_credit1]" class="form-control" value="{$settings['credit']['buygroup_send_credit1']}" />
+                        设置 红娘认证赠送积分数
+                    </div>  
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">付费发布余额（元）</label>
+                    <div class="col-sm-2 col-xs-2">
+                        <input type="text" name="pay[credit][send]" class="form-control" value="{$settings['credit']['send']}" />
+                        发布一条房源
+                    </div>  
+                     <div class="col-sm-2 col-xs-2">
+                        <input type="text" name="pay[credit][refresh]" class="form-control" value="{$settings['credit']['refresh']}" />
+                       刷新一次房源
+                    </div>  
+                     <div class="col-sm-2 col-xs-2">
+                        <input type="text" name="pay[credit][istop]" class="form-control" value="{$settings['credit']['istop']}" />
+                        置顶一条房源
+                    </div>  
+                </div>	
+               
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-3 col-md-2 control-label">签到积分</label>
+                    <div class="col-sm-2 col-xs-2">
+                        <input type="text" name="pay[credit][qiandao]" class="form-control" value="{$settings['credit']['qiandao']}" placeholder="每日签到积分数" />
+                        
+                    </div>  
+                     
+                </div>	
+                
+            </div>	
+        </div>
+        
+        <div class="form-group col-sm-12">	
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />	
+            <input type="hidden" name="token" value="{$_W['token']}" />	
+        </div>
+    </form>
+</div>
+<script language='javascript'>
+    require(['jquery', 'util'], function($, u){	
+        $(function(){	
+            u.editor($('.richtext')[0]);
+            u.editor($('#builderinfo')[0]);
+             u.editor($('#flowss')[0]);
+             u.editor($('#helpinfo')[0]);
+             u.editor($('#backtext')[0]);
+             u.editor($('#traffic')[0]);
+        });	
+    });
+ </script>
+  {template 'common/footer'} 

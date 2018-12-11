@@ -1,0 +1,178 @@
+{template 'common/header'}
+
+ <div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading" style="padding-bottom:20px;">
+		    <div class="page-toolbar">
+			<div class="btn-group pull-right">
+					<button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">  操作菜单 
+						<i class="fa fa-angle-down"></i>
+					</button>
+					<ul class="dropdown-menu pull-right" role="menu">
+					       <?php if(is_array($dropmenu) && !empty($dropmenu)){
+                                            foreach($dropmenu as $key => $value){
+                                            ?>
+					 <li>
+                                            <a href="<?php echo $this->createWebUrl("newhouse",array('op'=>$value['op'],'newhouseid'=>$value['hid']));?>">
+                                               <i class="fa <?php echo $value['icon'];?>"></i><?php echo $value['title'];?></a>
+					</li>
+                                        <?php } }?>
+					<li class="divider"> </li>
+					<li>
+						<a href="javascript:window.location.reload();">
+							<i class="icon-refresh"></i>  刷新页面 </a>
+					</li>
+					<li>
+						<a href="<?php echo $this->createWebUrl("newhouse");?>">
+							<i class="icon-refresh"></i>  楼盘列表 </a>
+					</li>
+						 
+					</ul>
+				</div>
+			</div>
+		
+		<?php echo $forumscon3['house_title']?> - 楼盘图片
+		</div>
+		<!--//-->
+		
+		<style>
+.dgray24px{font-size:16px; color:#337ab7}
+.dgray24px a{float:right;}
+</style>
+ 
+<div class="panel-body"> 
+<!--//-->
+
+<div class="row"> 
+<div class='col-md-12'>
+<div class="portlet light bordered">
+	<div class="portlet-title tabbable-line">
+		  
+     <ul id='typeNav' class='nav nav-tabs' >
+	<?php foreach($other['imgoption']  as  $key =>$v){ ?>
+	<li <?php echo ($key==$sid ? 'class="active"':'')?>  data-type='internal' >
+	<a class="addData a-btn" href="<?php echo $this->createWebUrl("newhouse",array('op'=>"housepic","newhouseid"=>$hid,"sid"=>$key))?>" title="<?php echo $v?>"><i class="iconm fa fa-folder"></i> &nbsp;<?php echo $v?></a></li>
+	 <?php }?>
+	</ul> 
+	</div>
+	<div class="portlet-body"> 	
+ 
+	 
+	<!--图片管理列表开始-->
+	<div class="row"> 
+		<?php foreach( $img_type as $key => $value ) {  ?>
+		<div class="col-xs-3 col-md-2">
+		<a href="<?php echo $this->createWebUrl("newhouse",array('op'=>'housepic','sid'=>$sid,'newhouseid'=>$hid))?>" title="<?php echo $value['album_cat_name']?>" />
+	 <img src ="<?php echo tomedia($value['img_url'])?>" style="width:90%;height:116px;" >
+				</a>
+			<div class="file_name">
+			<?php echo $value['album_cat_name']?>(&nbsp;<label style="color:red;"><?php echo $value['album_unit']?></label>&nbsp;)</div>
+			<div style="margin-top:2px;">
+ <a  href="javascript:void(0)" onclick="addtype({ 'id':'<?php echo $value[id]?>','name':'<?php echo $value['album_cat_name']?>' })">重命名</a> |
+ <a href="javascript:void(0);" onclick='javascript:if(confirm("您确定要删除整个文件夹么？删除后文件夹内的文件将都会被删除！"))
+     self.location.href="<?php echo $this->createWebUrl('newhouse', array('op'=>'delpictype','tid'=>$value['id'],'newhouseid'=>$hid))?>";'>删除</a>
+			</div>			
+		</div>
+		<?php } ?>
+		<!--
+		这个是新建相册分类按钮
+		-->
+		<div class="col-xs-3 col-md-2">
+		 <a class="btn btn-default btn-sm btn-outline "  href="<?php echo $this->createWebUrl("newhouse",array('op'=>"addpic","newhouseid"=>$hid,"sid"=>$sid ))?>"> 上传 
+			<?php foreach($other['imgoption']  as  $key =>$v){ ?>
+			<?php if($sid == $key) { echo $v; } ?>
+			<?php } ?>  图片</a>
+		</div>
+</div>
+<form METHOD="POST" name="myform" ACTION="" onsubmit="return false;">
+<div class="row" style="padding-top:20px;">	
+ 	<div class="col-md-12" style="padding-bottom:10px;">
+		<div style="float:right; " class="mulpage">  {$pager}</div>
+	</div>			
+	<div class="col-md-12">
+		
+			<div class="row">
+			<?php foreach($result['data'] as $key =>$val) { 
+			 
+			?>
+<div class="col-md-2">
+         <p> <a href="<?php echo tomedia($val['img_url'])?>" target="_blank">
+         <img style="width:90%; height:116px;" src="<?php echo tomedia($val['img_url'])?>" > </a> </p> 
+        <p> <label><input type="text" class="form-control" name="desc<?php echo $val['id']?>"
+                          value="<?php echo $val['name']?>" onblur="mod(this, {$val['id']} )" /></label>
+         </p>
+        <p><input type="hidden" name="movesid" value="<?php echo $sid?>" />
+         <input type="checkbox" name="ck[]" class="dr_select toggle md-check"
+                value="<?php echo $val['id']?>" /><?php echo ($val['upl_time'])?>
+        <?php if($val['posid']==1) { ?><font style="color:#58C7FC;"> 推1 </font> <?php } ?>
+        <?php if($val['posid']==2) { ?><font style="color:#09A71D;"> 推2 </font><?php } ?>
+        <?php if($val['posid']==3) { ?><font style="color:#58C7FC;"> 推3 </font><?php } ?>
+        </p>
+        <p>
+                <a href="<?php echo trim($val['img_url'])?>" target="_blank">查看</a> 
+                | <a href="<?php echo $this->createWebUrl('newhouse',array('op'=>'deletepic','newhouseid'=>$hid,'sid'=>$sid,'imgid'=>$val['id'],'albumid'=>$val['user_album_id'] ) )?>" title="删除">删除</a>  
+</p>
+</div>
+<?php    } ?>
+				 
+            </div>
+	</div>
+	<div class="col-md-12">
+			<?php if(!empty($result)) { ?>
+ 			<input type="hidden" name="hid" value="<?php echo $hid?>" />
+			<input type="hidden" name="house_title" value="" />
+			<input type="hidden" name="msid" value="<?php echo $sid?>" />
+			&nbsp;<input name="dr_select" class="toggle md-check" id="dr_select" type="checkbox" onClick="dr_selected()" />全选&nbsp;
+			&nbsp;转移选定项到分类
+			<label><select name="hx" id="hx"  class="form-control"><option value="0">其他</option>
+			<?php foreach( $img_type as $key => $value ) { ?>
+			<option value="<?php echo $value['id']?>"><?php echo $value['album_cat_name']?></option>
+			<?php } ?>
+			</select></label>&nbsp;
+			<button class="btn" onclick="if(confirm('您确定转移吗？')){document.myform.action='<?php echo $this->createWebUrl('newhouse',array('op'=>'movepic','newhouseid'=>$hid,'sid'=>$sid))?>';this.form.submit();}" >确定</button>
+			&nbsp;&nbsp;推荐位置：
+			<label><select name="tbsy" onchange="setPos(myform)"  class="form-control">
+			 <option value="-1">请选择</option>
+			 <option value="0"> 无</option>
+			 <option value="1">推荐1</option>
+			 <option value="2">推荐2</option>
+			 <option value="3">推荐3</option>
+			 <option value="4">推荐4</option>
+			</select></label>
+			<div  style="float:right; " class="mulpage">
+			 {$pager}
+			</div>		
+			
+			
+		<?php } ?>
+		
+	 </div>
+	</div>
+ 
+ </FORM>
+			</div>
+		</div>
+	</div>
+</div>
+	<!--图片管理列表结束-->
+
+		<!--//-->
+		
+		</div>
+	</div>
+
+</div>
+<script>
+    var modTempDesc = '';
+    function mod(obj, houseid){
+        modTempDesc = $(obj).val(); 
+        $.ajax({
+            url: "<?php echo $this->createWebUrl('newhouse', array('op'=>'modifyname'));?>",
+            type:"post",
+            data:{houseid: houseid, name: modTempDesc},
+            success: function(ret){ console.log(ret) }
+        })
+        
+    }
+    </script>
+{template 'common/footer'} 

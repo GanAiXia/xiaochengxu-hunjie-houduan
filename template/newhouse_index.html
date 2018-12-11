@@ -1,0 +1,239 @@
+{template 'common/header'}
+
+ <div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading" style="padding-bottom:20px;">
+		    <div class="page-toolbar">
+			<div class="btn-group pull-right">
+					<button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">  操作菜单 
+						<i class="fa fa-angle-down"></i>
+					</button>
+					<ul class="dropdown-menu pull-right" role="menu">
+					       <?php if(is_array($dropmenu) && !empty($dropmenu)){
+                                            foreach($dropmenu as $key => $value){
+                                            ?>
+					 <li>
+                                            <a href="<?php echo $this->createWebUrl("newhouse",array('op'=>$value['op'],'newhouseid'=>$value['hid']));?>">
+                                               <i class="fa <?php echo $value['icon'];?>"></i><?php echo $value['title'];?></a>
+					</li>
+                                        <?php } }?>
+					<li class="divider"> </li>
+					<li>
+						<a href="javascript:window.location.reload();">
+							<i class="icon-refresh"></i>  刷新页面 </a>
+					</li>
+					<li>
+						<a href="<?php echo $this->createWebUrl("newhouse");?>">
+							<i class="icon-refresh"></i>  楼盘列表 </a>
+					</li> 
+					</ul>
+				</div>
+			</div>
+		
+		<?php echo $forumscon3['house_title']?>-楼盘主页
+		</div>
+		<!--//-->
+		
+		<style>
+.dgray24px{font-size:16px; color:#337ab7}
+.dgray24px a{float:right;}
+</style>
+ 
+<div class="panel-body">
+ 
+    <div class="leftbar">
+        <h2 class="dgray24px">
+		<a href="<?php echo $this->createWebUrl("newhouse",array('op'=>"baseinfo",'newhouseid'=>$forumscon3['newshouse_id'],"page"=>2));?>" ><i class="fa fa-edit"></i>编辑</a>
+		<i class="fa fa-globe fa-fw"></i>项目信息</h2>
+        <table class="table table-form mb30" width="100%">
+            <tbody><tr>
+                <th>行政区域</th>
+                <td> 
+				<?php foreach($areas_info[1] as $v) {
+					 if($v['id'] == $shopinfo['shop_province']){?>
+						 <?php echo  $v['area_name'];?> 
+				 <?php 	} }?>
+			<?php foreach($areas_info[2] as $v) {
+						if($v['id'] == $shopinfo['shop_city']){?>
+					 <?php echo  $v['area_name'];?> 
+				<?php 	} }?>
+				<?php foreach($areas_info[3] as $v) {
+						if($v['id'] == $shopinfo['shop_district']){?>
+				 <?php echo  $v['area_name'];?> 
+				<?php 	} }?>	
+			<?php foreach($areas_info[4] as $v) {
+						if($v['id'] == $shopinfo['shop_bcircle']){?>
+				 <?php echo  $v['area_name'];?> 
+				<?php 	} }?>				
+				</td>
+                <th>项目位置</th>
+                <td><?php echo $forumscon3['house_address'] ? $forumscon3['house_address']:'--'?> </td>
+            </tr>
+            <tr>
+                <th>景观规划</th>
+                <td><?php echo $forumscon3['house_design_corp'] ? $forumscon3['house_design_corp']:'--'?></td>
+                <th>建筑公司</th>
+                <td><?php echo $forumscon3['house_constructor'] ? $forumscon3['house_constructor']:'--'?></td>
+            </tr>
+            <tr>
+                <th>代理商/顾问公司</th>
+                <td><?php echo $forumscon3['house_sale_company'] ? $forumscon3['house_sale_company']:'--'?></td>
+                <th>开发商</th>
+                <td><?php echo $forumscon3['house_developer'] ? $forumscon3['house_developer']:'--'?></td>
+            </tr>
+            <tr>
+                <th>设计公司</th>
+                <td><?php echo $forumscon3['house_design_company'] ? $forumscon3['house_design_company']:'--'?></td>
+                <th>投资商</th>
+                <td><?php echo $forumscon3['house_touzi'] ? $forumscon3['house_touzi']:'--'?></td>
+            </tr>
+            <tr>
+                <th>建筑类别</th>
+                <td><?php echo $forumscon3['house_type'] ? $forumscon3['house_type']:'--'?> </td>
+                <th>建筑设计风格</th>
+                <td><?php echo $forumscon3['house_design_type'] ? $forumscon3['house_design_type']:'--'?></td>
+            </tr>
+        </tbody></table>
+    </div>
+    <div class="leftbar">
+        <h2 class="dgray24px">
+		<a href="<?php echo $this->createWebUrl("newhouse",array('op'=>"baseinfo",'newhouseid'=>$forumscon3['newshouse_id'],"page"=>0));?>" ><i class="fa fa-edit"></i>编辑</a>
+		<i class="fa fa-cog fa-fw"></i>基本信息 </h2>
+        <table class="table table-form mb30" width="100%">
+            <tbody><tr>
+                <th>配套环境</th>
+                <td colspan="3">
+                     <?php echo $forumscon3['house_peripheral']?>  </td>
+            </tr>            <tr>
+                <th>房产证归属</th>
+                <td colspan="3"> --</td>
+            </tr>
+            <tr>
+                <th>产权年限</th>
+                <td><?php echo $forumscon3['house_usetime'] ? $forumscon3['house_usetime']:'--'?>
+				 <a href="#" target="_blank" class="toolTip tp1">[产权年限详情]</a></td>
+                <th>公摊</th>
+                <td><?php echo $forumscon3['house_public_area'] ? $forumscon3['house_public_area']:'--'?>
+				 <a href="#" target="_blank" class="toolTip tp2">[公摊详情]</a></td>
+            </tr>
+            <tr>
+                <th>容积率</th>
+                <td><?php echo $forumscon3['house_capacity'] ? $forumscon3['house_capacity']:'--'?><a href="#" target="_blank" class="toolTip tp3">[容积率详情]</a></td>
+                <th>绿化率</th>
+                <td><?php echo $forumscon3['house_green'] ? $forumscon3['house_green']:'--'?> 
+				 <a href="#" target="_blank" class="toolTip tp4">[绿化率详情]</a></td>
+            </tr>
+            <tr>
+                <th>占地面积</th>
+                <td><?php echo $forumscon3['house_totalarea'] ? $forumscon3['house_totalarea']:'--'?>  ㎡</td>
+                <th>建筑面积</th>
+                <td><?php echo $forumscon3['house_builtuparea'] ? $forumscon3['house_builtuparea']:'--'?>  ㎡</td>
+            </tr>
+            <tr>
+                <th>规划户数</th>
+                <td><?php echo $forumscon3['house_roomcount'] ? $forumscon3['house_roomcount']:'--'?> </td>
+                <th>车位</th>
+                <td><?php echo $forumscon3['house_parking'] ? $forumscon3['house_parking']:'--'?> </td>
+            </tr>
+            <tr>
+                <th>供应资源</th>
+                <td><?php echo $forumscon3['house_prowedt'] ? $forumscon3['house_prowedt']:'--'?> </td>
+                <th>装修标准</th>
+                <td><?php echo $forumscon3['house_fitment'] ? $forumscon3['house_fitment']:'--'?> </td>
+            </tr>
+            <tr>
+                <th>物业公司</th>
+                <td><?php echo $forumscon3['house_property'] ? $forumscon3['house_property']:'--'?> </td>
+                <th>物业费</th>
+                <td><?php echo $forumscon3['house_propertyprice'] ? $forumscon3['house_propertyprice']:'--'?> </td>
+            </tr>
+        </tbody></table>
+    </div>
+    <div class="leftbar">
+        <h2 class="dgray24px">
+		<a href="<?php echo $this->createWebUrl("newhouse",array('op'=>"baseinfo",'newhouseid'=>$forumscon3['newshouse_id'],"page"=>3));?>" ><i class="fa fa-edit"></i>编辑</a>
+		<i class="fa fa-flag fa-fw"></i> 销售信息 </h2>
+        <table class="table mb30" width="100%">
+            <tbody><tr>
+                <th>售楼电话</th>
+                <td> <?php echo $forumscon3['house_selltelephone'] ? $forumscon3['house_selltelephone']:'--'?></td>
+                <th>接待时间</th>
+                <td><?php echo $forumscon3['house_worktime'] ? $forumscon3['house_worktime']:'--'?></td>
+            </tr>
+            <tr>
+                <th>售楼地址</th>
+                <td colspan="3"><?php echo $forumscon3['house_saleaddress'] ? $forumscon3['house_saleaddress']:'--'?></td>
+            </tr>
+            <tr>
+                <th>付款方式</th>
+                <td colspan="3"><?php echo $forumscon3['house_paymethod'] ? $forumscon3['house_paymethod']:'--'?></td>
+            </tr>
+            <tr>
+                <th>贷款银行</th>
+                <td colspan="3"><?php echo $forumscon3['house_bank'] ? $forumscon3['house_bank']:'--'?></td>
+            </tr>
+            <tr>
+                <th>开盘交房</th>
+                <td colspan="3"> -- </td>
+            </tr>
+            <tr>
+                <th>销售动态</th>
+                <td colspan="3">-- </td>
+            </tr>
+        </tbody></table>
+    </div>
+    <div class="leftbar">
+        <h2 class="dgray24px">
+		<a href="<?php echo $this->createWebUrl("newhouse",array('op'=>"baseinfo",'newhouseid'=>$forumscon3['newshouse_id'],"page"=>4));?>" ><i class="fa fa-edit"></i>编辑</a>
+		<i class="fa fa-compass"></i> 配套信息 </h2>
+        <table class="table table-form mb30" width="100%">
+            <tbody><tr>
+                <th>商场</th>
+                <td><?php echo $forumscon3['house_zb_shop'] ? $forumscon3['house_zb_shop']:'--'?></td>
+            </tr>
+            <tr>
+                <th>幼儿园</th>
+                <td><?php echo $forumscon3['house_zb_youeryuan'] ? $forumscon3['house_zb_youeryuan']:'--'?></td>
+            </tr>
+            <tr>
+                <th>医院</th>
+                <td><?php echo $forumscon3['house_zb_yiyuan'] ? $forumscon3['house_zb_yiyuan']:'--'?></td>
+            </tr>
+            <tr>
+                <th>初中</th>
+                <td><span><?php echo $forumscon3['house_zb_chuzhong'] ? $forumscon3['house_zb_chuzhong']:'--'?></span></td>
+            </tr>
+            <tr>
+                <th>小学</th>
+                <td><span><?php echo $forumscon3['house_zb_xiaoxue'] ? $forumscon3['house_zb_xiaoxue']:'--'?></span></td>
+            </tr>            <tr>
+                <th>交通状况</th>
+                <td><span><?php echo $forumscon3['house_traffic'] ? $forumscon3['house_traffic']:'--'?></span></td>
+            </tr>
+            <tr>
+                <th>银行</th>
+                <td> <?php echo $forumscon3['house_zb_bank'] ? $forumscon3['house_zb_bank']:'--'?> </td>
+            </tr>
+        </tbody></table>
+    </div>
+    <div class="leftbar">
+        <h2 class="dgray24px">
+		<a href="<?php echo $this->createWebUrl("newhouse",array('op'=>"baseinfo",'newhouseid'=>$forumscon3['newshouse_id'],"page"=>2));?>" ><i class="fa fa-edit"></i>编辑</a>
+		<i class="fa  fa-anchor"></i> 项目简介 </h2>
+        <table class="table table-form mb30" width="100%">
+            <tbody><tr>
+                <th>项目简介</th>
+                <td><?php echo $forumscon3['house_introduce'] ? $forumscon3['house_introduce']:'--'?> </td>
+            </tr>
+        </tbody></table>
+    </div>
+</div>
+		
+		<!--//-->
+		
+		</div>
+	</div>
+
+</div>
+
+{template 'common/footer'} 

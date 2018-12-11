@@ -1,0 +1,162 @@
+{template 'common/header'}
+{template 'common'}
+<script type="text/javascript" src="resource/js/lib/jquery-ui-1.10.3.min.js"></script>
+<ul class="nav nav-tabs">
+	<li {if $ftype=='newshopfav'}class="active"{/if}>
+            <a href="{php echo $this->createWebUrl('feed', array('ftype' => 'newshopfav'))}">新房收藏</a></li>
+        <li {if $ftype=='fav'}class="active"{/if}>
+            <a href="{php echo $this->createWebUrl('feed', array('ftype' => 'fav'))}">男士征婚收藏</a></li>
+	<li  {if $ftype=='view'}class="active"{/if}>
+            <a href="{php echo $this->createWebUrl('feed', array('ftype' => 'view'))}">浏览历史</a></li>
+       <li {if $ftype=='feed'}class="active"{/if}>
+           <a href="{php echo $this->createWebUrl('feed', array('ftype' => 'feed'))}">预约</a></li>
+        <li {if $ftype=='weituo'}class="active"{/if}>
+           <a href="{php echo $this->createWebUrl('feed', array('ftype' => 'weituo'))}">在线委托</a></li>
+        <li {if $ftype=='report'}class="active"{/if}>
+           <a href="{php echo $this->createWebUrl('feed', array('ftype' => 'report'))}">举报</a></li>
+         <li {if $ftype=='comment'}class="active"{/if}>
+           <a href="{php echo $this->createWebUrl('feed', array('ftype' => 'comment'))}">留言</a></li>
+</ul>
+<div class="main">
+	<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form action="./index.php" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="wdl_weihouse" />
+			<input type="hidden" name="do" value="feed" />
+			<input type="hidden" name="op" value="display" />
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关键字</label>
+
+				<div class="col-xs-12 col-sm-6 col-lg-6">
+
+					<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+
+				</div>
+                                <div class="col-xs-12 col-sm-2 col-lg-2">
+
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+
+				</div>
+
+			</div> 
+
+			<div class="form-group">
+
+			</div>
+		</form>
+	</div>
+</div>
+<style>
+.label{cursor:pointer;}
+.table>tbody>tr>td{ padding:5px 2px;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+                                    <th style="width:5%;">ID</th>
+					<th style="width:45%;">房源标题</th>
+					<th >类型</th>		 
+				 	<th >数量 </th>
+					<th >访问信息</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+					<td>
+                                            <p>                      
+					  {$item['title']}
+                                            </p>
+                                            <p>{$item['smalltext']}</p>
+					</td>
+					<td>
+					{if $item['acttype']=='feed'}预约{/if}	 
+                                        {if $item['acttype']=='view'}浏览{/if}	
+                                        {if $item['acttype']=='newshopfav'}收藏{/if}	
+                                        {if $item['acttype']=='fav'}收藏{/if}
+					</td>
+   
+					<td>
+                                             {php echo max(1,$item['hits'])}次
+					</td>
+
+					<td style="text-align:right;">
+                                           {if $item['nickname']}{$item['nickname']} 
+                                           {else} --{/if}
+                                             <p>时间:{php echo date('Y-m-d H:i:s',$item['addtime'])}</p>
+                                         
+                                            <p style="text-align: right">
+                                                
+                                                <a href="{php echo $this->createWebUrl('feed', array('id' => $item['id'] ,'ftype'=> $item['acttype']))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;" class="btn btn-default btn-sm" title="删除"><i class="fa fa-times"></i></a>
+                                            </p>
+					</td>
+
+				</tr>
+
+				{/loop}
+
+			</tbody>
+
+		</table>
+
+		{$pager}
+
+	</div>
+
+	</div>
+
+</div>
+
+<script type="text/javascript">
+ 
+	function setProperty(obj,id,type){
+
+		$(obj).html($(obj).html() + "...");
+
+		$.post("{php echo $this->createWebUrl('houselist',array('op'=>'setproperty'))}"
+
+			,{id:id,type:type, data: obj.getAttribute("data")}
+
+			,function(d){
+
+				$(obj).html($(obj).html().replace("...",""));
+
+				if(type=='isdelete'){
+
+				 $(obj).html( d.data=='1'?'删除':'');
+
+				}
+
+				if(type=='isonline'){
+
+				 $(obj).html( d.data=='1'?'上架':'下架');
+
+				}
+
+				$(obj).attr("data",d.data);
+
+				if(d.result==1){
+
+					$(obj).toggleClass("label-info");
+
+				}
+
+			}
+
+			,"json"
+
+		);
+
+	}
+
+
+
+</script>
+
+{template 'common/footer'}

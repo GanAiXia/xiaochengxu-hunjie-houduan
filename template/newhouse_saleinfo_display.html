@@ -1,0 +1,124 @@
+{template 'common/header'}
+
+ <div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading" style="padding-bottom:20px;">
+		    <div class="page-toolbar">
+			<div class="btn-group pull-right">
+					<button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">  操作菜单 
+						<i class="fa fa-angle-down"></i>
+					</button>
+					<ul class="dropdown-menu pull-right" role="menu">
+					       <?php if(is_array($dropmenu) && !empty($dropmenu)){
+                                            foreach($dropmenu as $key => $value){
+                                            ?>
+					 <li>
+                                            <a href="<?php echo $this->createWebUrl("newhouse",array('op'=>$value['op'],'newhouseid'=>$value['hid']));?>">
+                                               <i class="fa <?php echo $value['icon'];?>"></i><?php echo $value['title'];?></a>
+					</li>
+                                        <?php } }?>
+					  
+					<li class="divider"> </li>
+					<li>
+						<a href="javascript:window.location.reload();">
+							<i class="icon-refresh"></i>  刷新页面 </a>
+					</li>
+					<li>
+						<a href="<?php echo $this->createWebUrl("newhouse");?>">
+							<i class="icon-refresh"></i>  楼盘列表 </a>
+					</li>
+						 
+					</ul>
+				</div>
+			</div>
+		
+		<?php echo $forumscon3['house_title']?> - 销售动态
+		</div>
+		<!--//-->
+		
+		<style>
+.dgray24px{font-size:16px; color:#337ab7}
+.dgray24px a{float:right;}
+.we7-form .form-group, form .form-group {
+    margin-bottom: 5px;
+}
+</style>
+ 
+<div class="panel-body"> 
+<!--//-->
+
+<div class="row"> 
+<div class='col-md-12'>
+<div class="portlet light bordered">
+ 
+	<div class="portlet-body"> 	
+  <div class="row">
+       <a style="margin-right:20px;" href="{php echo $this->createWebUrl('newhouse', array('newhouseid'=>$hid, 'op' => 'addsaleinfo'))}"
+          class="btn btn-primary pull-right">添加销售动态</a>
+     
+  </div>
+<form METHOD="POST" name="myform" ACTION="" >
+ 	
+	<div class="col-md-12">
+		
+	   <div class="row">
+                    <table class="table table-hover">
+			<thead class="navbar-inner"> 
+				<tr>
+                                <th style="width:10%;">时间</th>
+                                <th style="width:10%;">类型</th>		 
+                                <th style="width:30%;">标题 </th>
+                                <th style="width:30%;"> 内容 </th>                                 
+                                <th style="text-align:right; width:10%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $result['data'] $item}
+				<tr>
+					<td>{php echo date('Y-m-d', strtotime($item['addtime']) )} </td>
+					<td> {$other['saletype'][$item['tags']]}</td>
+					<td>
+                                         <p>{$item['title']} </p>
+                                        </td>
+   
+					<td> {$item['newstext']} </td>
+                                       
+					<td style="text-align:right;">
+                                            
+                                            <a href="{php echo $this->createWebUrl('newhouse', array('id' => $item['id'],'newhouseid'=>$hid, 'op' => 'addsaleinfo'))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="编辑">
+                    <i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
+
+                    <a href="{php echo $this->createWebUrl('newhouse', array('id' => $item['id'], 'newhouseid'=>$hid,'op' => 'saleinfo','enews'=>'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除">
+                    <i class="fa fa-times"></i></a>
+
+					   
+					</td>
+
+				</tr>
+
+				{/loop}
+
+			</tbody>
+
+		</table>
+			</div>
+            <div  style="float:right; " class="mulpage">
+             {$pager}
+            </div> 
+	</div>
+ 
+ </FORM>
+			</div>
+		</div>
+	</div>
+</div>
+	<!--图片管理列表结束-->
+
+		<!--//-->
+		
+		</div>
+	</div>
+
+</div>
+
+{template 'common/footer'} 

@@ -1,0 +1,90 @@
+<form enctype="multipart/form-data" onsubmit="return check_form(this)"
+ name="form_shop_request" method="post" action="{php echo $this->createWebUrl('enset', array('op'=>$operation))}" class="form-horizontal">
+ 
+    <table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+                                     
+					<th style="width:25%;">图片( 文字)</th>
+					<th style="width:40%;">链接</th>		 
+				 	<th style="width:20%;">APPID</th>	
+					<th style="text-align:right; width:20%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $medias $item}
+				<tr>
+					 
+                                    <td> 
+                                        {if $item['image']}<p><img src="{php echo tomedia($item['image'])}" width="200" height="90"/> </p>{/if}
+                                       {if $item['txtname']}<p> {$item['txtname']}</p>{/if}
+                                    </td>
+					<td>
+					<p>	{$item['url']} {$item['unitid']}</p>
+					</td>
+   
+					<td>
+                                       {$item['appid']} 
+					</td>
+
+					<td style="text-align:right;">
+                            <a href="{php echo $this->createWebUrl('enset', array('iid' => $item['id'], 'op' => 'editaddata'))}"
+                              class="btn btn-default btn-sm" >编辑 </a>
+			 <a href="{php echo $this->createWebUrl('enset', array('id' => $item['id'], 'op' => 'deladdata'))}"
+                             onclick="return confirm('此操作不可恢复，确认删除？');return false;" 
+                            class="btn btn-default btn-sm" >删除 </a>
+
+					</td>
+
+				</tr>
+
+				{/loop}
+
+			</tbody>
+
+		</table>
+    
+    
+    <table class='table table-form '>
+      
+        <tr>
+            <?php 
+                $fields = $place['formfield'];
+                foreach($fields as $key => $f){ 
+                
+                    $value = $place['addata'][$key];
+                    ?>
+        <tr>
+                <th width="100"> {$f['label']}</th>
+                <td colspan="3">
+                 <?php if($f['type']=='thumb') {?>
+                {php echo tpl_form_field_image("data[$key]", $value, '', array('extras' => array('text' => 'readonly')))}
+                 <?php }?>    
+                    
+                 <?php if($f['type']=='text') {?>
+                 <input type="text" name="data[{$key}]" id="{$key}" placeholder="{$f['placeholder']}" class="form-control" value="{$value}" />
+                 <?php }?>
+                <?php if($f['type']=='radio') { 
+                
+                echo form_element::radio($f['options'],"data[$key]", $key , $value);
+ 
+                }?>
+                </td>
+        </tr>
+            <?php }?>
+            
+        </tr>
+        <tr>
+            <th width="100"> </th>
+            <td><a class="btn" href="{php echo $this->createWebUrl('enset', array('op'=>'adplace'))}">返回</a></td>
+            <td>
+                 <input type="hidden" name="iid" value="{$iid}" />
+                <input type="hidden" name="id" value="{$position}" />
+              <input type="hidden" name="token" value="{$_W['token']}" />
+              <input  type="submit" name="submit" class="btn green" value="提交保存">    
+                
+            </td>
+            <td></td>
+        </tr>
+    </table>
+</form>

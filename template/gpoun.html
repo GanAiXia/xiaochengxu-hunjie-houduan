@@ -1,0 +1,285 @@
+{template 'common/header'}
+{template 'common'}
+<ul class="nav nav-tabs">
+    {if $operation == 'house'}
+     <li class="active" >
+         <a href="{php echo $this->createWebUrl('gpoun', array('op' => 'house','newhouse_id'=>$newhouse_id))}"> 相亲活动 </a></li>
+    {/if}
+    <li {if $operation == 'post'}class="active"{/if}>
+    <a href="{php echo $this->createWebUrl('gpoun', array('op' => 'post'))}"> 新建发布 </a></li>	
+    <li {if $operation == 'display'}class="active"{/if}>
+    <a href="{php echo $this->createWebUrl('gpoun', array('op' => 'display'))}"> 管理列表 </a></li>
+    
+    <li {if $operation == 'agent'}class="active"{/if}>
+    <a href="{php echo $this->createWebUrl('gpoun', array('op' => 'agent'))}"> 报名列表 </a></li> 
+</ul>
+<script>
+    require(['bootstrap'],function($){	
+        $('.btn').hover(function(){	
+            $(this).tooltip('show');	
+        },function(){	
+            $(this).tooltip('hide');	
+        });	
+    });
+</script>
+
+{if $operation == 'post'}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+        <div class="panel panel-default">
+            <div class="panel-heading">  添加相亲活动	 </div>	
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">活动名称：</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="data[title]" class="form-control" value="{$info['title']}" />
+                    </div>
+                </div>
+           	
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">集合时间：</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="data[gpoun_time]" class="form-control" value="{$info['gpoun_time']}" />
+                    </div>
+                </div>	
+                  <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">集合地址：</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="data[gpoun_address]" class="form-control" placeholder="" value="{$info['gpoun_address']}" />
+                    </div>
+                </div>
+        
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">封面图</label>
+                    <div class="col-sm-9 col-xs-12">	
+                        {php echo tpl_form_field_image('thumb', $info['thumb'])}
+                    </div>	
+                </div>		
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"> 活动详情</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_ueditor('newstext', $info['newstext']);}
+                    </div>	
+                </div>	
+         
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否显示</label>
+                    <div class="col-sm-9 col-xs-12">	
+                        <?=form_element::radio($selects['disabled'],'data[disabled]','disabled',(($info[disabled]==0)? 0:1))?>
+                    </div>	
+                </div>
+                      <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">报名人数：</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input type="text" name="data[gpoun_num]" class="form-control" placeholder="" value="{$info['gpoun_num']}" />
+                    </div>
+                </div>
+                
+            </div>	
+        </div>	
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />	
+            <input type="hidden" name="token" value="{$_W['token']}" />	
+        </div>
+    </form>
+</div>
+<!--添加相亲团关联楼盘-->
+{elseif $operation =='house'}
+<div class="main">
+
+        <div class="panel panel-default">             
+            <div class="panel-body">
+                 <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">输入征婚人名称：</label>
+                    <div class="col-sm-4 col-xs-12">
+                        <input type="text" name="keyword" class="form-control" value="{$keyword}" />
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <input type="submit" name="submit" value="搜索" class="btn btn-primary " />	
+                        <input type="hidden" name="token" value="{$_W['token']}" />	
+                    </div>
+                </div>
+                </form>   
+                
+                  <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-2 col-md-12 ">
+                    <label class="control-label" style="text-align:left;">
+                        未选择的对象(勾选，添加)</label></div>
+                    <div class="col-sm-12 col-xs-12">
+                        {loop $houselist $row}
+                        <span style="display:inline-block">
+                            <input type="checkbox" name="addhouse[]" value="{$row['newshouse_id']}"/>{$row['house_title']}
+                        </span>
+                        {/loop}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-2 col-md-12 ">
+                    <label class=" control-label" style="text-align:left;">已经选择的对象（勾选，移除）</label>
+                    </div>
+                    <div class="col-sm-12 col-xs-12">
+                        {loop $hashouse $row}
+                        <span style="display:inline-block">
+                            <input type="checkbox" name="delids[]" value="{$row['newshouse_id']}"/>{$row['house_title']}
+                        </span>
+                        {/loop}
+                    </div>
+                </div>
+                      
+                <div class="form-group">
+                 <div class="col-sm-4 col-xs-12">
+                        <input type="submit" name="savehouse" value="保 存" class="btn btn-primary " />	
+                        	
+                 </div>
+                </div>
+                      
+               </form>   
+                
+            </div>
+       </div>
+  
+</div> 
+
+
+{elseif $operation == 'display'}
+<div class="main">
+    <div class="category">
+        <form action="" method="post" onsubmit="return formcheck(this)">
+            <div class="panel panel-default">	
+                <div class="panel-body table-responsive">
+                    <table class="table table-hover">
+                        <thead class="navbar-inner">
+                            <tr>
+                                 <!--<th style="width:10px;"></th>-->	
+                                <th style="width:50px;">顺序</th>
+                                <th style="width:300px;">活动标题</th>
+                                <th style="">相亲活动</th>
+                                <th style="">状态</th>
+                                <th style="">操作</th>
+                            </tr>	
+                        </thead>
+                        <tbody>	
+                            {if $list}	
+                            {loop $list $row}
+                            <tr>
+                                 
+                                <td><input type="text" size="4" class="form-control"  name="displayorder[{$row['id']}]" value="{$row['orderid']}"></td>
+                                <td>							
+                                    <img src="{php echo tomedia($row['thumb']);}" width='60' height="60" onerror="$(this).remove()"  
+                                         style='padding:1px;border: 1px solid #ccc;float:left;margin-right:5px;' />
+                                    <div class="type-parent" style="padding-left:10px;">
+                                        <p>{$row['title']} </p>
+                                        <p style="color:#999">集合：{$row['gpoun_time']} </br>  地址：{$row['gpoun_address']}</p> 	
+                                    </div>
+                                </td>
+                                <td>
+                                    <p>{$row['smalltext']}</p>
+                                    <p><a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('gpoun', array('op' => 'house', 'id'=>$row['id']))}">添加</a></p>
+                                </td>
+                                <td>	
+                                    {if $row['disabled']==1}
+                                    <span class='label label-success'>隐藏</span>
+                                    {else}	
+                                    <span class='label label-danger'>显示</span>	
+                                    {/if}	
+                                </td>	
+                                <td>	
+                                    <a href="{php echo $this->createWebUrl('gpoun', array('op' => 'post', 'id' => $row['id']))}"
+                                       class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="编辑">
+                                        <i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+                                        <a href="{php echo $this->createWebUrl('gpoun', array('op' => 'delete', 'id' => $row['id']))}"
+                                           onclick="return confirm('确认删除此分类吗？');return false;" class="btn btn-default btn-sm"
+                                           data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>	
+                            {/loop}
+                            {else}
+                            <tr>
+                                <td colspan="5">
+                                    <a href="{php echo $this->createWebUrl('gpoun', array('op' => 'post'))}">
+                                        <i class="fa fa-plus-sign-alt"></i> 添加活动</a>
+                                </td>			
+                            </tr>	
+                            {/if}	
+                            <tr>
+                                <td colspan="5">
+                                    <input name="submit" type="submit" class="btn btn-primary" value="提交">
+                                    <input type="hidden" name="token" value="{$_W['token']}" />	
+                                </td>		
+                            </tr>	
+                        </tbody>	
+                    </table>	
+                </div>		
+            </div>	
+        </form>	
+    </div>
+    {$pager}
+</div>
+
+<!--报名 结果-->
+{elseif $operation == 'agent'}
+<div class="main">
+    <div class="category">
+        <form action="" method="post" onsubmit="return formcheck(this)">
+            <div class="panel panel-default">	
+                <div class="panel-body table-responsive">
+                    <table class="table table-hover">
+                       <thead class="navbar-inner">
+				<tr>
+                                    <th style="width:5%;">ID</th>
+					<th style="width:45%;">活动标题</th>
+					<th >类型</th>		 
+				 	<th >数量 </th>
+					<th >访问信息</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['id']}</td>
+					<td>
+                                            <a target="_blank" href="{php echo $this->createWebUrl('house', array('id' => $item['houseid'], 'op' => 'display'))}" >                       
+					  {$item['title']}
+                                            </a>
+                                            <p>{$item['smalltext']}</p>                                           
+                                              {if $item['last_time']} <p>最后浏览：{php echo date('Y-m-d H:i:s',$item['last_time'])}</p>{/if}
+					</td>
+					<td>
+					{if $item['ftype']==8}相亲团{/if}	 
+                                        
+					</td>
+   
+					<td>
+                                             {php echo max(1,$item['hits'])}次
+					</td>
+
+					<td style="text-align:right;">
+                                            {if $item['nickname']}{$item['nickname']} 
+                                           {else} --{/if}
+                                             <p>时间:{php echo date('Y-m-d H:i:s',$item['addtime'])}</p>
+                                         
+                                           
+					</td>
+
+				</tr>
+
+				{/loop}
+
+			</tbody>
+
+		</table>
+                </div>		
+            </div>	
+        </form>	
+    </div>
+    {$pager}
+</div>
+ 
+
+{/if}
+        
+{template 'common/footer'} 
+        

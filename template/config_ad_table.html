@@ -1,0 +1,93 @@
+ <table class='table table-form '>
+      <tr>
+                <th width="100">数据统计：
+                 </th>
+                <td colspan="3">
+               <span style="width:20%;display:inline-block;margin-right:10px;">
+                 <input placeholder="访问量基数" name="confmenu[index_totalinfo_visit]" type="text" class="form-control " value="{$confmenu['index_totalinfo_visit']}"/>
+                 </span>
+                  <span style="width:20%;display:inline-block; margin-right:10px;">
+                   <input placeholder="单身人数" name="confmenu[index_totalinfo_num]" type="text" class="form-control " value="{$confmenu['index_totalinfo_num']}"/>
+                  </span> 
+                 <span style="width:50%;display:inline-block;margin-right:10px;">    
+                <input type="checkbox" name="confmenu[totalinfo]" {if $confmenu['totalinfo']==1}checked{/if} value="1"/>不显示此版块（包括签到）</span>
+                    </span>
+                </td>
+        </tr>
+      <tr>
+                <th width="100"> 房价统计：</th>
+                <td colspan="3">
+                 <table class='table table-form '>
+                        <tr>
+                            
+                            <td width="250">新房价格</td>
+                             <td width="250">男士征婚价格</td>
+                            
+                        </tr>
+                         
+                        <tr>                           
+                            <td width="250"><input placeholder="新房均价" name="indexprice[newhouse][price]" type="text" class="form-control param_value" value="{$indexprice['newhouse']['price']}"/></td>
+                             <td width="250"><input placeholder="男士征婚均价" name="indexprice[sechouse][price]" type="text" class="form-control param_value" value="{$indexprice['sechouse']['price']}"/></td>
+                         </tr>
+                     <tr>                           
+                            <td width="250"><input placeholder="新房上周套数" name="indexprice[newhouse][total]" type="text" class="form-control param_value" value="{$indexprice['newhouse']['total']}"/></td>
+                             <td width="250"><input placeholder="男士征婚上周套数" name="indexprice[sechouse][total]" type="text" class="form-control param_value" value="{$indexprice['sechouse']['total']}"/></td>
+                         </tr>  
+                    </table>
+                    <table class='table table-form '>
+                        <tr>
+                            <td>
+                              <input type="checkbox" name="confmenu[index_searchbar]" {if $confmenu['index_searchbar']==1}checked{/if} value="1"/>启用首页搜索  
+                            </td>
+                            <td>
+                              <input type="checkbox" name="confmenu[index_tongji]" {if $confmenu['index_tongji']==1}checked{/if} value="1"/>启用首页数据统计 
+                            </td>
+                        </tr>
+                      <tr>
+                            <td colspan="2">
+                              <span style="width:20%;display:inline-block;margin-right:10px;"> 顶部搜索条设置:  </span>
+                                <span style="width:20%;display:inline-block;margin-right:10px;">
+                            <input placeholder="搜索名称" name="confmenu[index_searchbar_txt]" type="text" class="form-control " value="{$confmenu['index_searchbar_txt']}"/>
+                                </span><span style="width:20%;display:inline-block; margin-right:10px;">
+                                <input placeholder="搜索框提示" name="confmenu[index_search_place]" type="text" class="form-control " value="{$confmenu['index_search_place']}"/>
+                             </span><span style="width:20%;display:inline-block">
+                                <input placeholder="1=新房2=男士征婚3=女士征婚" name="confmenu[index_searchbar_jump]" type="text" class="form-control " value="{$confmenu['index_searchbar_jump']}"/>
+                             </span>
+                            </td>
+                        </tr>   
+                    </table> 
+                     
+                    
+                </td>
+       
+        </tr>
+        <tr>
+                <th width="100">首页公告：</th>
+                <td colspan="3">
+                <textarea id="notice" class="form-control " name="notice" cols="150"><?=$notice;?></textarea>
+                <p>换行表示一条</p>
+                </td>
+        </tr>
+        <tr>
+                <th width="100">首页轮播：<span style="color:#ff0000">
+        <input type="checkbox" name="confmenu[indexslide]" {if $confmenu['indexslide']==1}checked{/if} value="1"/>不显示</span> </th>
+                <td colspan="3">
+                    <table class='table table-form '>
+                        <tr>
+                             <td width="150">预览</td>
+                            <td width="250">图片地址</td>
+                             <td width="250">跳转链接</td>
+                            
+                        </tr>
+                          <?php for($i=0 ;$i<6; $i++)   {?>  
+                        <tr>
+                             <td width="150">{if $banner['image'][$i]} <img src="{php echo toimage($banner['image'][$i])}" height="70" width="auto"/> {/if}</td>
+                            <td width="250"><input name="banner[image][]" type="text" class="form-control param_value" value="{$banner['image'][$i]}"/></td>
+                             <td width="250"><input name="banner[link][]" type="text" class="form-control param_value" value="{$banner['link'][$i]}"/></td>
+                            
+                        </tr>
+                      <?php }?>    
+                    </table>
+                </td>
+        </tr>
+</table>

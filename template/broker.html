@@ -1,0 +1,18 @@
+{template 'common/header'} 
+<script type="text/javascript" src="resource/js/lib/jquery-ui-1.10.3.min.js"></script>
+ 
+{if $operation=='display'}
+<!--对话管理模板-->  
+        {template 'broker_display'}
+{elseif $operation =='editbroker'}
+    <!--用户管理-->
+        {template 'broker_edit'}
+ {elseif $operation =='kefu'}
+    <!--用户管理-->
+        {template 'broker_kefu'}  
+ {elseif $operation =='editkefu'}
+    <!--编辑客服资料-->
+        {template 'broker_editkefu'}        
+{/if}
+
+{template 'common/footer'}

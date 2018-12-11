@@ -1,0 +1,99 @@
+<p> 把系统的通知信息，通过公众号模板消息发送到管理员。</p>
+<table class='table table-form '>
+      <tr>
+                <th width="100">公众号： </th>
+                <td colspan="3">
+               <span style="width:20%;display:inline-block;margin-right:10px;">
+                 <input placeholder="APPID" name="gzhinfo[appid]" type="text" class="form-control " value="{$gzhinfo['appid']}"/>
+                 </span>
+                  <span style="width:20%;display:inline-block; margin-right:10px;">
+                   <input placeholder="AppSecret" name="gzhinfo[appsecret]" type="text" class="form-control " value="{$gzhinfo['appsecret']}"/>
+                  </span> 
+                 
+                </td>
+        </tr>
+         <tr>
+                <th width="100">管理员： </th>
+                <td colspan="3">
+               <span style="width:40%;display:inline-block;margin-right:10px;">
+                 <input placeholder="OPENID" name="gzhinfo[adminopenid]" type="text" class="form-control " value="{$gzhinfo['adminopenid']}"/>
+                 </span>
+                  <span style="width:50%;display:inline-block; ">
+                      在公众号粉丝里查看管理员的openid。
+                  </span> 
+                 
+                </td>
+        </tr>
+        <tr>
+                <th width="100">通知设置：  </th>
+                <td colspan="3">
+                 <span style="width:40%;display:inline-block;margin-right:10px;">
+                   <input type="checkbox" name="gzhinfo[feed_notice]" {if $gzhinfo['feed_notice']==1}checked{/if} value="1"/>
+                 
+                      开启预约提醒
+                  </span> 
+                  <span style="width:40%;display:inline-block;margin-right:10px;">
+                   <input type="checkbox" name="gzhinfo[view_notice]" {if $gzhinfo['view_notice']==1}checked{/if} value="1"/>
+                
+                      开启浏览房源提醒
+                  </span> 
+                    
+                     <span style="width:40%;display:inline-block;margin-right:10px;">
+                   <input type="checkbox" name="gzhinfo[qiandao_notice]" {if $gzhinfo['qiandao_notice']==1}checked{/if} value="1"/>
+                  
+                      开启每日签到提醒
+                  </span> 
+                    
+                   <span style="width:40%;display:inline-block;margin-right:10px;">
+                   <input type="checkbox" name="gzhinfo[send_notice]" {if $gzhinfo['send_notice']==1}checked{/if} value="1"/>
+                   
+                      开启前台发布单身提醒
+                  </span> 
+                    
+                    <span style="width:40%;display:inline-block;margin-right:10px;">
+                   <input type="checkbox" name="gzhinfo[favorite_notice]" {if $gzhinfo['favorite_notice']==1}checked{/if} value="1"/>
+                   
+                      开启收藏单身提醒
+                  </span>  
+                    
+                     <span style="width:40%;display:inline-block;margin-right:10px;">
+                   <input type="checkbox" name="gzhinfo[buy_notice]" {if $gzhinfo['buy_notice']==1}checked{/if} value="1"/>
+                  
+                      开启在线充值提醒
+                  </span>  
+                    
+                     <span style="width:40%;display:inline-block;margin-right:10px;">
+                   <input type="checkbox" name="gzhinfo[buygroup_notice]" {if $gzhinfo['buygroup_notice']==1}checked{/if} value="1"/>
+                  
+                      开启付费认证红娘提醒
+                  </span> 
+                    
+                     <span style="width:40%;display:inline-block;margin-right:10px;">
+                   <input type="checkbox" name="gzhinfo[broker_notice]" {if $gzhinfo['broker_notice']==1}checked{/if} value="1"/>
+                  
+                      开启申请红娘提醒
+                  </span>  
+                    
+                      <span style="width:40%;display:inline-block;margin-right:10px;">
+                   <input type="checkbox" name="gzhinfo[register_notice]" {if $gzhinfo['register_notice']==1}checked{/if} value="1"/>
+                  
+                      开启绑定手机号提醒
+                  </span> 
+                    
+                </td>
+        </tr>
+        <!--
+        <tr>
+                <th width="100">模板ID：
+                 </th>
+                <td colspan="3">
+               <span style="width:40%;display:inline-block;margin-right:10px;">
+                 <input placeholder="模板消息的ID" name="gzhinfo[template_id]" type="text" class="form-control " value="{$gzhinfo['template_id']}"/>
+                 </span>
+                  <span style="width:50%;display:inline-block; ">
+                     （）
+                  </span> 
+                 
+                </td>
+        </tr>-->
+ </table>

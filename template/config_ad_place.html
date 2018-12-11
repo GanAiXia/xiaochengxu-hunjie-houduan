@@ -1,0 +1,65 @@
+{template 'common/header'}
+<script type="text/javascript" src="resource/js/lib/jquery-ui-1.10.3.min.js"></script>
+
+ <div class="main">
+<div class="panel panel-default">
+<div class="panel-heading">
+
+	<!-- BEGIN PAGE BAR -->
+        <div class="pull-right"><a href="{php echo $this->createWebUrl('enset', array('op'=>'display'))}">返回前端设置</a></div>
+	 广告设置
+</div>
+ <div class="panel-body">
+<!-- END PAGE BAR -->
+ 
+<!-- BEGIN PAGE TITLE--> 
+<!--表单内容-->
+
+<div class="row"> 
+<div class='col-md-12'>
+<div class="portlet light bordered myfbody">
+	 
+	<div class="portlet-body"> 
+	<div class="tab-content">
+		<div class="tab-pane active"> 
+	    {if $operation=='adplace'}
+             <!--这个是动态增加菜单导航的模板-->
+             {template 'config_ad_place_list'}
+             <!--这个是动态增加菜单导航的模板-->  
+             {/if}
+            {if $operation=='setplace'}  
+            
+            {template 'config_ad_place_set'}
+            {/if}
+            
+            {if $operation=='setaddata'}  
+            
+            {template 'config_ad_place_data'}
+            {/if}
+            
+            {if $operation=='editaddata'}  
+            
+            {template 'config_ad_place_data'}
+            {/if}
+               </div>
+	  
+			</div>
+		</div>		
+	</div>
+ </div>	
+
+<!--表单内容-->
+ 
+    </div>		
+ 
+
+	</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript" language="JavaScript">
+	function check_form(obj){
+		
+	}
+</script>	
+{template 'common/footer'}

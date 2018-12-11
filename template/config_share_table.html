@@ -1,0 +1,12 @@
+ <table class='table table-form '>
+      <tr>
+                <th width="100"> 推广海报：</th>
+                <td>
+                  {if $share['paper']} <img src="{php echo toimage($share['paper'])}" height="70" width="auto"/> {/if}
+                    
+                </td>
+                <td><input name="share[paper]" type="text" class="form-control param_value" value="{$share['paper']}"/></td>
+       
+        </tr>
+  
+</table>

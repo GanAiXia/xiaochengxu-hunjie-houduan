@@ -1,0 +1,129 @@
+{template 'common/header'}
+<script type="text/javascript" src="resource/js/lib/jquery-ui-1.10.3.min.js"></script>
+
+ <div class="main">
+<div class="panel panel-default">
+<div class="panel-heading">
+
+	<!-- BEGIN PAGE BAR -->
+	 
+	 前端设置
+</div>
+ <div class="panel-body">
+<!-- END PAGE BAR -->
+<form enctype="multipart/form-data" onsubmit="return check_form(this)"
+ name="form_shop_request" method="post" action="{php echo $this->createWebUrl('enset', array('op'=>'postadd'))}" class="form-horizontal">
+ 
+<!-- BEGIN PAGE TITLE-->
+ 
+<!--表单内容-->
+
+<div class="row"> 
+<div class='col-md-12'>
+<div class="portlet light bordered myfbody">
+		<div class="portlet-title tabbable-line">
+            <ul class="nav nav-tabs">
+                <li class="{if $page==0}active{/if}">
+                    <a href="#tab_0" data-toggle="tab" onclick="$('#mypage').val('0')"> <i class="fa fa-cog"></i> 主菜单 </a>
+                </li>
+				
+                <li class="{if $page==2}active{/if}">
+                    <a href="#tab_2" data-toggle="tab" onclick="$('#mypage').val('2')"> <i class="fa fa-cubes"></i> 
+					首页</a>
+                </li>
+                
+                <li class="{if $page==3}active{/if}">
+                    <a href="#tab_3" data-toggle="tab" onclick="$('#mypage').val('3')"> <i class="fa fa-user"></i> 栏目幻灯片 </a>
+                </li> 
+		 <li class="{if $page==4}active{/if}">
+                    <a href="#tab_4" data-toggle="tab" onclick="$('#mypage').val('4')"> <i class="fa fa-paw"></i> 素材</a>
+                </li>
+                <li class="{if $page==5}active{/if}">
+                    <a href="#tab_5" data-toggle="tab" onclick="$('#mypage').val('5')"> <i class="fa fa-paw"></i> 上传素材 </a>
+                </li>
+                 <li class="{if $page==6}active{/if}">
+                    <a href="#tab_6" data-toggle="tab" onclick="$('#mypage').val('6')"> <i class="fa fa-paw"></i> 海报</a>
+                </li>
+                <li class="{if $page==8}active{/if}">
+                    <a href="#tab_8" data-toggle="tab" onclick="$('#mypage').val('8')"> <i class="fa fa-paw"></i> 公众号</a>
+                </li>
+                 <li class="{if $page==7}active{/if}">
+                     <a href="{php echo $this->createWebUrl('enset', array('op' => 'adplace'))}"> <i class="fa fa-paw"></i> 广告位 </a>
+                </li>
+                 
+            </ul>
+        </div>
+	<div class="portlet-body"> 
+	<div class="tab-content">
+		<div class="tab-pane {if $page==0}active{/if}" id="tab_0"> 
+		 
+              <!--这个是动态增加菜单导航的模板-->
+       {template 'config_menu_table'}
+       <!--这个是动态增加菜单导航的模板-->            
+                
+	 </div>
+	 
+	 <!--项目信息-->
+	 <div class="tab-pane {if $page==2}active{/if}" id="tab_2">
+	 
+	 {template 'config_ad_table'}
+	 </div>
+	 <!--销售信息-->
+	  <div class="tab-pane {if $page==3}active{/if}" id="tab_3">
+	   {template 'config_slide'}
+	 
+	 </div>
+	 <!--配套信息-->
+        <div class="tab-pane {if $page==4}active{/if}" id="tab_4">
+	    {template 'config_piclist_table'}
+	 
+	 </div>	 
+          <!--搜索配置-->
+        <div class="tab-pane {if $page==5}active{/if}" id="tab_5">
+	   {template 'config_pic_table'}
+	 </div>	 
+	 <!--//-->
+          <div class="tab-pane {if $page==6}active{/if}" id="tab_6">
+	   {template 'config_share_table'}
+	 </div>	 
+	 <!--//-->
+          <div class="tab-pane {if $page==8}active{/if}" id="tab_8">
+	   {template 'config_gzh_table'}
+	 </div>	 
+	 <!--//-->
+			</div>
+		</div>		
+	</div>
+ </div>	
+
+<!--表单内容-->
+	<div class="myfooter">
+        <div class="row">
+            <div class="portlet-body form">
+                <div class="form-body">
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+								 
+				 <input type="hidden" name="token" value="{$_W['token']}" />
+                                <input  type="submit" name="submit" class="btn green" value="提交保存"> 
+								 <!--<i class="fa fa-save"></i> </button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>		
+</form>
+
+	</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript" language="JavaScript">
+	function check_form(obj){
+		
+	}
+</script>	
+{template 'common/footer'}

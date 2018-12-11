@@ -1,0 +1,142 @@
+{template 'common/header'}
+{template 'common'}
+<script type="text/javascript" src="resource/js/lib/jquery-ui-1.10.3.min.js"></script>
+<link type="text/css" rel="stylesheet" href="../addons/wdl_weihouse/images/uploadify_t.css" />
+<style type='text/css'>
+	.tab-pane {padding:20px 0 20px 0;}
+</style>
+<ul class="nav nav-tabs">
+<li><a href="{php echo $this->createWebUrl('houselist', array('op' => 'display'))}">会员管理</a></li>
+<li {if ($renttype==0&& $zhutype==0)} class="active"{/if}><a href="{php echo $this->createWebUrl('house', array('op' => 'display'))}">男士征婚</a></li>
+<li {if ($renttype==2&& $zhutype==0)} class="active"{/if}><a href="{php echo $this->createWebUrl('house', array('op' => 'display','rt'=>'2','zt'=>0))}">女士征婚</a></li>
+<!-- <li {if ($renttype==0&& $zhutype==1)} class="active"{/if}><a href="{php echo $this->createWebUrl('house', array('op' => 'display','rt'=>'0','zt'=>1))}">发写字楼出售</a></li>
+<li {if ($renttype==2&& $zhutype==1)} class="active"{/if}><a href="{php echo $this->createWebUrl('house', array('op' => 'display','rt'=>'2','zt'=>1))}">发写字楼出租</a></li>
+<li {if ($renttype==0&& $zhutype==2)} class="active"{/if}><a href="{php echo $this->createWebUrl('house', array('op' => 'display','rt'=>'0','zt'=>2))}">发商铺出售</a></li>
+<li {if ($renttype==2&& $zhutype==2)} class="active"{/if}><a href="{php echo $this->createWebUrl('house', array('op' => 'display','rt'=>'2','zt'=>2))}">发商铺出租</a></li>
+<li {if ($renttype==0&& $zhutype==3)} class="active"{/if}><a href="{php echo $this->createWebUrl('house', array('op' => 'display','rt'=>'0','zt'=>3))}">发生意转让</a></li> -->
+</ul>
+<div class="main">
+	<form action="" onsubmit="return formcheck();" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+		 
+			<div class="panel-body">
+				<ul class="nav nav-tabs" id="myTab">
+					<li class="active" ><a href="#tab_basic">
+                                       {if empty($item['id'])}
+                                添加{$housetype[$rent]}{$form_title}
+                                {else}
+                                编辑{$housetype[$rent]} {$form_title}
+                                {/if}         基本信息</a></li>                                      
+			                <li><a href="#tab_param">自定义属性</a></li>	
+                                             
+				</ul> 
+				<div class="tab-content">
+					<div class="tab-pane  active" id="tab_basic">
+                                          <!--按发布的变量，加载模板类型-->
+                                            {template $form_input_name}
+                                          
+                                          
+                                            <!--</div>
+					<div class="tab-pane" id="tab_des">-->
+                                            
+                                            {template 'house_des'}
+                                            <!--</div>-->
+					
+					<!--<div class="tab-pane" id="tab_other">-->
+                                        {template 'house_photo'}
+                                        
+                                        </div>
+                                        <div class="tab-pane" id="tab_param">
+                                            {template 'house_param'}
+                                        </div> 
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+                        <input type="hidden" name="referer" value="{$referer}"/>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	var category = {php echo json_encode($children)};
+        function  isnull(str){
+            if ((!str) || (typeof (str) == "undefined") || (str == null) || (str == 0)) {
+              return true;
+            } else {
+              return false;
+            }
+          };
+     /*区域婚姻状况格式数据*/
+        {if $sitedata['quan']}
+          var areas = {php echo json_encode($sitedata['quan'])};
+         {else}
+          var areas = {};
+         {/if}
+      /*区域婚姻状况格式数据*/     
+        function init_area_quan(area){
+            var house_quan = "{$item['quan']}";
+            var curr = area;
+            if(isnull(areas[curr])){
+                return ;
+            }
+            var quan = areas[curr];
+            var html = "";
+            for(var q in quan){
+                var s = quan[q]==house_quan ? 'selected':'';
+                html+= '<option '+ s +' value="'+quan[q]+'">'+quan[q]+'</option>';
+            }
+            $("#quan").html(html);
+        }
+	$(function () {
+		window.optionchanged = false;
+		$('#myTab a').click(function (e) {
+			e.preventDefault();//阻止a链接的跳转行为
+			$(this).tab('show');//显示当前选中的链接及关联的content
+		})
+                /*绑定area 的change事件*/
+                init_area_quan('{$item['area']}');
+                $("#area").change(function(){
+                   init_area_quan(this.value);
+                    
+                })
+	});
+	function formcheck(){
+		if( ! $("#area").val() ){
+			Tip.focus("area","请选择性别!","right");
+			return false;
+		}
+    
+		if($("#title").isEmpty()) {
+			$('#myTab a[href="#tab_basic"]').tab('show');
+			Tip.focus("title","请输入标题!","right");
+			return false;
+		}
+    
+    if ($('#param-items-not').length > 0) {
+
+                if( ! $("#xueli").val() ){
+                  Tip.focus("mysec","请选择学历!","right");
+                  return false;
+                }
+                if( ! $("#sfyc").val() ){
+                  Tip.focus("mycar","请选择是否有车!","right");
+                  return false;
+                }
+                if( ! $("#sfyf").val() ){
+                  Tip.focus("myhouse","请选择是否有房!","right");
+                  return false;
+                }
+                if( ! $("#sfyck").val() ){
+                  Tip.focus("mymoney","请选择存款情况!","right");
+                  return false;
+                }
+    }
+		return true;
+	}
+</script>
+{template 'common/footer'}

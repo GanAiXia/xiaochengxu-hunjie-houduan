@@ -1,0 +1,158 @@
+{template 'common/header'}
+
+ <div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading" style="padding-bottom:20px;">
+		    <div class="page-toolbar">
+			<div class="btn-group pull-right">
+					<button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">  操作菜单 
+						<i class="fa fa-angle-down"></i>
+					</button>
+					<ul class="dropdown-menu pull-right" role="menu">
+					       <?php if(is_array($dropmenu) && !empty($dropmenu)){
+                                            foreach($dropmenu as $key => $value){
+                                            ?>
+					 <li>
+                                            <a href="<?php echo $this->createWebUrl("newhouse",array('op'=>$value['op'],'newhouseid'=>$value['hid']));?>">
+                                               <i class="fa <?php echo $value['icon'];?>"></i><?php echo $value['title'];?></a>
+					</li>
+                                        <?php } }?>
+					<li class="divider"> </li>
+					<li>
+						<a href="javascript:window.location.reload();">
+							<i class="icon-refresh"></i>  刷新页面 </a>
+					</li>
+					<li>
+						<a href="<?php echo $this->createWebUrl("newhouse");?>">
+							<i class="icon-refresh"></i>  楼盘列表 </a>
+					</li>
+						 
+					</ul>
+				</div>
+			</div>
+		
+		<?php echo $forumscon3['house_title']?> - 楼盘价格
+		</div>
+		<!--//-->
+		
+		<style>
+.dgray24px{font-size:16px; color:#337ab7}
+.dgray24px a{float:right;}
+</style>
+ 
+<div class="panel-body"> 
+<!--//-->
+
+<div class="row"> 
+<div class='col-md-12'>
+<div class="portlet light bordered">
+ 
+	<div class="portlet-body"> 	
+ 
+
+<!--新增楼盘价格-->
+<div class="row"> 
+ <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">价格类型</label>
+                    <div class="col-sm-9 col-xs-12">	
+                       
+		  		<?php  echo
+ form_element::select($other['pricetype'],'data[tprice]','tprice',$info['tprice']);
+ ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">均价</label>
+                    <div class="col-sm-9 col-xs-12">	
+                        <input type="text" class="form-control" placeholder="均价和底价二选一" id="average_price" name="data[average_price]" value="<?php echo $info['average_price']?>"> 
+		  
+                    </div>
+                </div>
+     
+                 <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-2 control-label">最低价</label>
+                    <div class="col-sm-3 col-xs-3">	
+                       <input type="text" class="form-control" id="min_price" name="data[min_price]" value="<?php echo $info['min_price']?>"> 
+		  
+                    </div>
+                     <label class="col-xs-3 col-sm-3 col-md-2 control-label">最高价</label>
+                     <div class="col-sm-3 col-xs-3">	
+                       <input type="text" class="form-control" id="max_price" name="data[max_price]" value="<?php echo $info['max_price']?>"> 
+		  
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 col-sm-3 col-md-2 control-label">单位</label>
+                    <div class="col-sm-3 col-xs-3">	
+                        <input type="text" class="form-control" id="unit1" placeholder="元" name="data[unit1]" value="<?php echo $info['unit1']?>"> 
+		  
+                    </div>
+                   
+                     <div class="col-sm-3 col-xs-3">	
+                         <input type="text" class="form-control" id="unit2" placeholder="平米" name="data[unit2]" value="<?php echo $info['unit2']?>"> 
+		  
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">价格日期</label>
+                    <div class="col-sm-9 col-xs-12">	
+                        <input type="text" class="form-control" placeholder="价格变更的日期" id="price_datetime" name="data[price_datetime]" value="<?php echo $info['price_datetime']?>"> 
+		  
+                    </div>
+                </div>
+      <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">价格详情</label>
+                    <div class="col-sm-9 col-xs-12">	
+                      <textarea id="price_info" class="form-control " name="data[price_info]" cols="150"><?=$info['price_info'];?></textarea>
+			
+                    </div>
+                </div>
+ 
+				
+                <div class="form-group ">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">操作</label>
+                        <div class="col-sm-9 col-xs-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />               
+                        <input type="hidden" name="newhouseid" value="{$newhouseid}"/>
+			<input type="hidden" name="token" value="{$_W['token']}" />
+                    </div>
+                </div>
+	  </form>
+	<!--新增楼盘价格-->
+</div>
+<form METHOD="POST" name="myform" ACTION="" onsubmit="return false;">
+<div class="row" style="padding-top:20px;">	
+ 	<div class="col-md-12" style="padding-bottom:10px;">
+		<div style="float:right; " class="mulpage">  {$pager}</div>
+	</div>			
+	<div class="col-md-12">
+		
+			<div class="row">
+	 
+			</div>
+	</div>
+	<div class="col-md-12">
+		 
+			<div  style="float:right; " class="mulpage">
+			 {$pager}
+			</div>		
+	 
+	 </div>
+	</div>
+ 
+ </FORM>
+			</div>
+		</div>
+	</div>
+</div>
+	<!--图片管理列表结束-->
+
+		<!--//-->
+		
+		</div>
+	</div>
+
+</div>
+
+{template 'common/footer'} 

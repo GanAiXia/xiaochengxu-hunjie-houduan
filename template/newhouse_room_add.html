@@ -1,0 +1,245 @@
+{template 'common/header'}
+
+ <div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading" style="padding-bottom:20px;">
+		    <div class="page-toolbar">
+			<div class="btn-group pull-right">
+					<button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false">  快捷操作菜单 
+						<i class="fa fa-angle-down"></i>
+					</button>
+					<ul class="dropdown-menu pull-right" role="menu">
+                                            <?php if(is_array($dropmenu) && !empty($dropmenu)){
+                                            foreach($dropmenu as $key => $value){
+                                            ?>
+					 <li>
+                                            <a href="<?php echo $this->createWebUrl("newhouse",array('op'=>$value['op'],'newhouseid'=>$value['hid']));?>">
+                                               <i class="fa <?php echo $value['icon'];?>"></i><?php echo $value['title'];?></a>
+					</li>
+                                        <?php } }?>
+					 
+					<li class="divider"> </li>
+					<li>
+						<a href="javascript:window.location.reload();">
+							<i class="icon-refresh"></i>  刷新页面 </a>
+					</li>
+					<li>
+						<a href="<?php echo $this->createWebUrl("newhouse");?>">
+							<i class="icon-refresh"></i>  楼盘列表 </a>
+					</li>
+						 
+					</ul>
+				</div>
+			</div>
+		
+		<?php echo $forumscon3['house_title']?> - 添加户型
+		</div>
+		<!--//-->
+		
+		<style>
+.dgray24px{font-size:16px; color:#337ab7}
+.dgray24px a{float:right;}
+.we7-form .form-group, form .form-group {
+    margin-bottom: 15px;
+}
+.tipslable{
+    color: #999; font-size: 12px;
+}
+.we7-form .form-control, form .error{
+     border-color: #428BCA;
+     color:#428BCA;
+}
+</style>
+ 
+<div class="panel-body"> 
+<!--//-->
+
+<div class="row"> 
+<div class='col-md-12'>
+<div class="portlet light bordered">
+ 
+	<div class="portlet-body"> 	
+  <div class="row">
+       <a style="margin-right:20px;" href="{php echo $this->createWebUrl('newhouse', array('newhouseid'=>$hid, 'op' => 'roomlist'))}"
+          class="btn btn-primary pull-right">返回列表</a>
+     
+  </div>
+
+<!--新增楼盘价格-->
+<div class="col-md-12">
+<div class="row"> 
+ <form action="" method="post" onsubmit="return formcheck(this);" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">户型名称：</label>
+                    <div class="col-sm-8 col-xs-12">	
+                       <input type="text" class="form-control" id="title" placeholder="请输入户型名称"
+                              btrequire="true" regexp="[^(^\s*)|(\s*$)]" 
+                              name="data[title]" value="<?php echo $info['title']?>"> 
+		  
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类：</label>
+                    <div class="col-sm-4 col-xs-12">
+                    <select name="albumid">
+                                <option value="0">-默认-</option>
+                                {loop $category $val}
+                                <option {if $info['album_id']==$val['id']}selected{/if} value="{$val['id']}">{$val['album_cat_name']}</option>
+                                {/loop}
+                        </select>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">	
+                        <input type="text" name="album_cat_name"
+                               class="form-control" placeholder="新建分类 请输入名称" value="" /> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">价格信息：</label>
+                    <div class="col-sm-2 col-xs-12">	
+                        <input type="text" class="form-control" placeholder="总价"  id="totalprice"
+                                btrequire="true" regexp="[^(^\s*)|(\s*$)]" 
+                               name="data[totalprice]" value="<?php echo $info['totalprice']?>"> 
+                         
+                    </div>
+                    <div class="col-sm-2 col-xs-12">	
+                        <input type="text" class="form-control" placeholder="单价"  id="saleprice"
+                                btrequire="true" regexp="[^(^\s*)|(\s*$)]" 
+                               name="data[saleprice]" value="<?php echo $info['saleprice']?>"> 
+                         
+                    </div>
+                </div>
+     <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">结构信息：</label>
+                    <div class="col-sm-2 col-xs-12">	
+                        <input type="text" class="form-control" placeholder="户型结构"  id="huxingjiegou"
+                                btrequire="true" regexp="[^(^\s*)|(\s*$)]" 
+                               name="data[huxingjiegou]" value="<?php echo $info['huxingjiegou']?>"> 
+                         
+                    </div>
+                    <div class="col-sm-2 col-xs-12">	
+                        <input type="text" class="form-control" placeholder="朝向"  id="chaoxiang" name="data[chaoxiang]" value="<?php echo $info['chaoxiang']?>"> 
+                         
+                    </div>
+                    <div class="col-sm-2 col-xs-12">	
+                        <input type="text" class="form-control" placeholder="总面积"  id="mianji"
+                                btrequire="true" regexp="[^(^\s*)|(\s*$)]" 
+                               name="data[mianji]" value="<?php echo $info['mianji']?>"> 
+                         
+                    </div>
+                    <div class="col-sm-2 col-xs-12">	
+                        <input type="text" class="form-control" placeholder="所在楼栋"  id="loudong" name="data[loudong]" value="<?php echo $info['loudong']?>"> 
+                         
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">空间解读：</label>
+                    <div class="col-sm-9 col-xs-12">	
+                      <textarea id="kongjian" class="form-control " name="data[kongjian]"
+                                 btrequire="true" regexp="[^(^\s*)|(\s*$)]" 
+                                cols="150"><?=$info['kongjian'];?></textarea>
+                      <label class="tipslable">空间解读内容在250字数内</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">户型优势：</label>
+                    <div class="col-sm-9 col-xs-12">	
+                      <textarea id="youshi" class="form-control " name="data[youshi]"  cols="150"><?=$info['youshi'];?></textarea>
+                      <label class="tipslable">户型优势内容在250字数内。</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">户型劣势：</label>
+                    <div class="col-sm-9 col-xs-12">	
+                      <textarea id="lieshi" class="form-control " name="data[lieshi]"  cols="150"><?=$info['lieshi'];?></textarea>
+			<label class="tipslable">户型劣势内容在250字数内。</label>
+                    </div>
+                </div>
+		<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">标签：</label>
+                    <div class="col-sm-8 col-xs-12">	
+                       <input type="text" class="form-control" id="btags" placeholder="给户型添加标签"
+                              name="data[btags]" value="<?php echo $info['btags']?>"> 
+                    <label class="tipslable">例如：两卧朝南#户型方正#南北通透#客厅朝南，注意#分割标签词</label>
+                    </div>
+                </div>
+     <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">封面图</label>
+	<div class="col-sm-9 col-xs-12">
+		{php echo tpl_form_field_image('thumb', $info['thumb'], '', array('extras' => array('text' => 'readonly')))}
+
+	</div>
+    </div>
+                <div class="form-group">
+                  <label class="col-xs-12 col-sm-3 col-md-2 control-label">户型平面图</label>
+                    <div class="col-sm-9 col-xs-12">
+                          {php echo tpl_form_field_multi_image('thumbs',$thumbs)}
+                    </div>
+                </div>
+             <div class="form-group">
+                  <label class="col-xs-12 col-sm-3 col-md-2 control-label">样板间图</label>
+                    <div class="col-sm-9 col-xs-12">
+                          {php echo tpl_form_field_multi_image('yangbantu',$yangban)}
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">操作</label>
+                        <div class="col-sm-9 col-xs-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />               
+                        <input type="hidden" name="newhouseid" value="{$newhouseid}"/>
+                        <input type="hidden" name="id" value="{$info['id']}"/>
+			<input type="hidden" name="token" value="{$_W['token']}" />
+                    </div>
+                </div>
+	  </form>
+    <script>
+  
+ function formcheck(formobj){
+    var ok = true;
+    var msg = ''; 
+    
+    $.each($(formobj).find('*[btrequire]'),function(index,element){    
+            obj =   $(element) ;          
+            var reg = obj.attr('regexp');  
+            var label = $(obj).parents(".form-group").find("label");
+            if(reg) { 
+                    var value=$.trim(obj.val());
+                    obj.removeClass("error");
+                    label.removeClass("error");
+                    if(new RegExp(reg,"gi").test(value)==false){
+                            obj.addClass("error");
+                            label.addClass("error");
+                            ok = ok && false;
+                            msg = obj.attr("placeholder");                          
+                    }  
+            }
+            //绑定事件
+            obj.bind("focus", function(){
+                $(this).removeClass("error");
+                $(this).parents(".form-group").find("label").removeClass("error");
+            })
+    });
+    if(!ok){
+        alert('请完善表单信息再提交');
+        return false;
+    }
+    return true;
+} 
+       </script>
+	<!--新增楼盘价格-->
+            </div>
+</div>
+ 
+			</div>
+		</div>
+	</div>
+</div>
+	<!--图片管理列表结束-->
+
+		<!--//-->
+		
+		</div>
+	</div>
+
+</div>
+
+{template 'common/footer'} 

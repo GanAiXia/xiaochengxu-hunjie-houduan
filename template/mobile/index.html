@@ -1,0 +1,209 @@
+{template 'header'}
+ 
+    <link rel="stylesheet" type="text/css" href="../addons/wdl_weihouse/style/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../addons/wdl_weihouse/style/css/aui-slide.css" />
+    <link rel="stylesheet" type="text/css" href="../addons/wdl_weihouse/style/css/font/iconfont.css" />
+    <link rel="stylesheet" href="../addons/wdl_weihouse/style/css/house.css?v=201710">
+<script type="text/javascript" src="../addons/wdl_weihouse/style/script/jquery.min.js"></script>		
+<script type="text/javascript" src="../addons/wdl_weihouse/style/script/house.js?v=201710"></script>
+<script type="text/javascript" src="../addons/wdl_weihouse/style/script/jquery.lazyload.min.js"></script>
+<script type="text/javascript" src="../addons/wdl_weihouse/style/script/js/aui-slide.js"></script>	
+ 
+<header class="aui-bar aui-bar-nav aui-bar-danger titlebar activebar"
+        style=" max-width:450px; margin:0 auto;z-index: 1000;  position: fixed; left: 0; top: 0;">        
+<div  onclick="openSearch()" >
+    <a class="aui-pull-right aui-btn aui-btn-outlined" onclick="window.location.href='{php echo $this->createMobileUrl('items')}'">
+        <span class="aui-iconfont aui-icon-search"></span>
+</a>
+<div class="aui-title">{$sec['shopname']}首页</div> 
+</div>
+</header>
+
+<div class="aui-content">
+
+	<div id="aui-slide3">
+		<div class="aui-slide-wrap" >
+                     {if $sec['logo']}
+			<div class="aui-slide-node bg-dark">
+                            <a  href="{php echo $this->createMobileUrl('index',array('op'=>'about'))}">
+                                <img src="{php echo tomedia($sec['logo']);}" title="{$sec['shopname']}"/></a>
+			</div>
+                     {/if}
+                     {if $sec['banner']}
+			<div class="aui-slide-node bg-dark">
+                             <a  href="{php echo $this->createMobileUrl('index',array('op'=>'about'))}">
+				<img src="{php echo tomedia($sec['banner']);}" title="{$sec['shopname']}"/>
+                             </a>
+			</div>
+                     {/if}
+		</div>
+		<div class="aui-slide-page-wrap"><!--分页容器--></div>
+	</div> 
+</div>
+<script>
+  var slide3 = new auiSlide({
+        container:document.getElementById("aui-slide3"),
+        // "width":300,
+        "height":"180",
+        "speed":500,
+        "autoPlay": 3000, //自动播放
+        "loop":true,
+        "pageShow":true,
+        "pageStyle":'dot',
+        'dotPosition':'center'
+    })
+</script>
+<!--轮播图end-->
+<div class="aui-content">
+<section class="aui-grid" id="menu">
+    <div class="aui-row">
+        <div class="aui-col-xs-3">
+        	<a tapmode  onclick="window.location.href='{php echo $this->createMobileUrl('items')}'">
+            <i class="aui-iconfont aui-icon-home"></i>
+            <div class="aui-grid-label">男士征婚</div></a>
+        </div>
+        <div class="aui-col-xs-3">
+        <a tapmode  onclick="window.location.href='{php echo $this->createMobileUrl('items', array('rent'=>'2'))}'">
+            <i class="aui-iconfont aui-icon-cert"></i>
+            <div class="aui-grid-label">女士征婚</div></a>
+        </div>
+        <div class="aui-col-xs-3">
+        <a tapmode  onclick="window.location.href='{php echo $this->createMobileUrl('items')}'">
+            <i class="aui-iconfont iconfont icon-tehuigou1"></i>
+            <div class="aui-grid-label">最新会员</div></a>
+        </div>
+        <div class="aui-col-xs-3">
+        <a tapmode  onclick="window.location.href='{php echo $this->createMobileUrl('favorite')}'">
+            <i class="aui-iconfont aui-icon-like"></i>
+            <div class="aui-grid-label">收藏夹</div></a>
+        </div>
+    </div>
+</section>
+</div>
+
+  <section class="aui-content" style="background: #efefef">
+        <div class="aui-card-list" style="margin-top: 0.5rem;">
+            <div class="aui-card-list-header gui-house-title">
+                <h3 style="color:#888888"> 推荐男士征婚源</h3>
+            </div>
+            <div class="aui-card-list-content">
+                
+                
+        <div class="aui-card-list">
+        <div class="aui-card-list-content">
+        <ul class="aui-list aui-media-list" style="background-color:#ffffff;">
+            
+              {loop $items $val} 
+        <li class="aui-list-item aui-list-item-middle" >
+        <a href="{php echo $this->createMobileUrl('detail',array('id'=>$val['id']))}">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-media" style="width:5.5rem;padding: 1rem 0.5rem 1rem 0; " >
+                        <div style="position: absolute;  bottom: 1rem;    color: #FFFFFF;    background: rgba(0, 0, 0, 0.6);    padding: 0 0.25rem;    font-size: 0.6rem;">
+                            置顶
+                        </div><div style="position: absolute;  right:0.5rem;   bottom: 1rem;    color: #FFFFFF;    background: rgba(0, 0, 0, 0.6);    padding: 0 0.25rem;    font-size: 0.6rem;">
+                            <i style="font-size: 0.66rem;    margin-right: 0.1rem;" class="aui-iconfont aui-icon-image"></i>
+                        </div>
+                       {if $val['thumb']}
+                        <img alt="{$val['title']}"
+                            onerror="/addons/wdl_weihouse/style/images/house_face.jpg" 
+                            style="width:5.2rem; height:4.1rem" src="{php echo tomedia($val['thumb']);}">
+                        {else}
+                        <img alt="{$val['title']}"
+                            onerror="/addons/wdl_weihouse/style/images/house_face.jpg" 
+                            style="width:5.2rem; height:4.1rem" src="/addons/wdl_weihouse/style/images/house_face.jpg">
+                        {/if}
+                    </div>
+                    <div class="aui-list-item-inner aui-ellipsis-2" style="padding-bottom: 0.5rem; padding-top: 0.3rem;">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title aui-ellipsis-2" style="width: 100%;">
+                            <div><h3>{$val['title']}</h3></div>
+                        </div>
+                        </div>
+                        <div class="aui-media-list-item-inner aui-ellipsis-1" >
+                            <h5 style=" position: absolute; right: 0.5rem; color: #888888; margin-top: -0.15rem;" >
+                                <span class="gui-house-list-price">{$val['loyer']}</span> {$val['prix_unitaire']}</h5></div> 
+                                <div style="color:#888888;font-size: 0.6rem;padding-top: 0.15rem;">
+                                    <span>{$val['superficie']}㎡　</span>
+                                    <span>{$val['room']}房{$val['hall']}厅 </span><span></span>
+                                </div><div class="aui-media-list-item-inner aui-ellipsis-1" >
+                                    <span  style="color:#888888;font-size: 0.6rem;    max-width: 5.8rem;  overflow: hidden;"> {$val['village_name']}</span>
+                                    <h5  style=" position: absolute; right: 0.5rem; color: #888888;" >{php echo floor($val['loyer']*10000/$val['superficie'])}元/㎡</h5></div></div></div>
+                     </a>
+               </li>
+               {/loop}	
+           </ul>
+        </div>
+            
+            </div>     
+        </div>
+        </div>
+     
+    </section>
+
+   <section class="aui-content" style="background: #efefef">
+        <div class="aui-card-list" style="margin-top: 0.5rem;">
+            <div class="aui-card-list-header gui-house-title">
+                <h3 style="color:#888888"> 推荐女性会员</h3>
+            </div>
+            <div class="aui-card-list-content">
+                
+                
+        <div class="aui-card-list">
+        <div class="aui-card-list-content">
+        <ul class="aui-list aui-media-list" style="background-color:#ffffff;">
+            
+              {loop $items_zhu $val} 
+        <li class="aui-list-item aui-list-item-middle" >
+        <a href="{php echo $this->createMobileUrl('detail',array('id'=>$val['id']))}">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-media" style="width:5.5rem;padding: 1rem 0.5rem 1rem 0; " >
+                        <div style="position: absolute;  bottom: 1rem;    color: #FFFFFF;    background: rgba(0, 0, 0, 0.6);    padding: 0 0.25rem;    font-size: 0.6rem;">
+                            置顶
+                        </div><div style="position: absolute;  right:0.5rem;   bottom: 1rem;    color: #FFFFFF;    background: rgba(0, 0, 0, 0.6);    padding: 0 0.25rem;    font-size: 0.6rem;">
+                            <i style="font-size: 0.66rem;    margin-right: 0.1rem;" class="aui-iconfont aui-icon-image"></i>
+                        </div>
+                        {if $val['thumb']}
+                        <img alt="{$val['title']}"
+                            onerror="/addons/wdl_weihouse/style/images/house_face.jpg" 
+                            style="width:5.2rem; height:4.1rem" src="{php echo tomedia($val['thumb']);}">
+                        {else}
+                        <img alt="{$val['title']}"
+                            onerror="/addons/wdl_weihouse/style/images/house_face.jpg" 
+                            style="width:5.2rem; height:4.1rem" src="/addons/wdl_weihouse/style/images/house_face.jpg">
+                        {/if}
+                    </div>
+                    <div class="aui-list-item-inner aui-ellipsis-2" style="padding-bottom: 0.5rem; padding-top: 0.3rem;">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title aui-ellipsis-2" style="width: 100%;">
+                            <div><h3>{$val['title']}</h3></div>
+                        </div>
+                        </div>
+                        <div class="aui-media-list-item-inner aui-ellipsis-1" >
+                            <h5 style=" position: absolute; right: 0.5rem; color: #888888; margin-top: -0.15rem;" >
+                                <span class="gui-house-list-price">{$val['loyer']}</span> {$val['prix_unitaire']}</h5></div> 
+                                <div style="color:#888888;font-size: 0.6rem;padding-top: 0.15rem;">
+                                    
+                                    <span>{$val['room']}房{$val['hall']}厅 </span><span></span>
+                                </div><div class="aui-media-list-item-inner aui-ellipsis-1" >
+                                    <span  style="color:#888888;font-size: 0.6rem;    max-width: 5.8rem;  overflow: hidden;"> {$val['village_name']}</span>
+                                    <h5  style=" position: absolute; right: 0.5rem; color: #888888;" > {$val['superficie']}㎡</h5>
+                                </div>
+                    </div></div>
+                     </a>
+               </li>
+               {/loop}	
+           </ul>
+        </div>
+            
+            </div>     
+        </div>
+        </div>
+      <div class="aui-content-padded"><p class="aui-text-center">以上是我们为您推荐的20位会员</p></div> 
+    </section>
+
+<!--底部tabmenu-->
+{template 'footbar'}
+
+{template 'footer'}
+	
+	

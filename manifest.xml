@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.8,1.0">
+	<application setting="true">
+		<name><![CDATA[微乐居房产中介小程序]]></name>
+		<identifie><![CDATA[wdl_weihouse]]></identifie>
+		<version><![CDATA[3.2.5]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[提供给中介公司发布推广新房楼盘、男士征婚在小程序里面每天分享房源]]></ability>
+		<description><![CDATA[微乐居房产中介小程序专注做新房楼盘售楼部、中介男士征婚、女士征婚，经济人业务推广。]]></description>
+		<author><![CDATA[淘宝大白的源码店]]></author>
+		<url><![CDATA[http://www.didajuke.com/]]></url>
+	</application>
+
+	<platform>
+		<subscribes>
+		</subscribes>
+
+		<handles>
+			<message type="location" />
+			<message type="text" />
+		</handles>
+
+		<rule embed="true" />
+		<card embed="false" />
+		
+		<supports>
+			<item type="wxapp" />
+		</supports>
+	</platform>
+
+	<bindings>
+		<menu>
+			<entry title="发布征婚" do="house" state="" direct="false"/>
+			<entry title="会员管理" do="houselist" state="" direct="false"/>
+			<entry title="预约相亲" do="feed" state="" direct="false"/>
+			<entry title="红娘管理" do="broker" state="" direct="false"/>
+			<entry title="门店管理" do="secshop" state="" direct="false"/>
+			<entry title="VIP会员" do="newhouse" state="" direct="false"/>
+			<entry title="婚姻状况" do="area" state="" direct="false"/>
+			<entry title="相亲资讯" do="article" state="" direct="false"/>
+			<entry title="前端设置" do="enset" state="" direct="false"/>
+		</menu>
+		<page>
+			<entry title="首页" do="/wdl_weihouse/pages/index/welcome" state="" direct="false"/>
+		</page>
+	</bindings>
+
+	<permissions>
+	</permissions>
+
+	<install><![CDATA[
+CREATE TABLE IF NOT EXISTS `ims_kb_config` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `placeid` int(12) DEFAULT NULL,
+  `uniacid` int(12) DEFAULT NULL,
+  `confkey` varchar(45) DEFAULT NULL,
+  `conf_value` text,
+  `uid` int(12) DEFAULT '0' COMMENT '管理员uid',
+  `module` varchar(45) DEFAULT NULL COMMENT '模块名',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_house` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '店铺id',
+  `user_id` int(10) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `shop_name` varchar(200) DEFAULT NULL COMMENT '店铺名称',
+  `shop_type` int(4) NOT NULL DEFAULT '0' COMMENT '店铺类型,1为男士征婚，2为新房，3为建材店铺，4为装修店铺',
+  `shop_country` smallint(6) DEFAULT NULL COMMENT '店铺所在国家',
+  `shop_province` smallint(6) DEFAULT NULL COMMENT '店铺所在省份',
+  `shop_city` smallint(6) DEFAULT NULL COMMENT '店铺所在城市',
+  `shop_district` smallint(6) DEFAULT NULL COMMENT '店铺所在区',
+  `shop_bcircle` smallint(6) DEFAULT NULL,
+  `shop_address` varchar(255) DEFAULT NULL COMMENT '店铺所在详细地址',
+  `shop_images` varchar(255) DEFAULT NULL COMMENT '店铺介绍中的图片',
+  `shop_logo` varchar(255) DEFAULT NULL COMMENT '店铺logo',
+  `shop_template_img` varchar(255) DEFAULT NULL COMMENT '店铺模板大图',
+  `shop_template` varchar(20) NOT NULL DEFAULT 'default' COMMENT '店铺模板',
+  `shop_management` varchar(255) DEFAULT NULL COMMENT '店铺主营',
+  `created` datetime DEFAULT NULL COMMENT '店铺创建时间',
+  `goods_num` int(10) NOT NULL DEFAULT '0' COMMENT '店铺产品数量',
+  `open_flg` tinyint(1) NOT NULL DEFAULT '0' COMMENT '店铺关闭，1为关闭',
+  `view` int(10) DEFAULT '0' COMMENT '点击量',
+  `favpv` int(10) NOT NULL DEFAULT '0',
+  `lock_flg` tinyint(1) NOT NULL DEFAULT '0' COMMENT '店铺锁定，1为锁定',
+  `map_x` varchar(20) DEFAULT '0' COMMENT '地图经线坐标',
+  `map_y` varchar(20) DEFAULT '0' COMMENT '地图纬线坐标',
+  `map_zoom` varchar(3) DEFAULT '11' COMMENT '地图比例',
+  `count_imgsize` int(10) NOT NULL DEFAULT '0' COMMENT '图片总大小',
+  `shop_domain` varchar(20) DEFAULT NULL COMMENT '商店二级域名',
+  `shop_categories` int(10) DEFAULT '0' COMMENT '店铺分类',
+  `allgrade` int(10) DEFAULT '0' COMMENT '评价',
+  `grade1` int(10) DEFAULT '0' COMMENT '品质',
+  `grade2` int(10) DEFAULT '0' COMMENT '服务',
+  `grade3` int(10) DEFAULT '0' COMMENT '性价比',
+  `bbscat` int(10) DEFAULT '0' COMMENT '店铺论坛，比如新房的业主论坛',
+  `askcat` int(10) DEFAULT '0' COMMENT '问答分类，比如新房的在线问答',
+  `weixin` varchar(255) DEFAULT NULL COMMENT '店铺微信',
+  `uniacid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`) USING BTREE,
+  KEY `uniacid` (`uniacid`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='所有店铺基本信息表';
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_house_album` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '相册分类id',
+  `newshouse_id` int(10) NOT NULL COMMENT '楼盘id',
+  `album_cat_name` varchar(50) NOT NULL COMMENT '相册分类名称',
+  `album_unit` varchar(20) NOT NULL DEFAULT '' COMMENT '相册中的图片数量',
+  `parent_id` int(10) NOT NULL DEFAULT '0' COMMENT '父分类',
+  `sort_order` int(3) NOT NULL DEFAULT '0' COMMENT '分类排序',
+  `mode` smallint(5) DEFAULT '0' COMMENT '分类类型',
+  `type` int(3) DEFAULT '0',
+  `uniacid` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='楼盘相册信息表';
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_house_attach` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '图片id',
+  `name` varchar(255) DEFAULT NULL COMMENT '图片描述',
+  `newhouse_id` int(11) DEFAULT NULL COMMENT '楼盘newhouse_id',
+  `img_url` varchar(255) DEFAULT NULL COMMENT '图片url',
+  `img_url_s` varchar(255) DEFAULT NULL COMMENT '小图',
+  `img_size` varchar(10) DEFAULT NULL COMMENT '图片大小',
+  `upl_time` datetime DEFAULT NULL COMMENT '图片上传时间',
+  `is_intro_img` smallint(6) DEFAULT NULL COMMENT '是否是简介图片:0不是,1是',
+  `user_album_id` int(11) NOT NULL DEFAULT '0',
+  `sid` int(10) DEFAULT '0' COMMENT '图片类型分类',
+  `posid` smallint(5) DEFAULT '0' COMMENT '图片推荐位置',
+  `square` float DEFAULT NULL COMMENT '户型面积',
+  `dong` varchar(100) DEFAULT NULL COMMENT '户型所属楼栋',
+  `room` int(4) DEFAULT NULL COMMENT '户型房间数',
+  `hall` int(4) DEFAULT NULL COMMENT '户型厅数',
+  `garder` int(4) DEFAULT NULL COMMENT '户型卫生间数',
+  `hxname` varchar(32) DEFAULT NULL COMMENT '户型名字',
+  `chaoxiang` varchar(32) DEFAULT NULL COMMENT '户型朝向',
+  `sale` varchar(100) DEFAULT NULL COMMENT '户型卖点',
+  `total_price` float DEFAULT NULL COMMENT '户型总价',
+  `hxtotal` int(11) DEFAULT NULL COMMENT '户型总套数',
+  `up` int(2) DEFAULT NULL COMMENT '在首页显示',
+  `uniacid` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `user_album_id` (`user_album_id`),
+  KEY `uniacid` (`uniacid`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='楼盘相册表';
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_house_info` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '论坛帖子内容id',
+  `fid` int(10) unsigned NOT NULL COMMENT '论坛帖子id',
+  `fcatid` int(10) unsigned NOT NULL COMMENT '论坛帖子栏目id',
+  `user_id` int(10) NOT NULL COMMENT '发帖用户id',
+  `user_name` varchar(50) NOT NULL COMMENT '发帖用户名',
+  `newshouse_id` int(11) DEFAULT NULL COMMENT '楼盘id，关联店铺shopid',
+  `house_title` varchar(50) DEFAULT NULL COMMENT '楼盘名称',
+  `house_spell` varchar(150) NOT NULL COMMENT '楼盘拼音',
+  `house_old` varchar(255) NOT NULL COMMENT '楼盘曾用名',
+  `house_nature` varchar(50) DEFAULT NULL COMMENT '项目类型、楼盘性质',
+  `house_type` varchar(150) DEFAULT NULL COMMENT '建筑类型',
+  `house_fitment` varchar(50) DEFAULT NULL COMMENT '装修状况',
+  `house_starttime_history` varchar(255) DEFAULT NULL,
+  `house_startselldate` varchar(50) DEFAULT NULL COMMENT '开盘日期',
+  `house_usetime` varchar(50) DEFAULT NULL COMMENT '入住时间',
+  `house_green` float DEFAULT NULL COMMENT '绿化率',
+  `house_capacity` float DEFAULT NULL COMMENT '容积率',
+  `house_selltelephone` varchar(100) DEFAULT NULL COMMENT '销售热线',
+  `house_xtel` varchar(200) DEFAULT NULL COMMENT '400电话',
+  `house_xQQ` varchar(100) DEFAULT NULL COMMENT '业主QQ群',
+  `house_developer` varchar(100) DEFAULT NULL COMMENT '开发商',
+  `house_constructor` varchar(100) DEFAULT NULL COMMENT '建筑商',
+  `house_license` varchar(200) DEFAULT NULL COMMENT '销售证',
+  `house_design_type` varchar(255) NOT NULL COMMENT '建筑设计风格',
+  `house_design_corp` varchar(255) NOT NULL COMMENT '景观设计公司',
+  `house_sale_company` varchar(255) NOT NULL COMMENT '代理策划公司',
+  `house_design_company` varchar(255) NOT NULL COMMENT '设计公司',
+  `house_touzi` varchar(255) NOT NULL COMMENT '投资公司',
+  `house_address` varchar(100) DEFAULT NULL COMMENT '销售中心地址',
+  `house_parking` varchar(30) DEFAULT NULL COMMENT '停车位',
+  `house_roomcount` varchar(30) DEFAULT NULL COMMENT '总户数',
+  `house_totalarea` float(10,2) DEFAULT NULL COMMENT '占地面积 平方米',
+  `house_builtuparea` float(10,2) DEFAULT NULL COMMENT '建筑面积 平方米',
+  `house_property` varchar(100) DEFAULT NULL COMMENT '物业顾问',
+  `house_propertyprice` varchar(200) DEFAULT NULL COMMENT '物业管理费 平方米/月',
+  `house_introduce` text COMMENT '项目介绍',
+  `house_devsynopsis` text COMMENT '开发商介绍',
+  `house_consynopsis` text COMMENT '建筑商介绍',
+  `house_traffic` text COMMENT '交通状况',
+  `house_peripheral` text COMMENT '周边配套',
+  `house_video` varchar(250) DEFAULT NULL COMMENT '视频地址',
+  `house_logo` varchar(250) DEFAULT NULL COMMENT 'logo地址',
+  `house_memo` text COMMENT '备注',
+  `house_region` varchar(30) DEFAULT NULL COMMENT '城区id',
+  `house_adddatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间，自动获取，默认值current_timestamp',
+  `house_saleaddress` varchar(250) DEFAULT NULL COMMENT '销售 ',
+  `house_face` varchar(255) DEFAULT NULL COMMENT '楼盘形象图片',
+  `is_on` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否合作：1为合作；0为没有合作',
+  `house_show` varchar(150) NOT NULL DEFAULT '1,2,3,4,5',
+  `house_sale` int(11) NOT NULL COMMENT '是否在售：3待售，2预约，1在售,4售罄',
+  `house_paymethod` varchar(255) NOT NULL COMMENT '支付方式',
+  `house_mark` varchar(100) DEFAULT NULL COMMENT '楼盘标签（格式1,2,）',
+  `house_bank` varchar(100) NOT NULL COMMENT '按揭银行',
+  `house_poster` varchar(150) DEFAULT NULL COMMENT '楼盘广告语',
+  `house_main` varchar(200) DEFAULT NULL COMMENT '楼盘主打户型',
+  `house_adviser` tinyint(2) NOT NULL DEFAULT '0' COMMENT '置业顾问是否在线',
+  `showprice` varchar(10) NOT NULL DEFAULT 'avg' COMMENT '显示价格方式：min,avg,max,info',
+  `house_top` varchar(50) NOT NULL,
+  `house_public_area` varchar(100) NOT NULL COMMENT '公摊面积',
+  `house_prowedt` varchar(200) NOT NULL COMMENT '供应资源',
+  `house_worktime` varchar(100) NOT NULL COMMENT '接待时间',
+  `house_zb_shop` varchar(255) NOT NULL COMMENT '周边大商场',
+  `house_zb_youeryuan` varchar(255) NOT NULL COMMENT '幼儿园',
+  `house_zb_yiyuan` varchar(255) NOT NULL COMMENT '周边医院',
+  `house_zb_chuzhong` varchar(100) NOT NULL COMMENT '周边初中',
+  `house_zb_xiaoxue` varchar(255) NOT NULL COMMENT '周边小学',
+  `house_zb_bank` varchar(255) NOT NULL COMMENT '周边银行',
+  `house_tj` tinyint(4) NOT NULL,
+  `house_hot` tinyint(4) NOT NULL,
+  `bbs_id` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `zmcode` char(5) NOT NULL,
+  `isclose` tinyint(2) NOT NULL DEFAULT '0' COMMENT '是否关闭',
+  `average_price` int(10) unsigned DEFAULT '0' COMMENT '均价',
+  `min_price` int(10) unsigned DEFAULT '0' COMMENT '最低价',
+  `max_price` int(10) unsigned DEFAULT '0' COMMENT '最高价',
+  `price_info` varchar(255) DEFAULT '0' COMMENT '价格详情',
+  `tprice` varchar(45) DEFAULT '0' COMMENT '价格标签',
+  `unit1` varchar(45) DEFAULT '0' COMMENT '价格单位（元）',
+  `unit2` varchar(45) DEFAULT '0' COMMENT '价格单位（平米）',
+  `uniacid` int(12) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`) USING BTREE,
+  KEY `newshouse_id` (`newshouse_id`) USING BTREE,
+  KEY `house_sale` (`house_sale`),
+  KEY `uniacid` (`uniacid`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='新房的基本信息';
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_house_price` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `newhouse_id` int(11) DEFAULT NULL COMMENT '楼盘id，',
+  `uniacid` int(12) DEFAULT NULL,
+  `tprice` char(150) DEFAULT NULL COMMENT '价格类型',
+  `min_price` int(10) DEFAULT NULL COMMENT '楼盘最低价格',
+  `average_price` int(10) DEFAULT NULL COMMENT '楼盘平均价格',
+  `max_price` int(10) DEFAULT NULL COMMENT '楼盘最高价格',
+  `price_datetime` datetime DEFAULT NULL COMMENT '楼盘价格添加时间',
+  `price_info` varchar(150) DEFAULT NULL COMMENT '价格详情',
+  `isupdown` tinyint(2) NOT NULL DEFAULT '0' COMMENT '同比上期价格是否上升',
+  `isshow` smallint(2) DEFAULT '0',
+  `unit1` varchar(120) DEFAULT NULL,
+  `unit2` varchar(120) DEFAULT NULL,
+  `s_price` int(11) DEFAULT NULL COMMENT '总价折算后单价',
+  PRIMARY KEY (`id`),
+  KEY `newhouse_id` (`newhouse_id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='楼盘价格表';
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_house_room` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(12) DEFAULT NULL,
+  `thumb` varchar(255) DEFAULT NULL COMMENT '缩略图',
+  `title` varchar(255) DEFAULT NULL,
+  `album_name` varchar(100) DEFAULT NULL,
+  `album_id` int(12) DEFAULT NULL COMMENT '分类名称',
+  `newhouse_id` int(12) DEFAULT NULL,
+  `totalprice` varchar(100) DEFAULT NULL COMMENT '总价',
+  `saleprice` varchar(100) DEFAULT NULL COMMENT '单价',
+  `mianji` varchar(45) DEFAULT NULL,
+  `huxingjiegou` varchar(100) DEFAULT NULL,
+  `chaoxiang` varchar(100) DEFAULT NULL,
+  `loudong` varchar(100) DEFAULT NULL,
+  `btags` varchar(255) DEFAULT NULL COMMENT '标签',
+  `youshi` varchar(255) DEFAULT NULL,
+  `lieshi` varchar(255) DEFAULT NULL,
+  `kongjian` varchar(255) DEFAULT NULL,
+  `nums` varchar(35) DEFAULT NULL COMMENT '套数',
+  `posid` int(12) DEFAULT NULL COMMENT '推荐位置',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_house_saleinfo` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `tid` int(11) DEFAULT '0' COMMENT '0=楼盘销售，1=看房团，2=新闻',
+  `fid` int(12) DEFAULT NULL,
+  `fname` varchar(100) DEFAULT NULL,
+  `uniacid` int(12) DEFAULT NULL,
+  `newhouse_id` int(12) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `thumb` varchar(255) DEFAULT NULL COMMENT '封面图',
+  `newstext` text,
+  `addtime` datetime DEFAULT NULL,
+  `tags` varchar(50) DEFAULT NULL,
+  `smalltext` varchar(255) DEFAULT NULL,
+  `gpoun_time` varchar(255) DEFAULT NULL,
+  `gpoun_address` varchar(255) DEFAULT NULL,
+  `onclick` int(12) DEFAULT NULL COMMENT '0',
+  `gpoun_num` int(12) DEFAULT NULL COMMENT '0',
+  `posid` int(12) DEFAULT '0' COMMENT '推荐位置',
+  `disabled` int(6) DEFAULT '0' COMMENT '1=不显示',
+  `orderid` int(6) DEFAULT '0' COMMENT '排序id',
+  `shopids` varchar(255) DEFAULT NULL COMMENT '关联的楼盘id 多个',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_sechouse` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL COMMENT '公众号weid',
+  `house_sno` varchar(50) DEFAULT NULL COMMENT '公司房源no',
+  `broker_id` varchar(45) DEFAULT '0' COMMENT '经纪人名称',
+  `broker_name` varchar(45) DEFAULT NULL COMMENT '经纪人名称',
+  `loyer` decimal(10,2) unsigned DEFAULT '0.00' COMMENT '售价/租金',
+  `prix_unitaire` varchar(20) DEFAULT NULL COMMENT '价格单位',
+  `traveaux_finition` varchar(45) DEFAULT NULL COMMENT '装修状况',
+  `donner_sur` varchar(45) DEFAULT NULL COMMENT '朝向',
+  `storey` smallint(5) unsigned DEFAULT '0' COMMENT '楼层',
+  `title` varchar(255) DEFAULT NULL COMMENT '标题',
+  `total_storey` smallint(5) unsigned DEFAULT '0' COMMENT '共几层',
+  `superficie` decimal(10,0) DEFAULT NULL COMMENT '面积',
+  `description` text COMMENT '描述',
+  `add_time` int(12) unsigned DEFAULT '0' COMMENT '发布时间',
+  `update_time` int(12) unsigned DEFAULT '0' COMMENT '更新时间',
+  `zhutype` smallint(5) unsigned DEFAULT '0' COMMENT '租赁方式',
+  `thumb` varchar(255) DEFAULT NULL COMMENT '缩略图',
+  `thumb_url` text COMMENT '房源图片',
+  `room` smallint(5) unsigned DEFAULT '0' COMMENT '室',
+  `hall` smallint(5) unsigned DEFAULT '0' COMMENT '厅',
+  `garder` smallint(5) unsigned DEFAULT '0' COMMENT '卫',
+  `area` varchar(45) DEFAULT NULL COMMENT '区域',
+  `quan` varchar(100) DEFAULT NULL COMMENT '婚姻状况',
+  `rent_type` smallint(5) unsigned DEFAULT '0' COMMENT '类型，1二手，2整租，3合租,4求租',
+  `ptype` smallint(5) unsigned DEFAULT '0' COMMENT '1中介，2个人',
+  `disposition` text COMMENT '房屋配置',
+  `house_type` varchar(45) DEFAULT NULL COMMENT '房屋类型',
+  `village_id` int(10) unsigned DEFAULT '0' COMMENT '小区id',
+  `village_name` varchar(45) DEFAULT NULL COMMENT '小区名称',
+  `build_age` varchar(45) DEFAULT NULL COMMENT '出生年代',
+  `endtime` int(12) unsigned DEFAULT '0' COMMENT '截止时间',
+  `linkphone` varchar(45) DEFAULT NULL COMMENT '联系手机',
+  `qq` varchar(45) DEFAULT NULL COMMENT '联系QQ',
+  `tell` varchar(45) DEFAULT NULL COMMENT '联系电话',
+  `company` varchar(45) DEFAULT NULL COMMENT '经纪人公司名称',
+  `publish_name` varchar(45) DEFAULT NULL COMMENT '姓名',
+  `istop` smallint(5) NOT NULL COMMENT '置顶房源',
+  `isjingpin` smallint(5) NOT NULL COMMENT '精品房源',
+  `ishot` smallint(5) NOT NULL COMMENT '十万火急',
+  `show_jiaji` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '加急',
+  `show_you` smallint(5) unsigned NOT NULL DEFAULT '0' COMMENT '优质',
+  `show_hight` smallint(10) unsigned NOT NULL DEFAULT '0' COMMENT '高亮',
+  `ispic` smallint(5) unsigned DEFAULT '0' COMMENT '有图',
+  `refresh_time` int(12) unsigned DEFAULT '0' COMMENT '更新重新发布时间',
+  `isdigg` smallint(5) unsigned NOT NULL DEFAULT '1' COMMENT '1未荐，2已荐',
+  `isonline` tinyint(1) DEFAULT '0' COMMENT '1=在显示中',
+  `isshow` smallint(5) unsigned DEFAULT '0' COMMENT '0显示，1不显示',
+  `onclick` int(10) unsigned DEFAULT '0' COMMENT '点击率',
+  `iscompany` smallint(5) unsigned DEFAULT '0' COMMENT '是否公司房源1',
+  `shopid` int(10) unsigned DEFAULT '0' COMMENT '所属门店ID',
+  `dong` varchar(45) DEFAULT NULL,
+  `danyuan` varchar(45) DEFAULT NULL,
+  `menpai` varchar(45) DEFAULT NULL,
+  `isdelete` tinyint(1) DEFAULT '0' COMMENT '1=删除房源',
+  `fav_num` int(12) DEFAULT '0' COMMENT '收藏数',
+  `uid` int(12) NOT NULL DEFAULT '0',
+  `mapinfo` varchar(100) DEFAULT NULL COMMENT '百度坐标',
+  `vrurl` varchar(255) NOT NULL DEFAULT '',
+  `video` varchar(255) NOT NULL DEFAULT '',
+  `employee` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `broker_id` (`broker_id`) USING BTREE,
+  KEY `rent_type` (`rent_type`),
+  KEY `refresh_time` (`refresh_time`),
+  KEY `house_type` (`house_type`) USING BTREE,
+  KEY `loyer` (`loyer`) USING BTREE,
+  KEY `village_name` (`village_name`),
+  KEY `isjingpin` (`isjingpin`) USING BTREE,
+  KEY `istop` (`istop`) USING BTREE,
+  KEY `isonline` (`isonline`) USING BTREE,
+  KEY `isdelete` (`isdelete`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COMMENT='男士征婚女士征婚信息表';
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_sechouse_actlog` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `actname` varchar(45) DEFAULT NULL COMMENT '操作类型',
+  `addtime` datetime DEFAULT NULL,
+  `num` int(12) DEFAULT '0',
+  `ecuid` int(12) DEFAULT '0' COMMENT '微擎uid',
+  `uniacid` int(12) DEFAULT '0' COMMENT '公众号uniacid',
+  `acttype` int(12) DEFAULT '1' COMMENT '类型1=普通操作2=充值3=付款4=刷新5=置顶',
+  `money` decimal(10,2) DEFAULT NULL,
+  `isadd` tinyint(1) DEFAULT '1' COMMENT '1=增加0=减少',
+  `note` varchar(255) DEFAULT NULL,
+  `mark` varchar(255) DEFAULT NULL,
+  `infoid` int(12) DEFAULT NULL COMMENT '房源id',
+  PRIMARY KEY (`id`),
+  KEY `actname` (`actname`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_sechouse_area` (
+  `id` int(12) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(100) DEFAULT NULL,
+  `area` varchar(100) DEFAULT NULL,
+  `parent_id` int(12) DEFAULT '0' COMMENT '父级',
+  `type` int(12) DEFAULT '1' COMMENT '1=区域 2=婚姻状况 3=小区',
+  `point` varchar(100) DEFAULT NULL COMMENT '地图坐标',
+  `orderid` int(12) DEFAULT '0' COMMENT '排序id',
+  `thumb` varchar(255) DEFAULT NULL,
+  `uniacid` int(12) DEFAULT '0',
+  `disabled` tinyint(1) DEFAULT '0' COMMENT '1=不可用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_sechouse_broker` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `ecuid` int(12) DEFAULT '0' COMMENT '微擎会员uid',
+  `openid` varchar(255) DEFAULT NULL,
+  `groupid` int(12) DEFAULT '1' COMMENT '1=普通经济人，11=认证经济人',
+  `nickname` varchar(45) DEFAULT NULL,
+  `uniacid` int(12) DEFAULT NULL,
+  `mobile` varchar(35) DEFAULT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `vtags` varchar(255) DEFAULT NULL,
+  `desc` varchar(255) DEFAULT NULL,
+  `company` varchar(255) DEFAULT NULL,
+  `secnum` int(12) DEFAULT '0',
+  `ernum` int(12) DEFAULT '0',
+  `disabled` tinyint(1) DEFAULT '0',
+  `uid` int(12) NOT NULL DEFAULT '0',
+  `shopid` int(12) NOT NULL DEFAULT '0',
+  `buygroup_log_id` int(12) DEFAULT '0' COMMENT '升级vip日志id',
+  `end_time` datetime DEFAULT NULL COMMENT 'vip有效期',
+  `istop` tinyint(2) DEFAULT '0' COMMENT '1=置顶',
+  `isyou` tinyint(2) DEFAULT '0' COMMENT '1=优',
+  `ischeng` tinyint(4) DEFAULT '0' COMMENT '1=诚',
+  `iscompany` tinyint(2) DEFAULT '0' COMMENT '1=内部经纪人',
+  PRIMARY KEY (`id`),
+  KEY `openid` (`openid`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_sechouse_favorite` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(12) DEFAULT NULL,
+  `uid` int(12) DEFAULT NULL,
+  `openid` varchar(45) DEFAULT NULL,
+  `houseid` int(12) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `addtime` int(12) DEFAULT NULL,
+  `smalltext` varchar(255) DEFAULT NULL,
+  `ftype` tinyint(2) DEFAULT '0' COMMENT '0=收藏夹1=浏览记录',
+  `hits` int(12) DEFAULT '0' COMMENT '浏览次数',
+  `last_time` int(12) DEFAULT NULL,
+  `bid` int(12) DEFAULT '0',
+  `role_uid` int(12) NOT NULL DEFAULT '0',
+  `acttype` varchar(45) DEFAULT 'view' COMMENT 'view,feed,fav',
+  `url` varchar(255) DEFAULT NULL COMMENT '链接地址',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=499 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_sechouse_param` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `houseid` int(10) DEFAULT '0',
+  `title` varchar(50) DEFAULT '',
+  `value` text,
+  `displayorder` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `indx_houseid` (`houseid`),
+  KEY `indx_displayorder` (`displayorder`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_sechouse_replay` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `rid` int(12) NOT NULL,
+  `content` text NOT NULL,
+  `titlepic` varchar(255) NOT NULL,
+  `smalltext` text NOT NULL,
+  `addtime` int(12) NOT NULL,
+  `disabled` tinyint(2) NOT NULL,
+  `weburl` varchar(255) NOT NULL,
+  `uid` int(12) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `rid` (`rid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_sechouse_shop` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `shopname` varchar(255) DEFAULT NULL,
+  `thumb` varchar(255) DEFAULT NULL,
+  `telphone` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `click` int(10) DEFAULT '0',
+  `newstext` text,
+  `uid` int(10) DEFAULT '0' COMMENT '操作人名称',
+  `role_name` varchar(45) DEFAULT NULL,
+  `zhunum` int(12) DEFAULT '0',
+  `secnum` int(12) DEFAULT '0',
+  `uniacid` int(12) DEFAULT NULL,
+  `vtags` varchar(255) DEFAULT NULL,
+  `disabled` tinyint(2) unsigned DEFAULT '0' COMMENT '开启关闭',
+  `istop` tinyint(2) DEFAULT '0' COMMENT '1=置顶',
+  `isyou` tinyint(2) DEFAULT '0' COMMENT '1=优',
+  `ischeng` tinyint(2) DEFAULT '0' COMMENT '1=城',
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_share_scence` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `scence` varchar(35) DEFAULT '0' COMMENT '场景id',
+  `uid` int(12) DEFAULT '0',
+  `category` varchar(45) DEFAULT NULL,
+  `infoid` int(12) DEFAULT '0',
+  `money` varchar(45) DEFAULT NULL COMMENT '分销推广佣金',
+  `uniacid` int(12) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_kb_share_user` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `uid` int(12) DEFAULT '0',
+  `parent_uid` int(12) DEFAULT '0' COMMENT '上级用户',
+  `openid` varchar(100) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL COMMENT '推广姓名',
+  `mobile` varchar(45) DEFAULT NULL,
+  `identify` varchar(100) DEFAULT NULL COMMENT '身份证',
+  `addtime` int(12) DEFAULT NULL,
+  `uniacid` int(12) DEFAULT '0',
+  `scence` varchar(45) DEFAULT NULL COMMENT '扫码来源',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_kb_config`;
+DROP TABLE IF EXISTS `ims_kb_house`;
+DROP TABLE IF EXISTS `ims_kb_house_album`;
+DROP TABLE IF EXISTS `ims_kb_house_attach`;
+DROP TABLE IF EXISTS `ims_kb_house_info`;
+DROP TABLE IF EXISTS `ims_kb_house_price`;
+DROP TABLE IF EXISTS `ims_kb_house_room`;
+DROP TABLE IF EXISTS `ims_kb_house_saleinfo`;
+DROP TABLE IF EXISTS `ims_kb_sechouse`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_actlog`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_area`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_broker`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_favorite`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_param`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_replay`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_shop`;
+DROP TABLE IF EXISTS `ims_kb_share_scence`;
+DROP TABLE IF EXISTS `ims_kb_share_user`;
+]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+
+</manifest>
